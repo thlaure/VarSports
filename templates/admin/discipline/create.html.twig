@@ -19,6 +19,28 @@
                 </div>
             {{ form_end(form) }}
         </div>
+
+        <table class="table w-50">
+            <thead>
+                <tr>
+                <th scope="col">#</th>
+                <th scope="col">Label</th>
+                <th scope="col">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for discipline in disciplines %}
+                    <tr>
+                        <th scope="row">{{ discipline.id }}</th>
+                        <td>{{ discipline.label }}</td>
+                        <td>
+                            <a class="btn btn-warning" href="">Modifier</a>
+                            <a class="btn btn-danger" href="">Supprimer</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
     </section>
 </div>
 {% endblock %}
