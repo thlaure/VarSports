@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} | Nos clubs{% endblock %}
+
+{% block body %}
+<div class="container-lg">
+    <h1>Nos clubs</h1>
+
+    <div class="d-flex flex-row flex-wrap justify-content-between">
+        {% for club in clubs %}
+            <div class="card w-25">
+                <img src="{{ asset("uploads/images/") ~ (club.logo ? club.logo : 'white.png') }}" class="card-img-top" alt="Logo du club {{ club.name }}">
+                <div class="card-body">
+                    <h5 class="card-title text-center">{{ club.name }}</h5>
+                    <p class="card-text text-body-secondary text-center"><small>{{ club.postalCode }} {{ club.city }}</small></p>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
