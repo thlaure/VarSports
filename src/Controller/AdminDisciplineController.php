@@ -14,7 +14,7 @@ use Symfony\Component\Routing\Attribute\Route;
 #[Route('/admin/discipline', name: 'app_admin_discipline_')]
 class AdminDisciplineController extends AbstractController
 {
-    #[Route('/create', name: 'create')]
+    #[Route('/dashboard', name: 'dashboard')]
     public function create(Request $request, DisciplineRepository $disciplineRepository, EntityManagerInterface $entityManager): Response
     {
         $discipline = new Discipline();
@@ -33,12 +33,29 @@ class AdminDisciplineController extends AbstractController
                 $this->addFlash('error', 'Une erreur est survenue');
             }
             
-            return $this->redirectToRoute('app_admin_discipline_create');
+            return $this->redirectToRoute('app_admin_discipline_dashboard');
         }
 
-        return $this->render('admin/discipline/create.html.twig', [
+        return $this->render('admin/discipline/dashboard.html.twig', [
             'form' => $form,
             'disciplines' => $disciplineRepository->findAll(),
         ]);
+    }
+
+    #[Route('/{id}/delete', name: 'delete')]
+    public function delete(int $id, EntityManagerInterface $entityManager): Response
+    {
+        $discipline = $entityManager->getRepository(Discipline::class)->find($id);
+        
+        try {
+            $entityManager->remove($discipline);
+            $entityManager->flush();
+
+            $this->addFlash('success', 'Succès');
+        } catch (\Exception $e) {
+            $this->addFlash('error', 'Une erreur est survenue');
+        }
+
+        return $this->redirectToRoute('app_admin_discipline_dashboard');
     }
 }

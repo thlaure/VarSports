@@ -35,7 +35,7 @@
                         <td>{{ discipline.label }}</td>
                         <td>
                             <a class="btn btn-warning" href="">Modifier</a>
-                            <a class="btn btn-danger" href="">Supprimer</a>
+                            <a class="btn btn-danger" href="{{ path('app_admin_discipline_delete', {'id': discipline.id}) }}">Supprimer</a>
                         </td>
                     </tr>
                 {% endfor %}
