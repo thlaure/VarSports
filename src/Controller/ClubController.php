@@ -45,4 +45,5 @@ class ClubController extends AbstractController
         }
 
         return $this->redirectToRoute('app_club_list');
+    }
 }
