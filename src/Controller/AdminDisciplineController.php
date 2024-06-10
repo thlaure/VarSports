@@ -58,4 +58,29 @@ class AdminDisciplineController extends AbstractController
 
         return $this->redirectToRoute('app_admin_discipline_dashboard');
     }
+
+    #[Route('/{id}/edit', name: 'edit')]
+    public function edit(int $id, DisciplineRepository $disciplineRepository, Request $request, EntityManagerInterface $entityManager): Response
+    {
+        $disciplineToEdit = $disciplineRepository->find($id);
+        $form = $this->createForm(DisciplineType::class, $disciplineToEdit);
+
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            try {
+                $entityManager->flush();
+
+                $this->addFlash('success', 'Succès');
+            } catch (\Exception $e) {
+                $this->addFlash('error', 'Une erreur est survenue');
+            }
+
+            return $this->redirectToRoute('app_admin_discipline_dashboard');
+        }
+
+        return $this->render('admin/discipline/dashboard.html.twig', [
+            'form' => $form,
+            'disciplines' => $disciplineRepository->findAll(),
+        ]);
+    }
 }
