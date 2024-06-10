@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Constant\Message;
 use App\Entity\Discipline;
 use App\Form\DisciplineType;
 use App\Repository\DisciplineRepository;
@@ -28,9 +29,9 @@ class AdminDisciplineController extends AbstractController
                 $entityManager->persist($discipline);
                 $entityManager->flush();
 
-                $this->addFlash('success', 'Succès');
+                $this->addFlash('success', Message::GENERIC_SUCCESS);
             } catch (\Exception $e) {
-                $this->addFlash('error', 'Une erreur est survenue');
+                $this->addFlash('error', Message::GENERIC_ERROR);
             }
             
             return $this->redirectToRoute('app_admin_discipline_dashboard');
@@ -51,9 +52,9 @@ class AdminDisciplineController extends AbstractController
             $entityManager->remove($discipline);
             $entityManager->flush();
 
-            $this->addFlash('success', 'Succès');
+            $this->addFlash('success', Message::GENERIC_SUCCESS);
         } catch (\Exception $e) {
-            $this->addFlash('error', 'Une erreur est survenue');
+            $this->addFlash('error', Message::GENERIC_ERROR);
         }
 
         return $this->redirectToRoute('app_admin_discipline_dashboard');
@@ -70,9 +71,9 @@ class AdminDisciplineController extends AbstractController
             try {
                 $entityManager->flush();
 
-                $this->addFlash('success', 'Succès');
+                $this->addFlash('success', Message::GENERIC_SUCCESS);
             } catch (\Exception $e) {
-                $this->addFlash('error', 'Une erreur est survenue');
+                $this->addFlash('error', Message::GENERIC_ERROR);
             }
 
             return $this->redirectToRoute('app_admin_discipline_dashboard');
