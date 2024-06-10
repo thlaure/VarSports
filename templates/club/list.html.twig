@@ -11,7 +11,9 @@
             <div class="card w-25">
                 <img src="{{ asset("uploads/images/") ~ (club.logo ? club.logo : 'white.png') }}" class="card-img-top" alt="Logo du club {{ club.name }}">
                 <div class="card-body">
-                    <h5 class="card-title text-center">{{ club.name }}</h5>
+                    <h5 class="card-title text-center">
+                        <a href="{{ path('app_club_show', {'id': club.id}) }}" class="stretched-link text-decoration-none text-black">{{ club.name }}</a>
+                    </h5>
                     <p class="card-text text-body-secondary text-center"><small>{{ club.postalCode }} {{ club.city }}</small></p>
                 </div>
             </div>
