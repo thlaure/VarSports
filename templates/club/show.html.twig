@@ -34,7 +34,7 @@
     <section class="mt-5">
         <h2>Actions</h2>
         <a href="" class="btn btn-warning">Modifier</a>
-        <a href="" class="btn btn-danger">Supprimer</a>
+        <a href="{{ path('app_admin_club_delete', {'id': club.id}) }}" class="btn btn-danger">Supprimer</a>
     </section>
 </div>
 {% endblock %}
