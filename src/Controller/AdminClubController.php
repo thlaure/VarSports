@@ -56,4 +56,29 @@ class AdminClubController extends AbstractController
 
         return $this->redirectToRoute('app_club_list');
     }
+
+    #[Route('/{id}/edit', name: 'edit')]
+    public function edit(int $id, ClubRepository $clubRepository, Request $request, EntityManagerInterface $entityManager): Response
+    {
+        $club = $clubRepository->findOneBy(['id' => $id]);
+        $form = $this->createForm(ClubType::class, $club);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            try {
+                $entityManager->flush();
+
+                $this->addFlash('success', Message::GENERIC_SUCCESS);
+
+                return $this->redirectToRoute('app_club_show', ['id' => $club->getId()]);
+            } catch (\Exception $e) {
+                $this->addFlash('error', Message::GENERIC_ERROR);
+            }
+        }
+
+        return $this->render('admin/club/create.html.twig', [
+            'form' => $form->createView(),
+        ]);
+    }
 }

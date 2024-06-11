@@ -68,7 +68,7 @@ class ClubType extends AbstractType
                 'multiple' => true,
             ])
             ->add('submit', SubmitType::class, [
-                'label' => 'Créer',
+                'label' => 'Soumettre',
             ])
         ;
     }
