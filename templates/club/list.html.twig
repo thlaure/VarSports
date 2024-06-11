@@ -3,18 +3,24 @@
 {% block title %} | Nos clubs{% endblock %}
 
 {% block body %}
-<div class="container-lg">
+<div class="container my-5">
     <h1>Nos clubs</h1>
 
-    <div class="d-flex flex-row flex-wrap justify-content-between">
+    <div class="row justify-content-evenly p-3">
         {% for club in clubs %}
-            <div class="card w-25">
-                <img src="{{ asset("uploads/images/") ~ (club.logo ? club.logo : 'white.png') }}" class="card-img-top" alt="Logo du club {{ club.name }}">
+            <div class="card col-md-3 mb-4">
+                <img src="{{ asset("uploads/images/") ~ (club.logo ? club.logo : 'white.png') }}" class="card-img-top rounded-circle w-25 m-auto" alt="Logo du club {{ club.name }}">
+
                 <div class="card-body">
                     <h5 class="card-title text-center">
                         <a href="{{ path('app_club_show', {'id': club.id}) }}" class="stretched-link text-decoration-none text-black">{{ club.name }}</a>
                     </h5>
                     <p class="card-text text-body-secondary text-center"><small>{{ club.postalCode }} {{ club.city }}</small></p>
+                    <div class="text-center">
+                        {% for discipline in club.disciplines %}
+                            <span class="badge text-bg-secondary">{{ discipline.label }}</span>
+                        {% endfor %}
+                    </div>
                 </div>
             </div>
         {% endfor %}

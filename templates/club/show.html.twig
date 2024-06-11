@@ -3,32 +3,40 @@
 {% block title %} | {{ club.name }}{% endblock %}
 
 {% block body %}
-<div class="container-lg">
-    <section class="d-flex flex-row mb-5 gap-5 align-items-center">
-        <img src="{{ asset("uploads/images/") ~ (club.logo ? club.logo : 'white.png') }}" alt="Logo du club {{ club.name }}" class="w-25 rounded-circle">
+<div class="container my-5">
+    <section class="row mb-5 align-items-center gap-3">
+        <img src="{{ asset("uploads/images/") ~ (club.logo ? club.logo : 'white.png') }}" alt="Logo du club {{ club.name }}" class="img-fluid rounded-circle col-3 mb-3">
 
-        <div class="">
+        <div class="col-md-8">
             <h1>{{ club.name }}</h1>
 
             <p>{{ club.address }}</p>
             <p>{{ club.postalCode }} {{ club.city }}</p>
 
-            <div>
-                <p>Coordonnées</p>
-                <ul>
-                    <li>Téléphone : {{ club.phone }}</li>
-                    <li>E-mail : {{ club.email }}</li>
+            <div class="row">
+                <article class="col-md-6">
+                    <h3>Coordonnées</h3>
+                    <p>Téléphone : {{ club.phone }}</p>
+                    <p>E-mail : {{ club.email }}</p>
                     {% if club.website %}
-                        <li>Site web : <a href="{{ club.website }}">{{ club.website }}</a></li>
+                        <p>Site web : <a href="{{ club.website }}">{{ club.website }}</a></p>
                     {% endif %}
-                </ul>
+                </article>
+
+                <article class="col-md-6">
+                    <h3>Disciplines</h3>
+
+                    {% for discipline in club.disciplines %}
+                        <span class="badge text-bg-secondary">{{ discipline.label }}</span>
+                    {% endfor %}
+                </article>
             </div>
         </div>
     </section>
 
     <section>
         <h2>À propos</h2>
-        <p>{{ club.description }}</p>
+        <p class="lead">{{ club.description }}</p>
     </section>
 
     <section class="mt-5">
