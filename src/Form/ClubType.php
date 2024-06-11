@@ -64,7 +64,7 @@ class ClubType extends AbstractType
             ->add('disciplines', EntityType::class, [
                 'label' => 'Disciplines associsées',
                 'class' => Discipline::class,
-                'choice_label' => 'id',
+                'choice_label' => 'label',
                 'multiple' => true,
             ])
             ->add('submit', SubmitType::class, [
