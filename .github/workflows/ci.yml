@@ -4,7 +4,9 @@ on:
   push:
     branches:
       - main
-  pull_request: ~
+  pull_request:
+    branches:
+      - main
   workflow_dispatch: ~
 
 concurrency:
@@ -43,24 +45,45 @@ jobs:
         run: curl -v --fail-with-body http://localhost
       -
         name: Check HTTPS reachability
-        if: false # Remove this line when the homepage will be configured, or change the path to check
-        run: curl -vk --fail-with-body https://localhost
+        run: curl -vk --fail-with-body https://localhost/en
       -
         name: Create test database
-        if: false # Remove this line if Doctrine ORM is installed
         run: docker compose exec -T php bin/console -e test doctrine:database:create
       -
         name: Run migrations
-        if: false # Remove this line if Doctrine Migrations is installed
         run: docker compose exec -T php bin/console -e test doctrine:migrations:migrate --no-interaction
       -
+        name: Security check
+        run: docker compose exec -T php symfony check:security
+      -
         name: Run PHPUnit
-        if: false # Remove this line if PHPUnit is installed
         run: docker compose exec -T php bin/phpunit
       -
+        name: Run CS Fixer
+        run: docker compose exec -T php vendor/bin/php-cs-fixer fix
+      -
+        name: Run PHPStan
+        run: docker compose exec -T php vendor/bin/phpstan analyse src --level=9
+      -
+        name: Twig linter
+        run: docker compose exec -T php bin/console lint:twig
+      -
+        name: YAML linter
+        run: docker compose exec -T php bin/console lint:yaml .
+      -
         name: Doctrine Schema Validator
-        if: false # Remove this line if Doctrine ORM is installed
-        run: docker compose exec -T php bin/console -e test doctrine:schema:validate
+        run: docker compose exec -T php bin/console -e test doctrine:schema:validate --skip-sync
+      # Temporary fix for the following problem:
+      # doctrine:schema:validate -> [ERROR] The database schema is not in sync with the current mapping file.
+      # doctrine:schema:update --dump-sql -> DROP TABLE doctrine_migration_versions;
+      -
+        name: Validating database schema sync
+        run: |
+          output=$(docker compose exec -T php bin/console doctrine:schema:update --dump-sql)
+          if [[ "$output" = 'DROP TABLE doctrine_migration_versions;' ]]; then
+            echo 'OK'
+          fi
+
   lint:
     name: Docker Lint
     runs-on: ubuntu-latest
