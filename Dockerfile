@@ -59,6 +59,10 @@ ENV APP_ENV=dev XDEBUG_MODE=off
 
 RUN mv "$PHP_INI_DIR/php.ini-development" "$PHP_INI_DIR/php.ini"
 
+SHELL ["/bin/bash", "-o", "pipefail", "-c"]
+RUN curl -sS https://get.symfony.com/cli/installer | bash
+RUN mv /root/.symfony5/bin/symfony /usr/local/bin/symfony
+
 RUN set -eux; \
 	install-php-extensions \
 		xdebug \

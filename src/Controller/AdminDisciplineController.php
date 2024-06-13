@@ -33,7 +33,7 @@ class AdminDisciplineController extends AbstractController
             } catch (\Exception $e) {
                 $this->addFlash('error', Message::GENERIC_ERROR);
             }
-            
+
             return $this->redirectToRoute('app_admin_discipline_dashboard');
         }
 
@@ -47,7 +47,7 @@ class AdminDisciplineController extends AbstractController
     public function delete(int $id, EntityManagerInterface $entityManager): Response
     {
         $discipline = $entityManager->getRepository(Discipline::class)->find($id);
-        
+
         try {
             $entityManager->remove($discipline);
             $entityManager->flush();
