@@ -49,9 +49,7 @@ class RegistrationController extends AbstractController
                     ->htmlTemplate('registration/confirmation_email.html.twig')
             );
 
-            $this->addFlash('success', 'Please check your email for a confirmation link.');
-
-            return $this->redirectToRoute('app_club_list');
+            $this->addFlash('success', 'Veuillez consulter votre messagerie pour confirmer votre adresse e-mail');
         }
 
         return $this->render('registration/register.html.twig', [
