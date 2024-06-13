@@ -51,6 +51,7 @@ class Club
     #[ORM\Column(length: 255, nullable: true)]
     #[Assert\Length(max: 255, maxMessage: Message::GENERIC_ENTITY_FIELD_ERROR)]
     #[Assert\Url(message: Message::GENERIC_ENTITY_FIELD_ERROR)]
+    #[Assert\Regex(pattern: Constraint::REGEX_LINK, message: Message::GENERIC_ENTITY_FIELD_ERROR)]
     private ?string $website = null;
 
     #[ORM\Column(length: 255, nullable: true)]
