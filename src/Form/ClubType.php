@@ -41,6 +41,7 @@ class ClubType extends AbstractType
             ])
             ->add('website', UrlType::class, [
                 'label' => 'Site internet',
+                'required' => false,
             ])
             ->add('logo', FileType::class, [
                 'label' => 'Logo',

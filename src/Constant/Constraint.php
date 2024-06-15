@@ -8,7 +8,7 @@ class Constraint
     public const REGEX_TITLE = "/^[\\s\\p{Ll}\\p{Lu}\\p{M}\\-']+$/iu";
     public const REGEX_IMAGE = "/^[\\p{Ll}\\p{Lu}\\p{M}\\p{P}\\p{Sc}\\p{N}\\s\(\\)\\/\\+=]+$/iu";
     public const REGEX_LINK = "/^[\\p{Ll}\\p{Lu}\\p{M}\\p{P}\\p{Sc}\\p{N}\\s\(\\)\\/\\+=]+$/iu";
-    public const REGEX_EMAIL = '/^(?!\\.)[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$/ugim';
+    public const REGEX_EMAIL = '/^(?!\\.)[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$/uim';
     public const REGEX_PHONE = '/(?:([+]\\d{1,4})[-.\\s]?)?(?:[(](\\d{1,3})[)][-.\\s]?)?(\\d{1,4})[-.\\s]?(\\d{1,4})[-.\\s]?(\\d{1,9})/';
     public const REGEX_POSTAL_CODE = '/^[0-9]{5}$/';
     public const REGEX_NAME = "/^[\\s\\p{Ll}\\p{Lu}\\p{M}\\-']+$/iu";

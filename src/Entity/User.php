@@ -40,7 +40,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @var string The hashed password
      */
     #[ORM\Column]
-    #[Assert\NotBlank(message: Message::GENERIC_ENTITY_FIELD_ERROR)]
     #[Assert\Length(
         min: 8, minMessage: Message::GENERIC_ENTITY_FIELD_ERROR,
         max: 255, maxMessage: Message::GENERIC_ENTITY_FIELD_ERROR
@@ -51,7 +50,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private bool $isVerified = false;
 
     #[ORM\ManyToOne(inversedBy: 'users')]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(nullable: true)]
     private ?Club $club = null;
 
     public function getId(): ?int
