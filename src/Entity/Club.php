@@ -77,9 +77,16 @@ class Club
     #[Assert\Regex(pattern: Constraint::REGEX_EMAIL, message: Message::GENERIC_ENTITY_FIELD_ERROR)]
     private ?string $email = null;
 
+    /**
+     * @var Collection<int, User>
+     */
+    #[ORM\OneToMany(targetEntity: User::class, mappedBy: 'club', orphanRemoval: true)]
+    private Collection $users;
+
     public function __construct()
     {
         $this->disciplines = new ArrayCollection();
+        $this->users = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -215,6 +222,36 @@ class Club
     public function setEmail(string $email): static
     {
         $this->email = $email;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, User>
+     */
+    public function getUsers(): Collection
+    {
+        return $this->users;
+    }
+
+    public function addUser(User $user): static
+    {
+        if (!$this->users->contains($user)) {
+            $this->users->add($user);
+            $user->setClub($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUser(User $user): static
+    {
+        if ($this->users->removeElement($user)) {
+            // set the owning side to null (unless already changed)
+            if ($user->getClub() === $this) {
+                $user->setClub(null);
+            }
+        }
 
         return $this;
     }
