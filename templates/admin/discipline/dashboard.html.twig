@@ -3,44 +3,48 @@
 {% block title %} | Admin - Disciplines{% endblock %}
 
 {% block body %}
-<div class="container">
+<div class="container my-5">
     <section>
         <h1>Disciplines</h1>
 
-        <div class="w-50 m-auto">
-            {{ form_start(form) }}
-                <div>
-                    {{ form_label(form.label) }}
-                    {{ form_widget(form.label, {'attr': {'class': 'form-control'}}) }}
-                </div>
+        <div class="row">
+            <div class="col-md-4">
+                {{ form_start(form) }}
+                    <div>
+                        {{ form_label(form.label) }}
+                        {{ form_widget(form.label, {'attr': {'class': 'form-control'}}) }}
+                    </div>
 
-                <div>
-                    {{ form_widget(form.submit, {'attr': {'class': 'btn btn-primary mt-3'}}) }}
-                </div>
-            {{ form_end(form) }}
+                    <div>
+                        {{ form_widget(form.submit, {'attr': {'class': 'btn btn-primary mt-3'}}) }}
+                    </div>
+                {{ form_end(form) }}
+            </div>
+
+            <div class="col-md-6">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Label</th>
+                            <th scope="col">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for discipline in disciplines %}
+                            <tr>
+                                <th scope="row">{{ discipline.id }}</th>
+                                <td>{{ discipline.label }}</td>
+                                <td>
+                                    <a class="btn btn-warning" href="{{ path('app_admin_discipline_edit', {'id': discipline.id}) }}">Modifier</a>
+                                    <a class="btn btn-danger" href="{{ path('app_admin_discipline_delete', {'id': discipline.id}) }}">Supprimer</a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
         </div>
-
-        <table class="table w-50">
-            <thead>
-                <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Label</th>
-                    <th scope="col">Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for discipline in disciplines %}
-                    <tr>
-                        <th scope="row">{{ discipline.id }}</th>
-                        <td>{{ discipline.label }}</td>
-                        <td>
-                            <a class="btn btn-warning" href="{{ path('app_admin_discipline_edit', {'id': discipline.id}) }}">Modifier</a>
-                            <a class="btn btn-danger" href="{{ path('app_admin_discipline_delete', {'id': discipline.id}) }}">Supprimer</a>
-                        </td>
-                    </tr>
-                {% endfor %}
-            </tbody>
-        </table>
     </section>
 </div>
 {% endblock %}
