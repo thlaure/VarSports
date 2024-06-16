@@ -37,6 +37,8 @@ class AppFixtures extends Fixture
 
             $admin = new User();
             $admin->setEmail('admin'.$i.'@localhost.com')
+                ->setName('Admin '.$i)
+                ->setFirstName('Admin')
                 ->setRoles(['ROLE_ADMIN_CLUB'])
                 ->setVerified(true)
                 ->setPassword('$2y$10$LfClmCQbaH0MfcZLNMJkOeEC/6/WP88KFQnLrnF6x.o1NxwjGdGGG')
@@ -45,6 +47,8 @@ class AppFixtures extends Fixture
 
             $member = new User();
             $member->setEmail('member'.$i.'@localhost.com')
+                ->setName('Member '.$i)
+                ->setFirstName('Member')
                 ->setRoles(['ROLE_MEMBER_CLUB'])
                 ->setVerified(true)
                 ->setPassword('$2y$10$LfClmCQbaH0MfcZLNMJkOeEC/6/WP88KFQnLrnF6x.o1NxwjGdGGG')

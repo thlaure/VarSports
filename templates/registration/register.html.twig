@@ -15,6 +15,12 @@
                 {{ form_errors(registrationForm) }}
 
                 {{ form_start(registrationForm) }}
+                    {{ form_row(registrationForm.name, {
+                        'label': 'Nom'
+                    }) }}
+                    {{ form_row(registrationForm.firstname, {
+                        'label': 'Prénom'
+                    })}}
                     {{ form_row(registrationForm.email, {
                         label: 'E-mail'
                     }) }}
