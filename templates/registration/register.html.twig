@@ -5,9 +5,9 @@
 {% block body %}
     <div class="container my-5">
         <section class="row">
-            <h1>Créer un compte</h1>
-
             <div class="col-md-6 offset-md-3">
+                <h1 class="h3 mb-3 font-weight-normal">Créer un compte</h1>
+
                 {% for flash_error in app.flashes('verify_email_error') %}
                     <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
                 {% endfor %}

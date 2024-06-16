@@ -8,7 +8,7 @@
         <img src="{{ asset("uploads/images/") ~ (club.logo ? club.logo : 'white.png') }}" alt="Logo du club {{ club.name }}" class="img-fluid rounded-circle col-3 mb-3">
 
         <div class="col-md-8">
-            <h1>{{ club.name }}</h1>
+            <h1 class="font-weight-normal">{{ club.name }}</h1>
 
             <p>{{ club.address }}</p>
             <p>{{ club.postalCode }} {{ club.city }}</p>
