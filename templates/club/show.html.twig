@@ -4,6 +4,8 @@
 
 {% block body %}
 <div class="container my-5">
+    {% include 'flash.html.twig' %}
+    
     <section class="row mb-5 align-items-center gap-3">
         <img src="{{ asset("uploads/images/") ~ (club.logo ? club.logo : 'white.png') }}" alt="Logo du club {{ club.name }}" class="img-fluid rounded-circle col-3 mb-3">
 

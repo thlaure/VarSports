@@ -4,7 +4,6 @@ namespace App\Entity;
 
 use App\Constant\Constraint;
 use App\Constant\Message;
-use App\Entity\Club;
 use App\Repository\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
