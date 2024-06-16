@@ -9,7 +9,7 @@
     <div class="row justify-content-between p-3">
         {% for club in clubs %}
             <div class="card col-md-3 mb-4 m-md-4">
-                <img src="{{ asset("uploads/images/") ~ (club.logo ? club.logo : 'white.png') }}" class="card-img-top rounded-circle w-25 m-auto" alt="Logo du club {{ club.name }}">
+                <img src="{{ asset("uploads/images/") ~ (club.logo ? club.logo : 'white.png') }}" class="card-img-top rounded-circle w-25 m-auto py-3" alt="Logo du club {{ club.name }}">
 
                 <div class="card-body">
                     <h5 class="card-title text-center">

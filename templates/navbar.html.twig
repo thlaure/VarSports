@@ -1,40 +1,46 @@
-<nav class="navbar bg-body-tertiary">
-  <div class="container">
-    <a class="navbar-brand m-auto" href="#">
-      <img src="{{ asset('images/varsports-logo.png') }}" alt="Logo de VarSports" class="d-inline-block align-text-top">
-    </a>
-  </div>
+<nav class="navbar bg-body-tertiary" aria-label="Logo navbar">
+    <div class="container">
+        <a class="navbar-brand m-auto" href="#">
+            <img src="{{ asset('images/varsports-logo.png') }}" alt="Logo de VarSports" class="d-inline-block align-text-top img-fluid">
+        </a>
+    </div>
 </nav>
 
-<nav class="navbar navbar-expand-lg bg-danger">
-  <div class="container-fluid">
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav m-auto mb-2 mb-lg-0">
-        <li class="nav-item">
-          <a class="nav-link text-white active" aria-current="page" href="#">Accueil</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link text-white" href="{{ path('app_club_list') }}">Les clubs</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link text-white" href="{{ path('app_register') }}">S'inscrire</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link text-white" href="{{ path('app_login') }}">Se connecter</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link text-white" href="{{ path('app_logout') }}">Se déconnecter</a>
-        </li>
-        <li class="nav-item dropdown">
-          <a class="nav-link text-white dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            Admin
-          </a>
-          <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="{{ path('app_admin_club_create') }}">Créer un club</a></li>
-            <li><a class="dropdown-item" href="{{ path('app_admin_discipline_dashboard') }}">Gérer les disciplines</a></li>
-          </ul>
-        </li>
-      </ul>
+<nav class="navbar navbar-expand-lg bg-danger" aria-label="Main navigation">
+    <div class="container-fluid">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar" aria-controls="mainNavbar" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="mainNavbar">
+            <ul class="navbar-nav m-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link text-white active" aria-current="page" href="#">Accueil</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-white" href="{{ path('app_club_list') }}">Les clubs</a>
+                </li>
+
+                {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                    <li class="nav-item dropdown">
+                        <a class="nav-link text-white dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Admin</a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="{{ path('app_admin_club_create') }}">Créer un club</a></li>
+                            <li><a class="dropdown-item" href="{{ path('app_admin_discipline_dashboard') }}">Gérer les disciplines</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-white" href="{{ path('app_logout') }}">Se déconnecter</a>
+                    </li>
+                {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link text-white" href="{{ path('app_register') }}">S'inscrire</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-white" href="{{ path('app_login') }}">Se connecter</a>
+                    </li>
+                {% endif %}
+            </ul>
+        </div>
     </div>
-  </div>
 </nav>
