@@ -6,9 +6,12 @@ use App\Constant\Message;
 use App\Entity\Club;
 use App\Form\ClubType;
 use App\Repository\ClubRepository;
+use App\Service\FileChecker;
+use App\Service\FileUploader;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -20,13 +23,14 @@ class AdminClubController extends AbstractController
 {
     public function __construct(
         private EntityManagerInterface $entityManager,
-        private LoggerInterface $logger
+        private LoggerInterface $logger,
+        private string $targetDirectory
     ) {
     }
 
     #[Route('/create', name: 'create')]
     #[IsGranted('ROLE_ADMIN_CLUB', message: Message::GENERIC_GRANT_ERROR)]
-    public function create(Request $request, ValidatorInterface $validator): Response
+    public function create(Request $request, ValidatorInterface $validator, FileChecker $fileChecker, FileUploader $fileUploader): Response
     {
         $club = new Club();
         $form = $this->createForm(ClubType::class, $club);
@@ -44,6 +48,13 @@ class AdminClubController extends AbstractController
 
             if ($form->isValid()) {
                 try {
+                    /** @var ?UploadedFile $image */
+                    $logo = $form->get('logo')->getData();
+                    if ($logo && $fileChecker->checkImageIsValid($logo)) {
+                        $logoName = $fileUploader->upload($logo, $this->targetDirectory);
+                        $club->setLogo($logoName);
+                    }
+
                     $this->entityManager->persist($club);
                     $this->entityManager->flush();
 
@@ -83,7 +94,7 @@ class AdminClubController extends AbstractController
 
     #[Route('/{id}/edit', name: 'edit')]
     #[IsGranted('ROLE_ADMIN_CLUB', message: Message::GENERIC_GRANT_ERROR)]
-    public function edit(int $id, ClubRepository $clubRepository, Request $request): Response
+    public function edit(int $id, ClubRepository $clubRepository, Request $request, FileChecker $fileChecker, FileUploader $fileUploader): Response
     {
         $club = $clubRepository->findOneBy(['id' => $id]);
         $form = $this->createForm(ClubType::class, $club);
@@ -92,6 +103,13 @@ class AdminClubController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             try {
+                /** @var ?UploadedFile $image */
+                $logo = $form->get('logo')->getData();
+                if ($logo && $fileChecker->checkImageIsValid($logo)) {
+                    $logoName = $fileUploader->upload($logo, $this->targetDirectory);
+                    $club->setLogo($logoName);
+                }
+                
                 $this->entityManager->flush();
 
                 $this->addFlash('success', Message::GENERIC_SUCCESS);

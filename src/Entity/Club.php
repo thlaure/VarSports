@@ -22,7 +22,7 @@ class Club
     #[ORM\Column(length: 255)]
     #[Assert\NotBlank(message: Message::GENERIC_ENTITY_FIELD_ERROR)]
     #[Assert\Length(max: 255, maxMessage: Message::GENERIC_ENTITY_FIELD_ERROR)]
-    #[Assert\Regex(pattern: Constraint::REGEX_NAME, message: Message::GENERIC_ENTITY_FIELD_ERROR)]
+    #[Assert\Regex(pattern: Constraint::REGEX_COMMON, message: Message::GENERIC_ENTITY_FIELD_ERROR)]
     private ?string $name = null;
 
     #[ORM\Column(length: 255)]

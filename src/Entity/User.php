@@ -53,9 +53,15 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?Club $club = null;
 
     #[ORM\Column(length: 100)]
+    #[Assert\NotBlank(message: Message::GENERIC_ENTITY_FIELD_ERROR)]
+    #[Assert\Length(max: 100, maxMessage: Message::GENERIC_ENTITY_FIELD_ERROR)]
+    #[Assert\Regex(pattern: Constraint::REGEX_NAME, message: Message::GENERIC_ENTITY_FIELD_ERROR)]
     private ?string $name = null;
 
     #[ORM\Column(length: 100)]
+    #[Assert\NotBlank(message: Message::GENERIC_ENTITY_FIELD_ERROR)]
+    #[Assert\Length(max: 100, maxMessage: Message::GENERIC_ENTITY_FIELD_ERROR)]
+    #[Assert\Regex(pattern: Constraint::REGEX_NAME, message: Message::GENERIC_ENTITY_FIELD_ERROR)]
     private ?string $firstname = null;
 
     public function getId(): ?int

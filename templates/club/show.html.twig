@@ -7,7 +7,7 @@
     {% include 'flash.html.twig' %}
     
     <section class="row mb-5 align-items-center gap-3">
-        <img src="{{ asset("uploads/images/") ~ (club.logo ? club.logo : 'white.png') }}" alt="Logo du club {{ club.name }}" class="img-fluid rounded-circle col-3 mb-3">
+        <img src="{{ asset("uploads/club/images/") ~ (club.logo ? club.logo : 'white.png') }}" alt="Logo du club {{ club.name }}" class="img-fluid rounded-circle col-3 mb-3">
 
         <div class="col-md-8">
             <h1 class="font-weight-normal">{{ club.name }}</h1>
