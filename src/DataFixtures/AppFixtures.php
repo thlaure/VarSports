@@ -41,7 +41,7 @@ class AppFixtures extends Fixture
                 ->setFirstName('Admin')
                 ->setRoles(['ROLE_ADMIN_CLUB'])
                 ->setVerified(true)
-                ->setPassword('$2y$10$LfClmCQbaH0MfcZLNMJkOeEC/6/WP88KFQnLrnF6x.o1NxwjGdGGG')
+                ->setPassword('$2y$10$LfClmCQbaH0MfcZLNMJkOeEC/6/WP88KFQnLrnF6x.o1NxwjGdGGG') // password
                 ->setClub($club);
             $manager->persist($admin);
 
