@@ -18,6 +18,8 @@ class AdminClubController extends AbstractController
     #[Route('/create', name: 'create')]
     public function create(Request $request, EntityManagerInterface $entityManager): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN_CLUB');
+
         $club = new Club();
         $form = $this->createForm(ClubType::class, $club);
 
@@ -43,6 +45,8 @@ class AdminClubController extends AbstractController
     #[Route('/{id}/delete', name: 'delete')]
     public function delete(int $id, ClubRepository $clubRepository, EntityManagerInterface $entityManager): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN_CLUB');
+        
         $club = $clubRepository->findOneBy(['id' => $id]);
 
         try {
@@ -60,6 +64,8 @@ class AdminClubController extends AbstractController
     #[Route('/{id}/edit', name: 'edit')]
     public function edit(int $id, ClubRepository $clubRepository, Request $request, EntityManagerInterface $entityManager): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN_CLUB');
+
         $club = $clubRepository->findOneBy(['id' => $id]);
         $form = $this->createForm(ClubType::class, $club);
 

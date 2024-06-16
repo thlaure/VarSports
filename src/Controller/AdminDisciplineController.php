@@ -18,6 +18,8 @@ class AdminDisciplineController extends AbstractController
     #[Route('/dashboard', name: 'dashboard')]
     public function create(Request $request, DisciplineRepository $disciplineRepository, EntityManagerInterface $entityManager): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN_CLUB');
+        
         $discipline = new Discipline();
         $form = $this->createForm(DisciplineType::class, $discipline);
 
@@ -46,6 +48,8 @@ class AdminDisciplineController extends AbstractController
     #[Route('/{id}/delete', name: 'delete')]
     public function delete(int $id, EntityManagerInterface $entityManager): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN_CLUB');
+        
         $discipline = $entityManager->getRepository(Discipline::class)->find($id);
 
         try {
@@ -63,6 +67,8 @@ class AdminDisciplineController extends AbstractController
     #[Route('/{id}/edit', name: 'edit')]
     public function edit(int $id, DisciplineRepository $disciplineRepository, Request $request, EntityManagerInterface $entityManager): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN_CLUB');
+        
         $disciplineToEdit = $disciplineRepository->find($id);
         $form = $this->createForm(DisciplineType::class, $disciplineToEdit);
 

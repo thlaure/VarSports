@@ -25,8 +25,10 @@
                     <li class="nav-item dropdown">
                         <a class="nav-link text-white dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Admin</a>
                         <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="{{ path('app_admin_club_create') }}">Créer un club</a></li>
-                            <li><a class="dropdown-item" href="{{ path('app_admin_discipline_dashboard') }}">Gérer les disciplines</a></li>
+                            {% if is_granted('ROLE_ADMIN_CLUB') %}
+                                <li><a class="dropdown-item" href="{{ path('app_admin_club_create') }}">Créer un club</a></li>
+                                <li><a class="dropdown-item" href="{{ path('app_admin_discipline_dashboard') }}">Gérer les disciplines</a></li>
+                            {% endif %}
                         </ul>
                     </li>
                     <li class="nav-item">
