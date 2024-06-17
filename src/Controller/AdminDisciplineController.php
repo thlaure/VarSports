@@ -43,7 +43,6 @@ class AdminDisciplineController extends AbstractController
             }
 
             if ($form->isValid()) {
-
                 $discipline = $form->getData();
 
                 try {

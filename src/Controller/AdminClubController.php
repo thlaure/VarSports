@@ -112,7 +112,7 @@ class AdminClubController extends AbstractController
                     $logoName = $fileUploader->upload($logo, $this->targetDirectory);
                     $club->setLogo($logoName);
                 }
-                
+
                 $this->entityManager->flush();
 
                 $this->addFlash('success', Message::GENERIC_SUCCESS);

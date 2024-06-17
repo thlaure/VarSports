@@ -13,10 +13,9 @@ class AppFixtures extends Fixture
 {
     public function __construct(
         private SluggerInterface $slugger
-    )
-    {
-        
+    ) {
     }
+
     public function load(ObjectManager $manager): void
     {
         $discipline1 = (new Discipline())->setLabel('Volleyball');
