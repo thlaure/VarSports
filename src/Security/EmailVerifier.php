@@ -5,7 +5,6 @@ namespace App\Security;
 use App\Constant\Message;
 use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
-use InvalidArgumentException;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -26,9 +25,9 @@ class EmailVerifier
     {
         $userEmail = $user->getEmail();
         if (!is_string($userEmail) || empty($userEmail)) {
-            throw new InvalidArgumentException(Message::DATA_MUST_BE_SET, Response::HTTP_BAD_REQUEST);
+            throw new \InvalidArgumentException(Message::DATA_MUST_BE_SET, Response::HTTP_BAD_REQUEST);
         }
-        
+
         $signatureComponents = $this->verifyEmailHelper->generateSignature($verifyEmailRouteName, (string) $user->getId(), $userEmail);
 
         $context = $email->getContext();
@@ -48,7 +47,7 @@ class EmailVerifier
     {
         $userEmail = $user->getEmail();
         if (!is_string($userEmail) || empty($userEmail)) {
-            throw new InvalidArgumentException(Message::DATA_MUST_BE_SET, Response::HTTP_BAD_REQUEST);
+            throw new \InvalidArgumentException(Message::DATA_MUST_BE_SET, Response::HTTP_BAD_REQUEST);
         }
 
         $this->verifyEmailHelper->validateEmailConfirmationFromRequest($request, (string) $user->getId(), $userEmail);

@@ -9,8 +9,6 @@ use App\Repository\ClubRepository;
 use App\Service\FileChecker;
 use App\Service\FileUploader;
 use Doctrine\ORM\EntityManagerInterface;
-use Exception;
-use InvalidArgumentException;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
@@ -61,7 +59,7 @@ class AdminClubController extends AbstractController
                     }
 
                     if (!is_string($club->getName()) || empty($club->getName())) {
-                        throw new InvalidArgumentException(Message::DATA_MUST_BE_SET, Response::HTTP_BAD_REQUEST);
+                        throw new \InvalidArgumentException(Message::DATA_MUST_BE_SET, Response::HTTP_BAD_REQUEST);
                     }
                     $club->setSlug($slugger->slug($club->getName())->lower());
 
@@ -93,7 +91,7 @@ class AdminClubController extends AbstractController
             if (!$club instanceof Club) {
                 throw new NotFoundResourceException(Message::DATA_NOT_FOUND, Response::HTTP_NOT_FOUND);
             }
-            
+
             $this->entityManager->remove($club);
             $this->entityManager->flush();
 
@@ -129,7 +127,7 @@ class AdminClubController extends AbstractController
                 }
 
                 if (!is_string($club->getName()) || empty($club->getName())) {
-                    throw new InvalidArgumentException(Message::DATA_MUST_BE_SET, Response::HTTP_BAD_REQUEST);
+                    throw new \InvalidArgumentException(Message::DATA_MUST_BE_SET, Response::HTTP_BAD_REQUEST);
                 }
                 $club->setSlug($slugger->slug($club->getName())->lower());
 
