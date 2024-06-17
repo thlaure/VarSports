@@ -35,7 +35,7 @@ class AppFixtures extends Fixture
                 ->setEmail('club'.$i.'@mail.com')
                 ->setWebsite('https://www.club'.$i.'.com')
                 ->setLogo('white.png')
-                ->setSlug($this->slugger->slug($club->getName())->lower())
+                ->setSlug($this->slugger->slug((string) $club->getName())->lower())
                 ->setDescription('Culpa eiusmod ullamco occaecat dolore veniam eu officia tempor eiusmod ut et reprehenderit veniam sint. Et ea exercitation nulla fugiat eiusmod elit labore voluptate aliquip nulla. Excepteur consectetur eu enim occaecat. Elit pariatur nulla excepteur anim do. Enim cillum exercitation proident aute aliqua do est ex labore nisi ea et. Eu ut minim cillum veniam fugiat aute quis consectetur culpa. Mollit do officia cupidatat voluptate laborum deserunt fugiat Lorem veniam.')
                 ->addDiscipline($discipline1)
                 ->addDiscipline($discipline2)

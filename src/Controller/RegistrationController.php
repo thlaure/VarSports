@@ -2,10 +2,12 @@
 
 namespace App\Controller;
 
+use App\Constant\Message;
 use App\Entity\User;
 use App\Form\RegistrationFormType;
 use App\Security\EmailVerifier;
 use Doctrine\ORM\EntityManagerInterface;
+use InvalidArgumentException;
 use Psr\Log\LoggerInterface;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -14,6 +16,8 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Mime\Address;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
+use Symfony\Component\Translation\Exception\NotFoundResourceException;
 use SymfonyCasts\Bundle\VerifyEmail\Exception\VerifyEmailExceptionInterface;
 
 class RegistrationController extends AbstractController
@@ -32,10 +36,15 @@ class RegistrationController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $plainPassword = $form->get('plainPassword')->getData();
+            if (!is_string($plainPassword) || empty($plainPassword)) {
+                throw new InvalidArgumentException(Message::DATA_MUST_BE_SET, Response::HTTP_BAD_REQUEST);
+            }
+
             $user->setPassword(
                 $userPasswordHasher->hashPassword(
                     $user,
-                    $form->get('plainPassword')->getData()
+                    $plainPassword
                 )
             );
 
@@ -44,16 +53,21 @@ class RegistrationController extends AbstractController
             $entityManager->persist($user);
             $entityManager->flush();
 
+            $emailTo = $user->getEmail();
+            if (!is_string($emailTo) || empty($emailTo)) {
+                throw new InvalidArgumentException(Message::DATA_MUST_BE_SET, Response::HTTP_BAD_REQUEST);
+            }
+
             // generate a signed url and email it to the user
             $this->emailVerifier->sendEmailConfirmation('app_verify_email', $user,
                 (new TemplatedEmail())
                     ->from(new Address('thomaslaure3@gmail.com', 'VarSports'))
-                    ->to($user->getEmail())
-                    ->subject('Confirmer votre adresse e-mail')
+                    ->to($emailTo)
+                    ->subject(Message::CONFIRM_EMAIL)
                     ->htmlTemplate('registration/confirmation_email.html.twig')
             );
 
-            $this->addFlash('success', 'Veuillez consulter votre messagerie pour confirmer votre adresse e-mail');
+            $this->addFlash('success', Message::CONSULT_MAILBOX_TO_CONFIRM);
 
             return $this->redirectToRoute('app_register');
         }
@@ -64,20 +78,25 @@ class RegistrationController extends AbstractController
     }
 
     #[Route('/verify/email', name: 'app_verify_email')]
+    #[IsGranted('IS_AUTHENTICATED_FULLY', message: Message::GENERIC_GRANT_ERROR)]
     public function verifyUserEmail(Request $request): Response
     {
-        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
-
         try {
-            $this->emailVerifier->handleEmailConfirmation($request, $this->getUser());
+            $user = $this->getUser();
+
+            if (!$user instanceof User) {
+                throw new NotFoundResourceException(Message::ERROR_WHILE_CONFIRM_EMAIL, Response::HTTP_BAD_REQUEST);
+            }
+
+            $this->emailVerifier->handleEmailConfirmation($request, $user);
         } catch (VerifyEmailExceptionInterface $exception) {
             $this->logger->error($exception->getReason());
-            $this->addFlash('verify_email_error', 'Une erreur est survenue lors de la verification de votre adresse e-mail');
+            $this->addFlash('verify_email_error', Message::ERROR_WHILE_CONFIRM_EMAIL);
 
             return $this->redirectToRoute('app_register');
         }
 
-        $this->addFlash('success', 'Votre adresse e-mail a été vérifiée');
+        $this->addFlash('success', Message::EMAIL_VERIFIED);
 
         return $this->redirectToRoute('app_login');
     }

@@ -9,6 +9,8 @@ use App\Repository\ClubRepository;
 use App\Service\FileChecker;
 use App\Service\FileUploader;
 use Doctrine\ORM\EntityManagerInterface;
+use Exception;
+use InvalidArgumentException;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
@@ -17,6 +19,8 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Component\String\Slugger\SluggerInterface;
+use Symfony\Component\Translation\Exception\NotFoundResourceException;
+use Symfony\Component\Validator\ConstraintViolation;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 #[Route('/admin/club', name: 'app_admin_club_')]
@@ -49,13 +53,16 @@ class AdminClubController extends AbstractController
 
             if ($form->isValid()) {
                 try {
-                    /** @var ?UploadedFile $image */
+                    /** @var ?UploadedFile $logo */
                     $logo = $form->get('logo')->getData();
                     if ($logo && $fileChecker->checkImageIsValid($logo)) {
                         $logoName = $fileUploader->upload($logo, $this->targetDirectory);
                         $club->setLogo($logoName);
                     }
 
+                    if (!is_string($club->getName()) || empty($club->getName())) {
+                        throw new InvalidArgumentException(Message::DATA_MUST_BE_SET, Response::HTTP_BAD_REQUEST);
+                    }
                     $club->setSlug($slugger->slug($club->getName())->lower());
 
                     $this->entityManager->persist($club);
@@ -83,6 +90,10 @@ class AdminClubController extends AbstractController
         $club = $clubRepository->findOneBy(['id' => $id]);
 
         try {
+            if (!$club instanceof Club) {
+                throw new NotFoundResourceException(Message::DATA_NOT_FOUND, Response::HTTP_NOT_FOUND);
+            }
+            
             $this->entityManager->remove($club);
             $this->entityManager->flush();
 
@@ -106,7 +117,11 @@ class AdminClubController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             try {
-                /** @var ?UploadedFile $image */
+                if (!$club instanceof Club) {
+                    throw new NotFoundResourceException(Message::DATA_NOT_FOUND, Response::HTTP_NOT_FOUND);
+                }
+
+                /** @var ?UploadedFile $logo */
                 $logo = $form->get('logo')->getData();
                 if ($logo && $fileChecker->checkImageIsValid($logo)) {
                     $logoName = $fileUploader->upload($logo, $this->targetDirectory);

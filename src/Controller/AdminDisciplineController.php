@@ -13,6 +13,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
+use Symfony\Component\Translation\Exception\NotFoundResourceException;
+use Symfony\Component\Validator\ConstraintViolation;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 #[Route('/admin/discipline', name: 'app_admin_discipline_')]
@@ -43,8 +45,6 @@ class AdminDisciplineController extends AbstractController
             }
 
             if ($form->isValid()) {
-                $discipline = $form->getData();
-
                 try {
                     $this->entityManager->persist($discipline);
                     $this->entityManager->flush();
@@ -72,6 +72,10 @@ class AdminDisciplineController extends AbstractController
         $discipline = $this->entityManager->getRepository(Discipline::class)->find($id);
 
         try {
+            if (!$discipline instanceof Discipline) {
+                throw new NotFoundResourceException(Message::DATA_NOT_FOUND, Response::HTTP_NOT_FOUND);
+            }
+
             $this->entityManager->remove($discipline);
             $this->entityManager->flush();
 

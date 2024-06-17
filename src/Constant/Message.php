@@ -10,4 +10,10 @@ class Message
     public const GENERIC_FILE_FORM_ERROR = 'Le fichier n\'est pas valide';
     public const GENERIC_GRANT_ERROR = 'Vous n\'avez pas les droits nécessaires';
     public const ACCOUNT_ALREADY_EXISTS = 'Il existe déjà un compte avec cette adresse e-mail.';
+    public const DATA_MUST_BE_SET = 'La donnée doit être renseignée';
+    public const DATA_NOT_FOUND = 'La données n\'existe pas';
+    public const CONSULT_MAILBOX_TO_CONFIRM = 'Veuillez consulter votre messagerie pour confirmer votre adresse e-mail';
+    public const ERROR_WHILE_CONFIRM_EMAIL = 'Une erreur est survenue lors de la verification de votre adresse e-mail';
+    public const CONFIRM_EMAIL = 'Confirmer votre adresse e-mail';
+    public const EMAIL_VERIFIED = 'Votre adresse e-mail a été vérifiée';
 }
