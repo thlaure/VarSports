@@ -83,6 +83,12 @@ class Club
     #[ORM\OneToMany(targetEntity: User::class, mappedBy: 'club', orphanRemoval: true)]
     private Collection $users;
 
+    #[ORM\Column(length: 100)]
+    #[Assert\NotBlank(message: Message::GENERIC_ENTITY_FIELD_ERROR)]
+    #[Assert\Length(max: 100, maxMessage: Message::GENERIC_ENTITY_FIELD_ERROR)]
+    #[Assert\Regex(pattern: Constraint::REGEX_LINK, message: Message::GENERIC_ENTITY_FIELD_ERROR)]
+    private ?string $slug = null;
+
     public function __construct()
     {
         $this->disciplines = new ArrayCollection();
@@ -252,6 +258,18 @@ class Club
                 $user->setClub(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getSlug(): ?string
+    {
+        return $this->slug;
+    }
+
+    public function setSlug(string $slug): static
+    {
+        $this->slug = $slug;
 
         return $this;
     }

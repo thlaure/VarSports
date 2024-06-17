@@ -20,11 +20,11 @@ class ClubController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'show')]
-    public function show(int $id, ClubRepository $clubRepository): Response
+    #[Route('/{slug}', name: 'show')]
+    public function show(string $slug, ClubRepository $clubRepository): Response
     {
         return $this->render('club/show.html.twig', [
-            'club' => $clubRepository->findOneBy(['id' => $id]),
+            'club' => $clubRepository->findOneBy(['slug' => $slug]),
         ]);
     }
 }

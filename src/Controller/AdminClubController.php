@@ -16,6 +16,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
+use Symfony\Component\String\Slugger\SluggerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 #[Route('/admin/club', name: 'app_admin_club_')]
@@ -30,7 +31,7 @@ class AdminClubController extends AbstractController
 
     #[Route('/create', name: 'create')]
     #[IsGranted('ROLE_ADMIN_CLUB', message: Message::GENERIC_GRANT_ERROR)]
-    public function create(Request $request, ValidatorInterface $validator, FileChecker $fileChecker, FileUploader $fileUploader): Response
+    public function create(Request $request, ValidatorInterface $validator, FileChecker $fileChecker, FileUploader $fileUploader, SluggerInterface $slugger): Response
     {
         $club = new Club();
         $form = $this->createForm(ClubType::class, $club);
@@ -54,6 +55,8 @@ class AdminClubController extends AbstractController
                         $logoName = $fileUploader->upload($logo, $this->targetDirectory);
                         $club->setLogo($logoName);
                     }
+
+                    $club->setSlug($slugger->slug($club->getName())->lower());
 
                     $this->entityManager->persist($club);
                     $this->entityManager->flush();

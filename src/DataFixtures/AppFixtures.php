@@ -7,9 +7,16 @@ use App\Entity\Discipline;
 use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
+use Symfony\Component\String\Slugger\SluggerInterface;
 
 class AppFixtures extends Fixture
 {
+    public function __construct(
+        private SluggerInterface $slugger
+    )
+    {
+        
+    }
     public function load(ObjectManager $manager): void
     {
         $discipline1 = (new Discipline())->setLabel('Volleyball');
@@ -24,11 +31,12 @@ class AppFixtures extends Fixture
             $club->setName('Club '.$i)
                 ->setAddress('Adresse '.$i)
                 ->setPostalCode('12345')
-                ->setCity('Ville '.$i)
+                ->setCity('Ville')
                 ->setPhone('0123456789')
                 ->setEmail('club'.$i.'@mail.com')
                 ->setWebsite('https://www.club'.$i.'.com')
                 ->setLogo('white.png')
+                ->setSlug($this->slugger->slug($club->getName())->lower())
                 ->setDescription('Culpa eiusmod ullamco occaecat dolore veniam eu officia tempor eiusmod ut et reprehenderit veniam sint. Et ea exercitation nulla fugiat eiusmod elit labore voluptate aliquip nulla. Excepteur consectetur eu enim occaecat. Elit pariatur nulla excepteur anim do. Enim cillum exercitation proident aute aliqua do est ex labore nisi ea et. Eu ut minim cillum veniam fugiat aute quis consectetur culpa. Mollit do officia cupidatat voluptate laborum deserunt fugiat Lorem veniam.')
                 ->addDiscipline($discipline1)
                 ->addDiscipline($discipline2)
