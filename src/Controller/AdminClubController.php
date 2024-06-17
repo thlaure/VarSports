@@ -108,7 +108,7 @@ class AdminClubController extends AbstractController
 
     #[Route('/{id}/edit', name: 'edit')]
     #[IsGranted('ROLE_ADMIN_CLUB', message: Message::GENERIC_GRANT_ERROR)]
-    public function edit(int $id, ClubRepository $clubRepository, Request $request, FileChecker $fileChecker, FileUploader $fileUploader): Response
+    public function edit(int $id, ClubRepository $clubRepository, Request $request, FileChecker $fileChecker, FileUploader $fileUploader, SluggerInterface $slugger): Response
     {
         $club = $clubRepository->findOneBy(['id' => $id]);
         $form = $this->createForm(ClubType::class, $club);
@@ -128,11 +128,16 @@ class AdminClubController extends AbstractController
                     $club->setLogo($logoName);
                 }
 
+                if (!is_string($club->getName()) || empty($club->getName())) {
+                    throw new InvalidArgumentException(Message::DATA_MUST_BE_SET, Response::HTTP_BAD_REQUEST);
+                }
+                $club->setSlug($slugger->slug($club->getName())->lower());
+
                 $this->entityManager->flush();
 
                 $this->addFlash('success', Message::GENERIC_SUCCESS);
 
-                return $this->redirectToRoute('app_club_show', ['id' => $club->getId()]);
+                return $this->redirectToRoute('app_club_show', ['slug' => $club->getSlug()]);
             } catch (\Exception $e) {
                 $this->logger->error($e->getMessage());
                 $this->addFlash('error', Message::GENERIC_ERROR);
