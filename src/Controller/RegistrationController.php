@@ -54,6 +54,8 @@ class RegistrationController extends AbstractController
             );
 
             $this->addFlash('success', 'Veuillez consulter votre messagerie pour confirmer votre adresse e-mail');
+
+            return $this->redirectToRoute('app_register');
         }
 
         return $this->render('registration/register.html.twig', [

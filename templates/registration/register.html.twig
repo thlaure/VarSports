@@ -12,6 +12,8 @@
                     <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
                 {% endfor %}
 
+                {{ include('flash.html.twig') }}
+
                 {{ form_errors(registrationForm) }}
 
                 {{ form_start(registrationForm) }}
