@@ -61,7 +61,7 @@ class FileChecker
     {
         $extension = $file->getClientOriginalExtension();
         $mimeType = $file->getMimeType();
-        if ($mimeType !== $allowedMimeTypesByExtension[$extension]) {
+        if (!isset($allowedMimeTypesByExtension[$extension]) || $mimeType !== $allowedMimeTypesByExtension[$extension]) {
             $this->logger->error('Mime type and extension not matching: '.$mimeType);
 
             return false;
@@ -77,7 +77,6 @@ class FileChecker
         $mimeTypeIsValid = $this->isMimeTypeValid($file, Constraint::IMAGE_ALLOWED_MIME_TYPES);
         $sizeIsValid = $this->isSizeValid($file, Constraint::IMAGE_MAX_FILE_SIZE);
         $mimeTypeCorrespondToExtension = $this->isMimeTypeCorrespondingToExtension($file, Constraint::IMAGE_ALLOWED_MIME_TYPE_BY_EXTENSION);
-
         if (!$extensionIsValid || !$mimeTypeIsValid || !$sizeIsValid || !$mimeTypeCorrespondToExtension) {
             return false;
         }
