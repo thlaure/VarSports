@@ -38,6 +38,11 @@
                     </div>
 
                     <div class="mb-3">
+                        {{ form_label(form.addressComplement) }}
+                        {{ form_widget(form.addressComplement, {'attr': {'class': 'form-control'}}) }}
+                    </div>
+
+                    <div class="mb-3">
                         {{ form_label(form.postalCode) }}
                         {{ form_widget(form.postalCode, {'attr': {'class': 'form-control'}}) }}
                     </div>

@@ -106,6 +106,11 @@ class Club
     #[Assert\Url(message: Message::GENERIC_ENTITY_FIELD_ERROR)]
     private ?string $youtube = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    #[Assert\Length(max: 255, maxMessage: Message::GENERIC_ENTITY_FIELD_ERROR)]
+    #[Assert\Regex(pattern: Constraint::REGEX_COMMON, message: Message::GENERIC_ENTITY_FIELD_ERROR)]
+    private ?string $addressComplement = null;
+
     public function __construct()
     {
         $this->disciplines = new ArrayCollection();
@@ -323,6 +328,18 @@ class Club
     public function setYoutube(?string $youtube): static
     {
         $this->youtube = $youtube;
+
+        return $this;
+    }
+
+    public function getAddressComplement(): ?string
+    {
+        return $this->addressComplement;
+    }
+
+    public function setAddressComplement(?string $addressComplement): static
+    {
+        $this->addressComplement = $addressComplement;
 
         return $this;
     }

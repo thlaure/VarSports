@@ -30,6 +30,10 @@ class ClubType extends AbstractType
             ->add('address', TextType::class, [
                 'label' => 'Adresse',
             ])
+            ->add('addressComplement', TextType::class, [
+                'label' => 'Complément d\'adresse',
+                'required' => false,
+            ])
             ->add('postalCode', TextType::class, [
                 'label' => 'Code postal',
             ])
