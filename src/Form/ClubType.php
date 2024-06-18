@@ -25,23 +25,23 @@ class ClubType extends AbstractType
     {
         $builder
             ->add('name', TextType::class, [
-                'label' => 'Nom',
+                'label' => 'Nom *',
             ])
             ->add('address', TextType::class, [
-                'label' => 'Adresse',
+                'label' => 'Adresse *',
             ])
             ->add('addressComplement', TextType::class, [
                 'label' => 'Complément d\'adresse',
                 'required' => false,
             ])
             ->add('postalCode', TextType::class, [
-                'label' => 'Code postal',
+                'label' => 'Code postal *',
             ])
             ->add('city', TextType::class, [
-                'label' => 'Ville',
+                'label' => 'Ville *',
             ])
             ->add('phone', TelType::class, [
-                'label' => 'Téléphone',
+                'label' => 'Téléphone *',
             ])
             ->add('website', UrlType::class, [
                 'label' => 'Site internet',
@@ -61,13 +61,13 @@ class ClubType extends AbstractType
                 ],
             ])
             ->add('description', TextareaType::class, [
-                'label' => 'Description',
+                'label' => 'Description *',
             ])
             ->add('email', EmailType::class, [
-                'label' => 'E-mail',
+                'label' => 'E-mail *',
             ])
             ->add('disciplines', EntityType::class, [
-                'label' => 'Disciplines associsées',
+                'label' => 'Disciplines associsées *',
                 'class' => Discipline::class,
                 'choice_label' => 'label',
                 'multiple' => true,
