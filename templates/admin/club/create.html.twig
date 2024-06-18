@@ -7,11 +7,11 @@
     <section>
         <h1 class="h3 mb-3 font-weight-normal">Créer un club</h1>
 
-        <div class="row">
-            <div class="col-md-6 m-auto">
-                {% include 'flash.html.twig' %}
+        {% include 'flash.html.twig' %}
 
-                {{ form_start(form) }}
+        {{ form_start(form) }}
+            <div class="row">
+                <div class="col-md-6">
                     <div class="mb-3">
                         {{ form_label(form.name) }}
                         {{ form_widget(form.name, {'attr': {'class': 'form-control'}}) }}
@@ -25,11 +25,6 @@
                     <div class="mb-3">
                         {{ form_label(form.phone) }}
                         {{ form_widget(form.phone, {'attr': {'class': 'form-control'}}) }}
-                    </div>
-
-                    <div class="mb-3">
-                        {{ form_label(form.website) }}
-                        {{ form_widget(form.website, {'attr': {'class': 'form-control'}}) }}
                     </div>
 
                     <div class="mb-3">
@@ -56,7 +51,9 @@
                         {{ form_label(form.description) }}
                         {{ form_widget(form.description, {'attr': {'class': 'form-control'}}) }}
                     </div>
+                </div>
 
+                <div class="col-md-6">
                     <div class="mb-3">
                         {{ form_label(form.disciplines) }}
                         {{ form_widget(form.disciplines, {'attr': {'class': 'form-control'}}) }}
@@ -67,12 +64,30 @@
                         {{ form_widget(form.logo, {'attr': {'class': 'form-control'}}) }}
                     </div>
 
-                    <div>
-                        {{ form_widget(form.submit, {'attr': {'class': 'btn btn-primary mt-3'}}) }}
+                    <div class="mb-3">
+                        {{ form_label(form.website) }}
+                        {{ form_widget(form.website, {'attr': {'class': 'form-control'}}) }}
                     </div>
-                {{ form_end(form) }}
+
+                    <div class="mb-3">
+                        {{ form_label(form.instagram) }}
+                        {{ form_widget(form.instagram, {'attr': {'class': 'form-control'}}) }}
+                    </div>
+
+                    <div class="mb-3">
+                        {{ form_label(form.facebook) }}
+                        {{ form_widget(form.facebook, {'attr': {'class': 'form-control'}}) }}
+                    </div>
+
+                    <div class="mb-3">
+                        {{ form_label(form.youtube) }}
+                        {{ form_widget(form.youtube, {'attr': {'class': 'form-control'}}) }}
+                    </div>
+                </div>
             </div>
-        </div>
+
+            {{ form_widget(form.submit, {'attr': {'class': 'btn btn-primary mt-3 mx-auto'}}) }}
+        {{ form_end(form) }}
     </section>
 </div>
 {% endblock %}

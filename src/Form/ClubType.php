@@ -47,6 +47,18 @@ class ClubType extends AbstractType
                 'label' => 'Site internet',
                 'required' => false,
             ])
+            ->add('instagram', UrlType::class, [
+                'label' => 'Instagram',
+                'required' => false,
+            ])
+            ->add('facebook', UrlType::class, [
+                'label' => 'Facebook',
+                'required' => false,
+            ])
+            ->add('youtube', UrlType::class, [
+                'label' => 'YouTube',
+                'required' => false,
+            ])
             ->add('logo', FileType::class, [
                 'label' => 'Logo',
                 'required' => false,
