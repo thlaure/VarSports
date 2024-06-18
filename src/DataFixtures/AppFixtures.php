@@ -34,7 +34,7 @@ class AppFixtures extends Fixture
                 ->setPhone('0123456789')
                 ->setEmail('club'.$i.'@mail.com')
                 ->setWebsite('https://www.club'.$i.'.com')
-                ->setLogo('white.png')
+                ->setLogo('default_logo.webp')
                 ->setInstagram('https://www.instagram.com/club'.$i)
                 ->setFacebook('https://www.facebook.com/club'.$i)
                 ->setYoutube('https://www.youtube.com/club'.$i)
