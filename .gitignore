@@ -6,7 +6,8 @@
 /config/secrets/prod/prod.decrypt.private.php
 /public/bundles/
 /var/
-/vendor/
+/vendor
+/public/images/uploads/club/*
 ###< symfony/framework-bundle ###
 
 ###> phpunit/phpunit ###
