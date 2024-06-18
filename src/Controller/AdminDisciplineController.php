@@ -27,7 +27,7 @@ class AdminDisciplineController extends AbstractController
     }
 
     #[Route('/dashboard', name: 'dashboard')]
-    #[IsGranted('ROLE_ADMIN_CLUB', message: Message::GENERIC_GRANT_ERROR)]
+    #[IsGranted('ROLE_ADMIN', message: Message::GENERIC_GRANT_ERROR)]
     public function create(Request $request, DisciplineRepository $disciplineRepository, ValidatorInterface $validator): Response
     {
         $discipline = new Discipline();
@@ -66,7 +66,7 @@ class AdminDisciplineController extends AbstractController
     }
 
     #[Route('/{id}/delete', name: 'delete')]
-    #[IsGranted('ROLE_ADMIN_CLUB', message: Message::GENERIC_GRANT_ERROR)]
+    #[IsGranted('ROLE_ADMIN', message: Message::GENERIC_GRANT_ERROR)]
     public function delete(int $id): Response
     {
         $discipline = $this->entityManager->getRepository(Discipline::class)->find($id);
@@ -89,7 +89,7 @@ class AdminDisciplineController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'edit')]
-    #[IsGranted('ROLE_ADMIN_CLUB', message: Message::GENERIC_GRANT_ERROR)]
+    #[IsGranted('ROLE_ADMIN', message: Message::GENERIC_GRANT_ERROR)]
     public function edit(int $id, DisciplineRepository $disciplineRepository, Request $request): Response
     {
         $disciplineToEdit = $disciplineRepository->find($id);

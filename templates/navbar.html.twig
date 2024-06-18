@@ -27,6 +27,9 @@
                         <ul class="dropdown-menu">
                             {% if is_granted('ROLE_ADMIN_CLUB') %}
                                 <li><a class="dropdown-item" href="{{ path('app_admin_club_create') }}">Créer un club</a></li>
+                            {% endif %}
+
+                            {% if is_granted('ROLE_ADMIN') %}
                                 <li><a class="dropdown-item" href="{{ path('app_admin_discipline_dashboard') }}">Gérer les disciplines</a></li>
                             {% endif %}
                         </ul>
@@ -43,6 +46,12 @@
                     </li>
                 {% endif %}
             </ul>
+
+            <!--<ul class="navbar-nav me-2">
+                <li class="nav-item"><a class="nav-link text-white" href="https://www.instagram.com/varsports_officiel">Instagram</a></li>
+                <li class="nav-item"><a class="nav-link text-white" href="https://www.facebook.com/varsports.vs/">Facebook</a></li>
+                <li class="nav-item"><a class="nav-link text-white" href="https://www.linkedin.com/company/varsports-fr/">LinkedIn</a></li>
+            </ul>-->
         </div>
     </div>
 </nav>
