@@ -16,4 +16,5 @@ class Message
     public const ERROR_WHILE_CONFIRM_EMAIL = 'Une erreur est survenue lors de la verification de votre adresse e-mail';
     public const CONFIRM_EMAIL = 'Confirmer votre adresse e-mail';
     public const EMAIL_VERIFIED = 'Votre adresse e-mail a été vérifiée';
+    public const GENERIC_ACCESS_DENIED = 'Accès interdit';
 }

@@ -4,17 +4,22 @@ namespace App\Controller;
 
 use App\Constant\Message;
 use App\Entity\Club;
+use App\Entity\User;
 use App\Form\ClubType;
 use App\Repository\ClubRepository;
 use App\Service\FileChecker;
 use App\Service\FileUploader;
 use Doctrine\ORM\EntityManagerInterface;
+use ErrorException;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Http\Attribute\CurrentUser;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Component\String\Slugger\SluggerInterface;
 use Symfony\Component\Translation\Exception\NotFoundResourceException;
@@ -27,7 +32,8 @@ class AdminClubController extends AbstractController
     public function __construct(
         private EntityManagerInterface $entityManager,
         private LoggerInterface $logger,
-        private string $targetDirectory
+        private string $targetDirectory,
+        private Security $security
     ) {
     }
 
@@ -64,6 +70,13 @@ class AdminClubController extends AbstractController
                     $club->setSlug($slugger->slug($club->getName())->lower());
 
                     $this->entityManager->persist($club);
+
+                    $user = $this->security->getUser();
+                    if ($user instanceof User) {
+                        $user->setClub($club);
+                        $this->entityManager->persist($user);
+                    }
+
                     $this->entityManager->flush();
 
                     $this->addFlash('success', Message::GENERIC_SUCCESS);
@@ -85,7 +98,15 @@ class AdminClubController extends AbstractController
     #[IsGranted('ROLE_ADMIN_CLUB', message: Message::GENERIC_GRANT_ERROR)]
     public function delete(int $id, ClubRepository $clubRepository): Response
     {
+        $user = $this->security->getUser();
+        if (!$user instanceof User) {
+            throw new NotFoundResourceException(Message::DATA_NOT_FOUND, Response::HTTP_NOT_FOUND);
+        }
+
         $club = $clubRepository->findOneBy(['id' => $id]);
+        if (null === $user->getClub() || $user->getClub()->getId() !== $club->getId()) {
+            throw new AccessDeniedHttpException(Message::GENERIC_ACCESS_DENIED);
+        }
 
         try {
             if (!$club instanceof Club) {
@@ -108,7 +129,16 @@ class AdminClubController extends AbstractController
     #[IsGranted('ROLE_ADMIN_CLUB', message: Message::GENERIC_GRANT_ERROR)]
     public function edit(int $id, ClubRepository $clubRepository, Request $request, FileChecker $fileChecker, FileUploader $fileUploader, SluggerInterface $slugger): Response
     {
+        $user = $this->security->getUser();
+        if (!$user instanceof User) {
+            throw new NotFoundResourceException(Message::DATA_NOT_FOUND, Response::HTTP_NOT_FOUND);
+        }
+
         $club = $clubRepository->findOneBy(['id' => $id]);
+        if (null === $user->getClub() || $user->getClub()->getId() !== $club->getId()) {
+            throw new AccessDeniedHttpException(Message::GENERIC_ACCESS_DENIED);
+        }
+
         $form = $this->createForm(ClubType::class, $club);
 
         $form->handleRequest($request);
