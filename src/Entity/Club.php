@@ -343,4 +343,9 @@ class Club
 
         return $this;
     }
+
+    public function hasSocialMedia(): bool
+    {
+        return $this->getInstagram() || $this->getFacebook() || $this->getYoutube();
+    }
 }

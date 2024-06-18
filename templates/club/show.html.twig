@@ -28,13 +28,33 @@
                     {% endif %}
                 </article>
 
-                <article class="col-md-6">
-                    <h3>Disciplines</h3>
+                <div class="col-md-6">
+                    {% if club.hasSocialMedia %}
+                        <article class="mb-3">
+                            <h3>Réseaux sociaux</h3>
 
-                    {% for discipline in club.disciplines %}
-                        <span class="badge text-bg-secondary">{{ discipline.label }}</span>
-                    {% endfor %}
-                </article>
+                            {% if club.instagram %}
+                                <a href="{{ club.instagram }}">Instagram</a>
+                            {% endif %}
+
+                            {% if club.facebook %}
+                                - <a href="{{ club.facebook }}">Facebook</a>
+                            {% endif %}
+
+                            {% if club.youtube %}
+                                - <a href="{{ club.youtube }}">YouTube</a>
+                            {% endif %}
+                        </article>
+                    {% endif %}
+
+                    <article>
+                        <h3>Disciplines</h3>
+
+                        {% for discipline in club.disciplines %}
+                            <span class="badge text-bg-secondary">{{ discipline.label }}</span>
+                        {% endfor %}
+                    </article>
+                </div>
             </div>
         </div>
     </section>
