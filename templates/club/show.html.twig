@@ -61,7 +61,7 @@
 
     <section>
         <h2>À propos</h2>
-        <p class="lead">{{ club.description }}</p>
+        <p class="lead">{{ club.description|nl2br }}</p>
     </section>
 
     {% if is_granted('ROLE_ADMIN_CLUB') and app.user.club.id == club.id %}
