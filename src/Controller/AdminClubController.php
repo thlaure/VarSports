@@ -41,6 +41,17 @@ class AdminClubController extends AbstractController
     #[IsGranted('ROLE_ADMIN_CLUB', message: Message::GENERIC_GRANT_ERROR)]
     public function create(Request $request, ValidatorInterface $validator, FileChecker $fileChecker, FileUploader $fileUploader, SluggerInterface $slugger): Response
     {
+        $user = $this->security->getUser();
+        if (!$user instanceof User) {
+            throw new NotFoundResourceException(Message::DATA_NOT_FOUND, Response::HTTP_NOT_FOUND);
+        }
+
+        if ($user->getClub() instanceof Club) {
+            $this->addFlash('warning', Message::CLUB_ALREADY_EXISTS_FOR_THIS_ACCOUNT);
+
+            return $this->redirectToRoute('app_admin_club_edit', ['id' => $user->getClub()->getId()]);
+        }
+
         $club = new Club();
         $form = $this->createForm(ClubType::class, $club);
 
