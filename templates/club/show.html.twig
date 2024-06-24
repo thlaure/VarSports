@@ -64,7 +64,8 @@
         <p class="lead">{{ club.description|nl2br }}</p>
     </section>
 
-    {% if is_granted('ROLE_ADMIN_CLUB') and app.user.club.id == club.id %}
+
+    {% if is_granted('ROLE_ADMIN_CLUB') and app.user.club is not null and app.user.club.id == club.id %}
         <section class="mt-5">
             <h2>Actions</h2>
             <a href="{{ path('app_admin_club_edit', {'id': club.id}) }}" class="btn btn-warning">Modifier</a>
