@@ -71,6 +71,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[Assert\Type(type: Types::DATETIME_MUTABLE, message: Message::GENERIC_ENTITY_FIELD_ERROR)]
     private ?\DateTimeInterface $lastLoginDate = null;
 
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
+    #[Assert\Type(type: Types::DATETIME_MUTABLE, message: Message::GENERIC_ENTITY_FIELD_ERROR)]
+    private ?\DateTimeInterface $lastUpdateDate = null;
+
     public function __construct()
     {
         $this->registrationDate = new \DateTime();
@@ -218,6 +222,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setLastLoginDate(?\DateTimeInterface $lastLoginDate): static
     {
         $this->lastLoginDate = $lastLoginDate;
+
+        return $this;
+    }
+
+    public function getLastUpdateDate(): ?\DateTimeInterface
+    {
+        return $this->lastUpdateDate;
+    }
+
+    public function setLastUpdateDate(?\DateTimeInterface $lastUpdateDate): static
+    {
+        $this->lastUpdateDate = $lastUpdateDate;
 
         return $this;
     }
