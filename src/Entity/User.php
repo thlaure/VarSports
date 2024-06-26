@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Constant\Constraint;
 use App\Constant\Message;
 use App\Repository\UserRepository;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
@@ -52,17 +53,28 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\JoinColumn(nullable: true)]
     private ?Club $club = null;
 
-    #[ORM\Column(length: 100)]
-    #[Assert\NotBlank(message: Message::GENERIC_ENTITY_FIELD_ERROR)]
+    #[ORM\Column(length: 100, nullable: true)]
     #[Assert\Length(max: 100, maxMessage: Message::GENERIC_ENTITY_FIELD_ERROR)]
     #[Assert\Regex(pattern: Constraint::REGEX_NAME, message: Message::GENERIC_ENTITY_FIELD_ERROR)]
     private ?string $name = null;
 
-    #[ORM\Column(length: 100)]
-    #[Assert\NotBlank(message: Message::GENERIC_ENTITY_FIELD_ERROR)]
+    #[ORM\Column(length: 100, nullable: true)]
     #[Assert\Length(max: 100, maxMessage: Message::GENERIC_ENTITY_FIELD_ERROR)]
     #[Assert\Regex(pattern: Constraint::REGEX_NAME, message: Message::GENERIC_ENTITY_FIELD_ERROR)]
     private ?string $firstname = null;
+
+    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    #[Assert\Type(type: Types::DATETIME_MUTABLE, message: Message::GENERIC_ENTITY_FIELD_ERROR)]
+    private ?\DateTimeInterface $registrationDate = null;
+
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
+    #[Assert\Type(type: Types::DATETIME_MUTABLE, message: Message::GENERIC_ENTITY_FIELD_ERROR)]
+    private ?\DateTimeInterface $lastLoginDate = null;
+
+    public function __construct()
+    {
+        $this->registrationDate = new \DateTime();
+    }
 
     public function getId(): ?int
     {
@@ -182,6 +194,30 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setFirstname(string $firstname): static
     {
         $this->firstname = $firstname;
+
+        return $this;
+    }
+
+    public function getRegistrationDate(): ?\DateTimeInterface
+    {
+        return $this->registrationDate;
+    }
+
+    public function setRegistrationDate(\DateTimeInterface $registrationDate): static
+    {
+        $this->registrationDate = $registrationDate;
+
+        return $this;
+    }
+
+    public function getLastLoginDate(): ?\DateTimeInterface
+    {
+        return $this->lastLoginDate;
+    }
+
+    public function setLastLoginDate(?\DateTimeInterface $lastLoginDate): static
+    {
+        $this->lastLoginDate = $lastLoginDate;
 
         return $this;
     }

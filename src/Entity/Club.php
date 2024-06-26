@@ -111,10 +111,19 @@ class Club
     #[Assert\Regex(pattern: Constraint::REGEX_COMMON, message: Message::GENERIC_ENTITY_FIELD_ERROR)]
     private ?string $addressComplement = null;
 
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
+    #[Assert\Type(type: Types::DATETIME_MUTABLE, message: Message::GENERIC_ENTITY_FIELD_ERROR)]
+    private ?\DateTimeInterface $lastUpdate = null;
+
+    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    #[Assert\Type(type: Types::DATETIME_MUTABLE, message: Message::GENERIC_ENTITY_FIELD_ERROR)]
+    private ?\DateTimeInterface $creationDate = null;
+
     public function __construct()
     {
         $this->disciplines = new ArrayCollection();
         $this->users = new ArrayCollection();
+        $this->creationDate = new \DateTime();
     }
 
     public function getId(): ?int
@@ -347,5 +356,29 @@ class Club
     public function hasSocialMedia(): bool
     {
         return $this->getInstagram() || $this->getFacebook() || $this->getYoutube();
+    }
+
+    public function getLastUpdate(): ?\DateTimeInterface
+    {
+        return $this->lastUpdate;
+    }
+
+    public function setLastUpdate(?\DateTimeInterface $lastUpdate): static
+    {
+        $this->lastUpdate = $lastUpdate;
+
+        return $this;
+    }
+
+    public function getCreationDate(): ?\DateTimeInterface
+    {
+        return $this->creationDate;
+    }
+
+    public function setCreationDate(\DateTimeInterface $creationDate): static
+    {
+        $this->creationDate = $creationDate;
+
+        return $this;
     }
 }

@@ -8,6 +8,7 @@ use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -20,10 +21,19 @@ class RegistrationFormType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('name', TextType::class)
-            ->add('firstname', TextType::class)
-            ->add('email', EmailType::class)
+            ->add('name', TextType::class, [
+                'label' => 'Nom',
+                'required' => false,
+            ])
+            ->add('firstname', TextType::class, [
+                'label' => 'Prénom',
+                'required' => false,
+            ])
+            ->add('email', EmailType::class, [
+                'label' => 'Adresse e-mail *',
+            ])
             ->add('agreeTerms', CheckboxType::class, [
+                'label' => 'J\'accepte les conditions d\'utilisation',
                 'mapped' => false,
                 'constraints' => [
                     new IsTrue([
@@ -36,8 +46,8 @@ class RegistrationFormType extends AbstractType
                 'invalid_message' => 'Les mots de passe doivent être identiques',
                 'mapped' => false,
                 'attr' => ['autocomplete' => 'new-password'],
-                'first_options' => ['label' => 'Mot de passe'],
-                'second_options' => ['label' => 'Confirmer le mot de passe'],
+                'first_options' => ['label' => 'Mot de passe *'],
+                'second_options' => ['label' => 'Confirmer le mot de passe *'],
                 'constraints' => [
                     new NotBlank([
                         'message' => 'Veuillez saisir un mot de passe',
@@ -48,6 +58,9 @@ class RegistrationFormType extends AbstractType
                         'max' => 4096,
                     ]),
                 ],
+            ])
+            ->add('submit', SubmitType::class, [
+                'label' => 'Soumettre',
             ])
         ;
     }

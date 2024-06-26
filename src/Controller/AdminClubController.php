@@ -10,7 +10,6 @@ use App\Repository\ClubRepository;
 use App\Service\FileChecker;
 use App\Service\FileUploader;
 use Doctrine\ORM\EntityManagerInterface;
-use ErrorException;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Bundle\SecurityBundle\Security;
@@ -19,7 +18,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\Routing\Attribute\Route;
-use Symfony\Component\Security\Http\Attribute\CurrentUser;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Component\String\Slugger\SluggerInterface;
 use Symfony\Component\Translation\Exception\NotFoundResourceException;
@@ -115,15 +113,15 @@ class AdminClubController extends AbstractController
         }
 
         $club = $clubRepository->findOneBy(['id' => $id]);
+        if (!$club instanceof Club) {
+            throw new NotFoundResourceException(Message::DATA_NOT_FOUND, Response::HTTP_NOT_FOUND);
+        }
+        
         if (null === $user->getClub() || $user->getClub()->getId() !== $club->getId()) {
             throw new AccessDeniedHttpException(Message::GENERIC_ACCESS_DENIED);
         }
 
         try {
-            if (!$club instanceof Club) {
-                throw new NotFoundResourceException(Message::DATA_NOT_FOUND, Response::HTTP_NOT_FOUND);
-            }
-
             $this->entityManager->remove($club);
             $this->entityManager->flush();
 
@@ -146,6 +144,10 @@ class AdminClubController extends AbstractController
         }
 
         $club = $clubRepository->findOneBy(['id' => $id]);
+        if (!$club instanceof Club) {
+            throw new NotFoundResourceException(Message::DATA_NOT_FOUND, Response::HTTP_NOT_FOUND);
+        }
+
         if (null === $user->getClub() || $user->getClub()->getId() !== $club->getId()) {
             throw new AccessDeniedHttpException(Message::GENERIC_ACCESS_DENIED);
         }
@@ -156,10 +158,6 @@ class AdminClubController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             try {
-                if (!$club instanceof Club) {
-                    throw new NotFoundResourceException(Message::DATA_NOT_FOUND, Response::HTTP_NOT_FOUND);
-                }
-
                 /** @var ?UploadedFile $logo */
                 $logo = $form->get('logo')->getData();
                 if ($logo && $fileChecker->checkImageIsValid($logo)) {
