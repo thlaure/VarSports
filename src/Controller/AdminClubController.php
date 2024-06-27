@@ -116,7 +116,7 @@ class AdminClubController extends AbstractController
         if (!$club instanceof Club) {
             throw new NotFoundResourceException(Message::DATA_NOT_FOUND, Response::HTTP_NOT_FOUND);
         }
-        
+
         if (null === $user->getClub() || $user->getClub()->getId() !== $club->getId()) {
             throw new AccessDeniedHttpException(Message::GENERIC_ACCESS_DENIED);
         }
