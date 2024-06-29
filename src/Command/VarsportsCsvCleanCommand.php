@@ -28,7 +28,7 @@ class VarsportsCsvCleanCommand extends Command
         $io = new SymfonyStyle($input, $output);
 
         if (!file_exists($this->filePath)) {
-            $io->error('File not found');
+            $io->error(Message::FILE_NOT_WRITABLE);
 
             return Command::FAILURE;
         }
@@ -52,7 +52,7 @@ class VarsportsCsvCleanCommand extends Command
 
         $file = fopen($this->filePath, 'r');
         if (false === $file) {
-            throw new NotFoundHttpException(Message::FILE_NOT_FOUND);
+            throw new NotFoundHttpException(Message::FILE_NOT_READABLE);
         }
 
         $dataAssoc = [];
@@ -73,7 +73,7 @@ class VarsportsCsvCleanCommand extends Command
     {
         $clubsByEmail = [];
         foreach ($dataAssoc as $club) {
-            $clubsByEmail[$club['email']] = $club;
+            $clubsByEmail[$club['admin_email']] = $club;
         }
 
         return array_values($clubsByEmail);
@@ -88,6 +88,10 @@ class VarsportsCsvCleanCommand extends Command
     {
         $clubs = [];
         foreach ($dataToClean as $club) {
+            if (!$club['admin_email']) {
+                continue;
+            }
+
             foreach ($club as $key => $value) {
                 if ('' === $value) {
                     $club[$key] = null;
@@ -96,7 +100,7 @@ class VarsportsCsvCleanCommand extends Command
 
             $club['phone'] = !empty($club['phone']) ? '0'.intval(str_replace([' ', '-', '.'], '', $club['phone'])) : null;
 
-            $club['disciplines'] = is_string($club['disciplines']) && preg_match('/\{/', $club['disciplines']) ? unserialize($club['disciplines']) : $club['disciplines'];
+            $club['disciplines'] = is_string($club['disciplines']) && preg_match('/\{/', $club['disciplines']) ? unserialize($club['disciplines']) : [$club['disciplines']];
 
             $clubs[] = $club;
         }

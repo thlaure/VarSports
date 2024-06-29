@@ -16,8 +16,7 @@ class DisciplineType extends AbstractType
         $builder
             ->add('label', TextType::class, [
                 'label' => 'Label *',
-            ]
-            )
+            ])
             ->add('submit', SubmitType::class, [
                 'label' => 'Soumettre',
             ])

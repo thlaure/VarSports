@@ -25,19 +25,19 @@ class Club
     #[Assert\Regex(pattern: Constraint::REGEX_COMMON, message: Message::GENERIC_ENTITY_FIELD_ERROR)]
     private ?string $name = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, nullable: true)]
     #[Assert\NotBlank(message: Message::GENERIC_ENTITY_FIELD_ERROR)]
     #[Assert\Length(max: 255, maxMessage: Message::GENERIC_ENTITY_FIELD_ERROR)]
     #[Assert\Regex(pattern: Constraint::REGEX_COMMON, message: Message::GENERIC_ENTITY_FIELD_ERROR)]
     private ?string $address = null;
 
-    #[ORM\Column(length: 5)]
+    #[ORM\Column(length: 5, nullable: true)]
     #[Assert\NotBlank(message: Message::GENERIC_ENTITY_FIELD_ERROR)]
     #[Assert\Length(max: 5, maxMessage: Message::GENERIC_ENTITY_FIELD_ERROR)]
     #[Assert\Regex(pattern: Constraint::REGEX_POSTAL_CODE, message: Message::GENERIC_ENTITY_FIELD_ERROR)]
     private ?string $postalCode = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, nullable: true)]
     #[Assert\NotBlank(message: Message::GENERIC_ENTITY_FIELD_ERROR)]
     #[Assert\Length(max: 255, maxMessage: Message::GENERIC_ENTITY_FIELD_ERROR)]
     #[Assert\Regex(pattern: Constraint::REGEX_COMMON, message: Message::GENERIC_ENTITY_FIELD_ERROR)]
@@ -119,6 +119,12 @@ class Club
     #[Assert\Type(type: Types::DATETIME_MUTABLE, message: Message::GENERIC_ENTITY_FIELD_ERROR)]
     private ?\DateTimeInterface $creationDate = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    #[Assert\Length(max: 255, maxMessage: Message::GENERIC_ENTITY_FIELD_ERROR)]
+    #[Assert\Regex(pattern: Constraint::REGEX_LINK, message: Message::GENERIC_ENTITY_FIELD_ERROR)]
+    #[Assert\Url(message: Message::GENERIC_ENTITY_FIELD_ERROR)]
+    private ?string $twitter = null;
+
     public function __construct()
     {
         $this->disciplines = new ArrayCollection();
@@ -148,7 +154,7 @@ class Club
         return $this->address;
     }
 
-    public function setAddress(string $address): static
+    public function setAddress(?string $address): static
     {
         $this->address = $address;
 
@@ -160,7 +166,7 @@ class Club
         return $this->postalCode;
     }
 
-    public function setPostalCode(string $postalCode): static
+    public function setPostalCode(?string $postalCode): static
     {
         $this->postalCode = $postalCode;
 
@@ -172,7 +178,7 @@ class Club
         return $this->city;
     }
 
-    public function setCity(string $city): static
+    public function setCity(?string $city): static
     {
         $this->city = $city;
 
@@ -378,6 +384,18 @@ class Club
     public function setCreationDate(\DateTimeInterface $creationDate): static
     {
         $this->creationDate = $creationDate;
+
+        return $this;
+    }
+
+    public function getTwitter(): ?string
+    {
+        return $this->twitter;
+    }
+
+    public function setTwitter(?string $twitter): static
+    {
+        $this->twitter = $twitter;
 
         return $this;
     }
