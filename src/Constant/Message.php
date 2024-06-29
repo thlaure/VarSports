@@ -18,4 +18,5 @@ class Message
     public const EMAIL_VERIFIED = 'Votre adresse e-mail a été vérifiée';
     public const GENERIC_ACCESS_DENIED = 'Accès interdit';
     public const CLUB_ALREADY_EXISTS_FOR_THIS_ACCOUNT = 'Un club existe déjà pour ce compte';
+    public const FILE_NOT_FOUND = 'Le fichier n\'a pas été trouvé';
 }

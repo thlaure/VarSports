@@ -27,6 +27,8 @@
 
 ###> symfony/docker ###
 /docker/db/
+/docker/imports/*
+!/docker/imports/retrieve_clubs.sql
 ###< symfony/docker ###
 ###> phpstan/phpstan ###
 phpstan.neon
