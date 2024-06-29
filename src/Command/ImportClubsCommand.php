@@ -54,7 +54,7 @@ class ImportClubsCommand extends Command
         }
 
         $data = json_decode($fileContent, true);
-        if (null === $data) {
+        if (null === $data || !is_array($data)) {
             $io->error(Message::GENERIC_ERROR);
 
             return Command::FAILURE;
@@ -91,7 +91,7 @@ class ImportClubsCommand extends Command
                     ->setAddress($dataClub['address'])
                     ->setPostalCode($dataClub['postal_code'])
                     ->setCity($dataClub['city'])
-                    ->setPhone('0102030404');
+                    ->setPhone($dataClub['phone']);
 
                 foreach ($disciplines as $discipline) {
                     $club->addDiscipline($discipline);
@@ -106,7 +106,7 @@ class ImportClubsCommand extends Command
                     ->setName($dataClub['lastname'])
                     ->setFirstName($dataClub['firstname'])
                     ->setClub($club)
-                    ->setPassword(substr(str_shuffle(str_repeat($x = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ', ceil(8 / strlen($x)))), 1, 8));
+                    ->setPassword(substr(str_shuffle(str_repeat($x = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ', intval(ceil(8 / strlen($x))))), 1, 8));
 
                 $this->entityManager->persist($clubAdmin);
 
@@ -120,7 +120,7 @@ class ImportClubsCommand extends Command
         $this->entityManager->flush();
 
         $io->note(sprintf('%d rows not inserted', count($rowsNotInserted)));
-        $io->note(sprintf('Clubs not created', implode(', ', $rowsNotInserted)));
+        $io->note(sprintf('Clubs not created: %s', implode(', ', $rowsNotInserted)));
         $io->note(sprintf('%d clubs created', $nbClubsCreated));
         $io->note(sprintf('%d admins created', $nbAdminsCreated));
         $io->success('Success');
