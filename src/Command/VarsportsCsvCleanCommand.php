@@ -98,9 +98,20 @@ class VarsportsCsvCleanCommand extends Command
                 }
             }
 
+            $club['phone'] = (string) intval(str_replace([' ', '-', '.'], '', $club['phone']));
+            if (!empty($club['phone'] && '33' === substr($club['phone'], 0, 2))) {
+                $club['phone'] = '0'.substr($club['phone'], 2);
+            }
+
             $club['phone'] = !empty($club['phone']) ? '0'.intval(str_replace([' ', '-', '.'], '', $club['phone'])) : null;
 
             $club['disciplines'] = is_string($club['disciplines']) && preg_match('/\{/', $club['disciplines']) ? unserialize($club['disciplines']) : [$club['disciplines']];
+
+            $club['address'] = ucwords(strtolower($club['address']), ' -');
+            $club['city'] = ucwords(strtolower($club['city']), ' -');
+
+            $club['lastname'] = $club['lastname'] ? ucwords(strtolower($club['lastname']), ' -') : null;
+            $club['firstname'] = $club['firstname'] ? ucwords(strtolower($club['firstname']), ' -') : null;
 
             $clubs[] = $club;
         }
