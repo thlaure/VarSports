@@ -67,13 +67,15 @@ class ImportClubsCommand extends Command
                     $disciplineInDB = $this->disciplineRepository->findOneBy(['label' => ucfirst(strtolower($dataDiscipline))]);
 
                     if (null !== $disciplineInDB) {
-                        continue;
+                        $discipline = $disciplineInDB;
+                    } else {
+                        $discipline = (new Discipline())
+                            ->setLabel(ucfirst(strtolower($dataDiscipline)));
                     }
 
-                    $discipline = (new Discipline())
-                        ->setLabel(ucfirst(strtolower($dataDiscipline)));
-
                     $this->entityManager->persist($discipline);
+
+                    $this->entityManager->flush();
 
                     $disciplines[] = $discipline;
                 }
@@ -106,7 +108,7 @@ class ImportClubsCommand extends Command
                     ->setName($dataClub['lastname'])
                     ->setFirstName($dataClub['firstname'])
                     ->setClub($club)
-                    ->setPassword(substr(str_shuffle(str_repeat($x = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ', intval(ceil(8 / strlen($x))))), 1, 8));
+                    ->setPassword(substr(str_shuffle(str_repeat($x = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ', intval(ceil(8 / strlen($x))))), 1, 8)); // TODO: secure password
 
                 $this->entityManager->persist($clubAdmin);
 

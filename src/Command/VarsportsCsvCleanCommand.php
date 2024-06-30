@@ -98,20 +98,42 @@ class VarsportsCsvCleanCommand extends Command
                 }
             }
 
-            $club['phone'] = (string) intval(str_replace([' ', '-', '.'], '', $club['phone']));
-            if (!empty($club['phone'] && '33' === substr($club['phone'], 0, 2))) {
-                $club['phone'] = '0'.substr($club['phone'], 2);
-            }
+            if (!empty($club['phone'])) {
+                $phoneReplace = (string) intval(str_replace([' ', '-', '.'], '', $club['phone']));
+                if ('33' === substr($phoneReplace, 0, 2)) {
+                    $club['phone'] = '0'.substr($phoneReplace, 2);
+                }
 
-            $club['phone'] = !empty($club['phone']) ? '0'.intval(str_replace([' ', '-', '.'], '', $club['phone'])) : null;
+                $club['phone'] = !empty($club['phone']) ? '0'.$phoneReplace : null;
+            } else {
+                $club['phone'] = null;
+            }
 
             $club['disciplines'] = is_string($club['disciplines']) && preg_match('/\{/', $club['disciplines']) ? unserialize($club['disciplines']) : [$club['disciplines']];
 
-            $club['address'] = ucwords(strtolower($club['address']), ' -');
-            $club['city'] = ucwords(strtolower($club['city']), ' -');
+            if (is_string($club['address'])) {
+                $club['address'] = ucwords(strtolower($club['address']), ' -');
+            } else {
+                $club['address'] = null;
+            }
+            
+            if (is_string($club['city'])) {
+                $club['city'] = ucwords(strtolower($club['city']), ' -');
+            } else {
+                $club['city'] = null;
+            }
 
-            $club['lastname'] = $club['lastname'] ? ucwords(strtolower($club['lastname']), ' -') : null;
-            $club['firstname'] = $club['firstname'] ? ucwords(strtolower($club['firstname']), ' -') : null;
+            if (is_string($club['lastname'])) {
+                $club['lastname'] = ucwords(strtolower($club['lastname']), ' -');
+            } else {
+                $club['lastname'] = null;
+            }
+
+            if (is_string($club['firstname'])) {
+                $club['firstname'] = ucwords(strtolower($club['firstname']), ' -');
+            } else {
+                $club['firstname'] = null;
+            }
 
             $clubs[] = $club;
         }
