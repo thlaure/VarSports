@@ -51,12 +51,6 @@ jobs:
       - name: Print Docker Compose ps
         run: docker compose ps || true
 
-      - name: Print Docker Compose Events
-        run: docker compose events --json || true
-
-      - name: Print Docker Compose Top
-        run: docker compose top || true
-
       - name: Inspect PHP Container
         run: docker inspect $(docker compose ps -q php) || true
       -
