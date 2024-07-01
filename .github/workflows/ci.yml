@@ -40,6 +40,22 @@ jobs:
       - 
         name: Debug Healthcheck
         run: docker compose exec php curl -v http://localhost:2019/metrics
+
+      - name: Print PHP Logs
+        run: docker compose logs php || true
+
+      - name: Print Docker Compose ps
+        run: docker compose ps || true
+
+      - name: Print Docker Compose Events
+        run: docker compose events --json || true
+
+      - name: Print Docker Compose Top
+        run: docker compose top || true
+
+      - name: Inspect PHP Container
+        run: docker inspect $(docker compose ps -q php) || true
+
       -
         name: Start services
         run: docker compose up --wait --no-build
