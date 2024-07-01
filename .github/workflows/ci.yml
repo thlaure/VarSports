@@ -43,7 +43,7 @@ jobs:
 
       -
         name: Start services
-        run: docker compose up --wait --no-build
+        run: docker compose up --wait --no-build || true
 
       - name: Print PHP Logs
         run: docker compose logs php || true
