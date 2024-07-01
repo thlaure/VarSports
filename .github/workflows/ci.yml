@@ -44,18 +44,15 @@ jobs:
       -
         name: Start services
         run: docker compose up --wait --no-build || true
-
-      - name: Print PHP Logs
+      -
+        name: Print PHP Logs
         run: docker compose logs php || true
-
-      - name: Print Docker Compose ps
+      -
+        name: Print Docker Compose ps
         run: docker compose ps || true
-
-      - name: Inspect PHP Container
-        run: docker inspect $(docker compose ps -q php) || true
       -
         name: Check HTTP reachability
-        run: curl -v --fail-with-body http://localhost
+        run: curl -v --fail-with-body http://localhost/club/list
       -
         name: Check HTTPS reachability
         run: curl -vk --fail-with-body https://localhost
