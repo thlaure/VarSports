@@ -116,7 +116,7 @@ class VarsportsCsvCleanCommand extends Command
             } else {
                 $club['address'] = null;
             }
-            
+
             if (is_string($club['city'])) {
                 $club['city'] = ucwords(strtolower($club['city']), ' -');
             } else {

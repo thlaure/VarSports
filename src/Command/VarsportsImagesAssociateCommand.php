@@ -30,7 +30,7 @@ class VarsportsImagesAssociateCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         ini_set('memory_limit', '256M');
-        
+
         $io = new SymfonyStyle($input, $output);
 
         if (!file_exists($this->filePath)) {
@@ -54,22 +54,22 @@ class VarsportsImagesAssociateCommand extends Command
         }
 
         foreach ($data as $dataClub) {
-            if (is_dir($this->oldImagesPath . $dataClub['id'])) {
+            if (is_dir($this->oldImagesPath.$dataClub['id'])) {
                 $club = $this->clubRepository->findOneBy(['email' => $dataClub['email']]);
-                mkdir($this->newImagesPath . $club->getId(), 0755, true);
-                if (file_exists($this->oldImagesPath . $dataClub['id'] . '/profile_photo.jpg')) {
-                    copy($this->oldImagesPath . $dataClub['id'] . '/profile_photo.jpg', $this->newImagesPath . $club->getId() . '/profile_photo.jpg');
+                mkdir($this->newImagesPath.$club->getId(), 0755, true);
+                if (file_exists($this->oldImagesPath.$dataClub['id'].'/profile_photo.jpg')) {
+                    copy($this->oldImagesPath.$dataClub['id'].'/profile_photo.jpg', $this->newImagesPath.$club->getId().'/profile_photo.jpg');
                     $club->setLogo('profile_photo.jpg');
-                } elseif (file_exists($this->oldImagesPath . $dataClub['id'] . '/profile_photo.png')) {
-                    copy($this->oldImagesPath . $dataClub['id'] . '/profile_photo.png', $this->newImagesPath . $club->getId() . '/profile_photo.png');
+                } elseif (file_exists($this->oldImagesPath.$dataClub['id'].'/profile_photo.png')) {
+                    copy($this->oldImagesPath.$dataClub['id'].'/profile_photo.png', $this->newImagesPath.$club->getId().'/profile_photo.png');
                     $club->setLogo('profile_photo.png');
                 }
 
-                if (file_exists($this->oldImagesPath . $dataClub['id'] . '/cover_photo.jpg')) {
-                    copy($this->oldImagesPath . $dataClub['id'] . '/cover_photo.jpg', $this->newImagesPath . $club->getId() . '/cover_photo.jpg');
+                if (file_exists($this->oldImagesPath.$dataClub['id'].'/cover_photo.jpg')) {
+                    copy($this->oldImagesPath.$dataClub['id'].'/cover_photo.jpg', $this->newImagesPath.$club->getId().'/cover_photo.jpg');
                     $club->setCoverImage('cover_photo.jpg');
-                } elseif (file_exists($this->oldImagesPath . $dataClub['id'] . '/cover_photo.png')) {
-                    copy($this->oldImagesPath . $dataClub['id'] . '/cover_photo.png', $this->newImagesPath . $club->getId() . '/cover_photo.png');
+                } elseif (file_exists($this->oldImagesPath.$dataClub['id'].'/cover_photo.png')) {
+                    copy($this->oldImagesPath.$dataClub['id'].'/cover_photo.png', $this->newImagesPath.$club->getId().'/cover_photo.png');
                     $club->setCoverImage('cover_photo.png');
                 }
 
@@ -78,7 +78,6 @@ class VarsportsImagesAssociateCommand extends Command
         }
 
         $this->entityManager->flush();
-
 
         $io->success('Success');
 
