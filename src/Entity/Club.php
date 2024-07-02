@@ -125,6 +125,9 @@ class Club
     #[Assert\Url(message: Message::GENERIC_ENTITY_FIELD_ERROR)]
     private ?string $twitter = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $backgroundImage = null;
+
     public function __construct()
     {
         $this->disciplines = new ArrayCollection();
@@ -396,6 +399,18 @@ class Club
     public function setTwitter(?string $twitter): static
     {
         $this->twitter = $twitter;
+
+        return $this;
+    }
+
+    public function getBackgroundImage(): ?string
+    {
+        return $this->backgroundImage;
+    }
+
+    public function setBackgroundImage(?string $backgroundImage): static
+    {
+        $this->backgroundImage = $backgroundImage;
 
         return $this;
     }
