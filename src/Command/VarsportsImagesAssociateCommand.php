@@ -3,6 +3,7 @@
 namespace App\Command;
 
 use App\Constant\Message;
+use App\Entity\Club;
 use App\Repository\ClubRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Attribute\AsCommand;
@@ -56,6 +57,10 @@ class VarsportsImagesAssociateCommand extends Command
         foreach ($data as $dataClub) {
             if (is_dir($this->oldImagesPath.$dataClub['id'])) {
                 $club = $this->clubRepository->findOneBy(['email' => $dataClub['email']]);
+                if (!$club instanceof Club) {
+                    $io->error(Message::GENERIC_ERROR);
+                    continue;
+                }
                 mkdir($this->newImagesPath.$club->getId(), 0755, true);
                 if (file_exists($this->oldImagesPath.$dataClub['id'].'/profile_photo.jpg')) {
                     copy($this->oldImagesPath.$dataClub['id'].'/profile_photo.jpg', $this->newImagesPath.$club->getId().'/profile_photo.jpg');
