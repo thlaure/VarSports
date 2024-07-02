@@ -126,7 +126,7 @@ class Club
     private ?string $twitter = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    private ?string $backgroundImage = null;
+    private ?string $coverImage = null;
 
     public function __construct()
     {
@@ -403,14 +403,14 @@ class Club
         return $this;
     }
 
-    public function getBackgroundImage(): ?string
+    public function getCoverImage(): ?string
     {
-        return $this->backgroundImage;
+        return $this->coverImage;
     }
 
-    public function setBackgroundImage(?string $backgroundImage): static
+    public function setCoverImage(?string $coverImage): static
     {
-        $this->backgroundImage = $backgroundImage;
+        $this->coverImage = $coverImage;
 
         return $this;
     }
