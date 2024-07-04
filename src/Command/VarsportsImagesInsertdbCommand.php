@@ -20,8 +20,7 @@ class VarsportsImagesInsertdbCommand extends Command
         private ClubRepository $clubRepository,
         private EntityManagerInterface $entityManager,
         private string $imagesPath = 'public/images/uploads/club/',
-    )
-    {
+    ) {
         parent::__construct();
     }
 
