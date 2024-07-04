@@ -8,6 +8,7 @@ use App\Entity\User;
 use App\Form\ClubType;
 use App\Repository\ClubRepository;
 use App\Service\FileChecker;
+use App\Service\FileRemover;
 use App\Service\FileUploader;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
@@ -66,19 +67,21 @@ class AdminClubController extends AbstractController
 
             if ($form->isValid()) {
                 try {
-                    /** @var ?UploadedFile $logo */
-                    $logo = $form->get('logo')->getData();
-                    if ($logo && $fileChecker->checkImageIsValid($logo)) {
-                        $logoName = $fileUploader->upload($logo, $this->targetDirectory);
-                        $club->setLogo($logoName);
-                    }
-
                     if (!is_string($club->getName()) || empty($club->getName())) {
                         throw new \InvalidArgumentException(Message::DATA_MUST_BE_SET, Response::HTTP_BAD_REQUEST);
                     }
                     $club->setSlug($slugger->slug($club->getName())->lower());
 
                     $this->entityManager->persist($club);
+                    $this->entityManager->flush();
+
+                    /** @var ?UploadedFile $logo */
+                    $logo = $form->get('logo')->getData();
+                    if ($logo && $fileChecker->checkImageIsValid($logo)) {
+                        $logoName = $fileUploader->upload($logo, $this->targetDirectory.'/'.$club->getId());
+                        $club->setLogo($logoName);
+                        $this->entityManager->persist($club);
+                    }
 
                     $user = $this->security->getUser();
                     if ($user instanceof User) {
@@ -136,7 +139,7 @@ class AdminClubController extends AbstractController
 
     #[Route('/{id}/edit', name: 'edit')]
     #[IsGranted('ROLE_ADMIN_CLUB', message: Message::GENERIC_GRANT_ERROR)]
-    public function edit(int $id, ClubRepository $clubRepository, Request $request, FileChecker $fileChecker, FileUploader $fileUploader, SluggerInterface $slugger): Response
+    public function edit(int $id, ClubRepository $clubRepository, Request $request, FileChecker $fileChecker, FileUploader $fileUploader, SluggerInterface $slugger, FileRemover $fileRemover): Response
     {
         $user = $this->security->getUser();
         if (!$user instanceof User) {
@@ -161,7 +164,10 @@ class AdminClubController extends AbstractController
                 /** @var ?UploadedFile $logo */
                 $logo = $form->get('logo')->getData();
                 if ($logo && $fileChecker->checkImageIsValid($logo)) {
-                    $logoName = $fileUploader->upload($logo, $this->targetDirectory);
+                    $logoName = $fileUploader->upload($logo, $this->targetDirectory.'/'.$club->getId());
+                    if ($club->getLogo()) {
+                        $fileRemover->remove($club->getLogo(), $this->targetDirectory.'/'.$club->getId());
+                    }
                     $club->setLogo($logoName);
                 }
 

@@ -3,6 +3,7 @@
 namespace App\Service;
 
 use Psr\Log\LoggerInterface;
+use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\String\Slugger\SluggerInterface;
@@ -11,7 +12,8 @@ class FileUploader
 {
     public function __construct(
         private SluggerInterface $slugger,
-        private LoggerInterface $logger
+        private LoggerInterface $logger,
+        private Filesystem $filesystem
     ) {
     }
 
@@ -21,9 +23,8 @@ class FileUploader
         $safeFilename = $this->slugger->slug($originalFilename);
         $fileName = $safeFilename.'-'.uniqid().'.'.$file->guessExtension();
 
-        if (!is_dir($targetDirectory)) {
-            $this->logger->error('The target directory does not exist: '.$targetDirectory);
-            throw new FileException('The target directory does not exist');
+        if (!$this->filesystem->exists($targetDirectory)) {
+            $this->filesystem->mkdir($targetDirectory, 0700);
         }
 
         try {

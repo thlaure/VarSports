@@ -11,6 +11,7 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
+use Symfony\Component\Filesystem\Filesystem;
 
 #[AsCommand(
     name: 'varsports:images:associate',
@@ -21,6 +22,7 @@ class VarsportsImagesAssociateCommand extends Command
     public function __construct(
         private ClubRepository $clubRepository,
         private EntityManagerInterface $entityManager,
+        private Filesystem $filesystem,
         private string $filePath = 'docker/imports/clubs_clean.json',
         private string $oldImagesPath = 'public/images/uploads/club/old/',
         private string $newImagesPath = 'public/images/uploads/club/'
@@ -54,28 +56,25 @@ class VarsportsImagesAssociateCommand extends Command
             return Command::FAILURE;
         }
 
+        $profilePhotoName = 'profile_photo.jpg';
+        $coverPhotoName = 'cover_photo.jpg';
         foreach ($data as $dataClub) {
-            if (is_dir($this->oldImagesPath.$dataClub['id'])) {
+            if ($this->filesystem->exists($this->oldImagesPath.$dataClub['id'])) {
                 $club = $this->clubRepository->findOneBy(['email' => $dataClub['email']]);
                 if (!$club instanceof Club) {
                     $io->error(Message::GENERIC_ERROR);
                     continue;
                 }
-                mkdir($this->newImagesPath.$club->getId(), 0755, true);
-                if (file_exists($this->oldImagesPath.$dataClub['id'].'/profile_photo.jpg')) {
-                    copy($this->oldImagesPath.$dataClub['id'].'/profile_photo.jpg', $this->newImagesPath.$club->getId().'/profile_photo.jpg');
-                    $club->setLogo('profile_photo.jpg');
-                } elseif (file_exists($this->oldImagesPath.$dataClub['id'].'/profile_photo.png')) {
-                    copy($this->oldImagesPath.$dataClub['id'].'/profile_photo.png', $this->newImagesPath.$club->getId().'/profile_photo.png');
-                    $club->setLogo('profile_photo.png');
+
+                $this->filesystem->mkdir($this->newImagesPath.$club->getId(), 0700);
+                if ($this->filesystem->exists($this->oldImagesPath.$dataClub['id'].'/'.$profilePhotoName)) {
+                    $this->filesystem->copy($this->oldImagesPath.$dataClub['id'].'/'.$profilePhotoName, $this->newImagesPath.$club->getId().'/'.$profilePhotoName);
+                    $club->setLogo(''.$profilePhotoName);
                 }
 
-                if (file_exists($this->oldImagesPath.$dataClub['id'].'/cover_photo.jpg')) {
-                    copy($this->oldImagesPath.$dataClub['id'].'/cover_photo.jpg', $this->newImagesPath.$club->getId().'/cover_photo.jpg');
-                    $club->setCoverImage('cover_photo.jpg');
-                } elseif (file_exists($this->oldImagesPath.$dataClub['id'].'/cover_photo.png')) {
-                    copy($this->oldImagesPath.$dataClub['id'].'/cover_photo.png', $this->newImagesPath.$club->getId().'/cover_photo.png');
-                    $club->setCoverImage('cover_photo.png');
+                if ($this->filesystem->exists($this->oldImagesPath.$dataClub['id'].'/'.$coverPhotoName)) {
+                    $this->filesystem->copy($this->oldImagesPath.$dataClub['id'].'/'.$coverPhotoName, $this->newImagesPath.$club->getId().'/'.$coverPhotoName);
+                    $club->setCoverImage(''.$coverPhotoName);
                 }
 
                 $this->entityManager->persist($club);
