@@ -10,21 +10,31 @@ use Symfony\Component\Routing\Attribute\Route;
 #[Route('/club', name: 'app_club_')]
 class ClubController extends AbstractController
 {
-    #[Route('/list', name: 'list')]
-    public function list(ClubRepository $clubRepository): Response
+    public function __construct(
+        private ClubRepository $clubRepository,
+        private int $nbPerPage
+    ) {
+    }
+
+    #[Route('/list/{page<\d+>?1}', name: 'list')]
+    public function list(int $page): Response
     {
-        $clubs = $clubRepository->findBy([], ['name' => 'ASC']);
+        $clubs = $this->clubRepository->findBy([], ['name' => 'ASC'], $this->nbPerPage, ($page - 1) * 12);
+
+        $nbPages = ceil($this->clubRepository->count([]) / $this->nbPerPage);
 
         return $this->render('club/list.html.twig', [
             'clubs' => $clubs,
+            'nb_pages' => $nbPages,
+            'current_page' => $page
         ]);
     }
 
     #[Route('/{slug}', name: 'show')]
-    public function show(string $slug, ClubRepository $clubRepository): Response
+    public function show(string $slug): Response
     {
         return $this->render('club/show.html.twig', [
-            'club' => $clubRepository->findOneBy(['slug' => $slug]),
+            'club' => $this->clubRepository->findOneBy(['slug' => $slug]),
         ]);
     }
 }

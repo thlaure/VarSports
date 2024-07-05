@@ -5,6 +5,7 @@
 # https://symfony.com/doc/current/best_practices.html#use-parameters-for-application-configuration
 parameters:
     club_images_directory: '%kernel.project_dir%/public/images/uploads/club'
+    nb_per_page: 12
 
 services:
     # default configuration for services in *this* file
@@ -26,3 +27,7 @@ services:
     App\Controller\AdminClubController:
         arguments:
             $targetDirectory: '%club_images_directory%'
+
+    App\Controller\ClubController:
+        arguments:
+            $nbPerPage: '%nb_per_page%'
