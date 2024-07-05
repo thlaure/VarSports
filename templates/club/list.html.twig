@@ -11,7 +11,7 @@
 
         {% for club in clubs %}
             <div class="card col-md-3 mb-4 m-md-4">
-                <img src="{{ asset("images/uploads/club/") ~ (club.logo ? club.id ~ '/' ~ club.logo : 'default_logo.webp') }}" class="card-img-top rounded-circle w-25 m-auto py-3" alt="Logo du club {{ club.name }}">
+                <img src="{{ asset("images/uploads/club/") ~ (club.logo ? club.id ~ '/' ~ club.logo : 'default_logo.webp') }}" class="card-img-top rounded-circle w-25 m-auto py-3" alt="Logo du club {{ club.name }}" loading="lazy">
 
                 <div class="card-body">
                     <h5 class="card-title text-center">
