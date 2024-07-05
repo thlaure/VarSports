@@ -45,6 +45,10 @@ class AdminClubController extends AbstractController
             throw new NotFoundResourceException(Message::DATA_NOT_FOUND, Response::HTTP_NOT_FOUND);
         }
 
+        if ($user->hasRole('ROLE_ADMIN')) {
+            throw new AccessDeniedHttpException(Message::GENERIC_ACCESS_DENIED);
+        }
+
         if ($user->getClub() instanceof Club) {
             $this->addFlash('warning', Message::CLUB_ALREADY_EXISTS_FOR_THIS_ACCOUNT);
 
@@ -120,7 +124,7 @@ class AdminClubController extends AbstractController
             throw new NotFoundResourceException(Message::DATA_NOT_FOUND, Response::HTTP_NOT_FOUND);
         }
 
-        if (null === $user->getClub() || $user->getClub()->getId() !== $club->getId()) {
+        if (null === $user->getClub() || $user->getClub()->getId() !== $club->getId() || !$user->hasRole('ROLE_ADMIN')) {
             throw new AccessDeniedHttpException(Message::GENERIC_ACCESS_DENIED);
         }
 
@@ -151,7 +155,7 @@ class AdminClubController extends AbstractController
             throw new NotFoundResourceException(Message::DATA_NOT_FOUND, Response::HTTP_NOT_FOUND);
         }
 
-        if (null === $user->getClub() || $user->getClub()->getId() !== $club->getId()) {
+        if (null === $user->getClub() || $user->getClub()->getId() !== $club->getId() || !$user->hasRole('ROLE_ADMIN')) {
             throw new AccessDeniedHttpException(Message::GENERIC_ACCESS_DENIED);
         }
 
