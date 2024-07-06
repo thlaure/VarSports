@@ -73,10 +73,12 @@
             </div>
         </section>
 
-        <section>
-            <h2>À propos</h2>
-            <p class="lead">{{ club.description|nl2br }}</p>
-        </section>
+        {% if club.description %}
+            <section>
+                <h2>À propos</h2>
+                <p class="lead">{{ club.description|nl2br }}</p>
+            </section>
+        {% endif %}
 
         {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_ADMIN_CLUB') and app.user.club is not null and app.user.club.id == club.id %}
             <section class="mt-5">
