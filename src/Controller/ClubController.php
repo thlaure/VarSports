@@ -26,7 +26,7 @@ class ClubController extends AbstractController
         return $this->render('club/list.html.twig', [
             'clubs' => $clubs,
             'nb_pages' => $nbPages,
-            'current_page' => $page
+            'current_page' => $page,
         ]);
     }
 

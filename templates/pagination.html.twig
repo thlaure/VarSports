@@ -15,13 +15,13 @@
                 </li>
             {% else %}
                 <li class="page-item">
-                    <a class="page-link text-danger" href="{{ path(path, { page: 1 }) }}" aria-label="First">
+                    <a class="page-link text-black" href="{{ path(path, { page: 1 }) }}" aria-label="First">
                         <span aria-hidden="true">&laquo;&laquo;</span>
                     </a>
                 </li>
 
                 <li class="page-item">
-                    <a class="page-link text-danger" href="{{ path(path, { page: current_page - 1 }) }}" aria-label="Previous">
+                    <a class="page-link text-black" href="{{ path(path, { page: current_page - 1 }) }}" aria-label="Previous">
                         <span aria-hidden="true">&laquo;</span>
                     </a>
                 </li>
@@ -53,13 +53,13 @@
                 </li>
             {% else %}
                 <li class="page-item">
-                    <a class="page-link text-danger" href="{{ path(path, {page: current_page + 1}) }}" aria-label="Next">
+                    <a class="page-link text-black" href="{{ path(path, {page: current_page + 1}) }}" aria-label="Next">
                         <span aria-hidden="true">&raquo;</span>
                     </a>
                 </li>
 
                 <li class="page-item">
-                    <a class="page-link text-danger" href="{{ path('app_club_list', { page: nb_pages }) }}" aria-label="Last">
+                    <a class="page-link text-black" href="{{ path('app_club_list', { page: nb_pages }) }}" aria-label="Last">
                         <span aria-hidden="true">&raquo;&raquo;</span>
                     </a>
                 </li>
