@@ -2,75 +2,89 @@
 
 {% block title %} | {{ club.name }}{% endblock %}
 
+{% block stylesheets %}
+{{ parent() }}
+<link rel="stylesheet" href="{{ asset('css/club.css') }}">
+{% endblock %}
+
 {% block body %}
-<div class="container my-5">
+<div class="container-fluid mt-2 mb-5">
     {% include 'flash.html.twig' %}
-    
-    <section class="row mb-5 align-items-center gap-3">
-        <img src="{{ asset("images/uploads/club/") ~ (club.logo ? club.id ~ '/' ~ club.logo : 'default_logo.webp') }}" alt="Logo du club {{ club.name }}" class="img-fluid rounded-circle col-3 mb-3">
 
-        <div class="col-md-8">
-            <h1 class="font-weight-normal">{{ club.name }}</h1>
+    {# The following code represents another way to present the logo and the cover #}
+    {# <div class="position-relative">
+        <img src="{{ asset('images/uploads/club/') ~ (club.coverImage ? club.id ~ '/' ~ club.coverImage : '') }}" alt="Couverture du club {{ club.name }}" class="img-fluid object-fit-cover w-100 club-cover">
+        <img src="{{ asset('images/uploads/club/') ~ (club.logo ? club.id ~ '/' ~ club.logo : 'default_logo.webp') }}" alt="Logo du club {{ club.name }}" class="img-fluid rounded-circle col-3 mb-3 border border-white bg-white border-5 position-absolute top-50 start-50 translate-middle">
+    </div> #}
 
-            <p>{{ club.address }}</p>
-            {% if club.addressComplement %}
-                <p>{{ club.addressComplement }}</p>
-            {% endif %}
-            <p>{{ club.postalCode }} {{ club.city }}</p>
+    <img src="{{ asset('images/uploads/club/') ~ (club.coverImage ? club.id ~ '/' ~ club.coverImage : '') }}" alt="Couverture du club {{ club.name }}" class="img-fluid object-fit-cover w-100 club-cover">
 
-            <div class="row">
-                <article class="col-md-6">
-                    <h3>Coordonnées</h3>
-                    <p>Téléphone : <a href="tel:{{ club.phone }}">{{ club.phone }}</a></p>
-                    <p>E-mail : <a href="mailto:{{ club.email }}">{{ club.email }}</a></p>
-                    {% if club.website %}
-                        <p>Site web : <a href="{{ club.website }}">{{ club.website }}</a></p>
-                    {% endif %}
-                </article>
+    <div class="container my-5">
+        <section class="row mb-5 align-items-center gap-3">
+            <img src="{{ asset("images/uploads/club/") ~ (club.logo ? club.id ~ '/' ~ club.logo : 'default_logo.webp') }}" alt="Logo du club {{ club.name }}" class="img-fluid rounded-circle col-sm-3 mb-3">
 
-                <div class="col-md-6">
-                    {% if club.hasSocialMedia %}
-                        <article class="mb-3">
-                            <h3>Réseaux sociaux</h3>
+            <div class="col-md-8">
+                <h1 class="font-weight-normal">{{ club.name }}</h1>
 
-                            {% if club.instagram %}
-                                <a href="{{ club.instagram }}">Instagram</a>
-                            {% endif %}
+                <p>{{ club.address }}</p>
+                {% if club.addressComplement %}
+                    <p>{{ club.addressComplement }}</p>
+                {% endif %}
+                <p>{{ club.postalCode }} {{ club.city }}</p>
 
-                            {% if club.facebook %}
-                                - <a href="{{ club.facebook }}">Facebook</a>
-                            {% endif %}
-
-                            {% if club.youtube %}
-                                - <a href="{{ club.youtube }}">YouTube</a>
-                            {% endif %}
-                        </article>
-                    {% endif %}
-
-                    <article>
-                        <h3>Disciplines</h3>
-
-                        {% for discipline in club.disciplines %}
-                            <span class="badge text-bg-secondary">{{ discipline.label }}</span>
-                        {% endfor %}
+                <div class="row">
+                    <article class="col-md-6">
+                        <h3>Coordonnées</h3>
+                        <p>Téléphone : <a href="tel:{{ club.phone }}">{{ club.phone }}</a></p>
+                        <p>E-mail : <a href="mailto:{{ club.email }}">{{ club.email }}</a></p>
+                        {% if club.website %}
+                            <p>Site web : <a href="{{ club.website }}">{{ club.website }}</a></p>
+                        {% endif %}
                     </article>
+
+                    <div class="col-md-6">
+                        {% if club.hasSocialMedia %}
+                            <article class="mb-3">
+                                <h3>Réseaux sociaux</h3>
+
+                                {% if club.instagram %}
+                                    <a href="{{ club.instagram }}">Instagram</a>
+                                {% endif %}
+
+                                {% if club.facebook %}
+                                    - <a href="{{ club.facebook }}">Facebook</a>
+                                {% endif %}
+
+                                {% if club.youtube %}
+                                    - <a href="{{ club.youtube }}">YouTube</a>
+                                {% endif %}
+                            </article>
+                        {% endif %}
+
+                        <article>
+                            <h3>Disciplines</h3>
+
+                            {% for discipline in club.disciplines %}
+                                <span class="badge text-bg-secondary">{{ discipline.label }}</span>
+                            {% endfor %}
+                        </article>
+                    </div>
                 </div>
             </div>
-        </div>
-    </section>
-
-    <section>
-        <h2>À propos</h2>
-        <p class="lead">{{ club.description|nl2br }}</p>
-    </section>
-
-
-    {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_ADMIN_CLUB') and app.user.club is not null and app.user.club.id == club.id %}
-        <section class="mt-5">
-            <h2>Actions</h2>
-            <a href="{{ path('app_admin_club_edit', {'id': club.id}) }}" class="btn btn-warning">Modifier</a>
-            <a href="{{ path('app_admin_club_delete', {'id': club.id}) }}" class="btn btn-danger">Supprimer</a>
         </section>
-    {% endif %}
+
+        <section>
+            <h2>À propos</h2>
+            <p class="lead">{{ club.description|nl2br }}</p>
+        </section>
+
+        {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_ADMIN_CLUB') and app.user.club is not null and app.user.club.id == club.id %}
+            <section class="mt-5">
+                <h2>Actions</h2>
+                <a href="{{ path('app_admin_club_edit', {'id': club.id}) }}" class="btn btn-warning">Modifier</a>
+                <a href="{{ path('app_admin_club_delete', {'id': club.id}) }}" class="btn btn-danger">Supprimer</a>
+            </section>
+        {% endif %}
+    </div>
 </div>
 {% endblock %}
