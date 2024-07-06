@@ -87,6 +87,14 @@ class AdminClubController extends AbstractController
                         $this->entityManager->persist($club);
                     }
 
+                    /** @var ?UploadedFile $cover */
+                    $cover = $form->get('coverImage')->getData();
+                    if ($cover && $fileChecker->checkImageIsValid($cover)) {
+                        $coverName = $fileUploader->upload($cover, $this->targetDirectory.'/'.$club->getId());
+                        $club->setCoverImage($coverName);
+                        $this->entityManager->persist($club);
+                    }
+
                     $user = $this->security->getUser();
                     if ($user instanceof User) {
                         $user->setClub($club);
@@ -173,6 +181,16 @@ class AdminClubController extends AbstractController
                         $fileRemover->remove($club->getLogo(), $this->targetDirectory.'/'.$club->getId());
                     }
                     $club->setLogo($logoName);
+                }
+
+                /** @var ?UploadedFile $cover */
+                $cover = $form->get('coverImage')->getData();
+                if ($cover && $fileChecker->checkImageIsValid($cover)) {
+                    $coverName = $fileUploader->upload($cover, $this->targetDirectory.'/'.$club->getId());
+                    if ($club->getCoverImage()) {
+                        $fileRemover->remove($club->getCoverImage(), $this->targetDirectory.'/'.$club->getId());
+                    }
+                    $club->setCoverImage($coverName);
                 }
 
                 if (!is_string($club->getName()) || empty($club->getName())) {

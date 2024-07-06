@@ -72,6 +72,19 @@ class ClubType extends AbstractType
                     ]),
                 ],
             ])
+            ->add('coverImage', FileType::class, [
+                'label' => 'Couverture',
+                'required' => false,
+                'mapped' => false,
+                'constraints' => [
+                    new File([
+                        'maxSize' => Constraint::IMAGE_MAX_FILE_SIZE,
+                        'mimeTypes' => Constraint::IMAGE_ALLOWED_MIME_TYPES,
+                        'maxSizeMessage' => Message::GENERIC_FILE_FORM_ERROR,
+                        'mimeTypesMessage' => Message::GENERIC_FILE_FORM_ERROR,
+                    ]),
+                ],
+            ])
             ->add('description', TextareaType::class, [
                 'label' => 'Description *',
             ])

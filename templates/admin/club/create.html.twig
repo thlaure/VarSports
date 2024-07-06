@@ -65,6 +65,11 @@
                     </div>
 
                     <div class="mb-3">
+                        {{ form_label(form.coverImage) }}
+                        {{ form_widget(form.coverImage, {'attr': {'class': 'form-control'}}) }}
+                    </div>
+
+                    <div class="mb-3">
                         {{ form_label(form.website) }}
                         {{ form_widget(form.website, {'attr': {'class': 'form-control'}}) }}
                     </div>
