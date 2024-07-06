@@ -8,6 +8,8 @@
             <div class="col-md-6 m-auto">
                 <h1 class="h3 mb-3 font-weight-normal">Connexion</h1>
 
+                {% include 'flash.html.twig' %}
+                
                 <form method="post">
                     {% if error %}
                         <div class="alert alert-danger text-center">Identifiants invalides</div>
