@@ -28,6 +28,6 @@
         {% endfor %}
     </div>
 
-    {% include 'pagination.html.twig' with { current_page: current_page, nb_pages: nb_pages, path: 'app_club_list' } %}
+    {% include 'partials/pagination.html.twig' with { current_page: current_page, nb_pages: nb_pages, path: 'app_club_list' } %}
 </div>
 {% endblock %}
