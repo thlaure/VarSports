@@ -9,6 +9,13 @@
     <div class="row justify-content-between p-3">
         {% include 'partials/flash.html.twig' %}
 
+        <form class="d-flex" role="search" action="{{ path('app_club_list', { term: term }) }}">
+            <input class="form-control me-2" type="search" placeholder="Rechercher" aria-label="Rechercher" name="term" value="{{ term }}">
+            <button class="btn btn-danger" type="submit">Rechercher</button>
+        </form>
+
+        <h2 class="h5 pt-5">{{ nb_results }} club{{ nb_results > 1 ? 's' : '' }}</h2>
+
         {% for club in clubs %}
             <div class="card col-md-3 mb-4 m-md-4">
                 <img src="{{ asset("images/uploads/club/") ~ (club.logo ? club.id ~ '/' ~ club.logo : 'default_logo.webp') }}" class="card-img-top rounded-circle w-25 m-auto py-3" alt="Logo du club {{ club.name }}" loading="lazy">
@@ -28,6 +35,6 @@
         {% endfor %}
     </div>
 
-    {% include 'partials/pagination.html.twig' with { current_page: current_page, nb_pages: nb_pages, path: 'app_club_list' } %}
+    {% include 'partials/pagination.html.twig' with { current_page: current_page, nb_pages: nb_pages, path: 'app_club_list', params: { term: term } } %}
 </div>
 {% endblock %}

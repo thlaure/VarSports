@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Repository\ClubRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
@@ -17,16 +18,22 @@ class ClubController extends AbstractController
     }
 
     #[Route('/list/{page<\d+>?1}', name: 'list')]
-    public function list(int $page): Response
+    public function list(int $page, Request $request): Response
     {
-        $clubs = $this->clubRepository->findBy([], ['name' => 'ASC'], $this->nbPerPage, ($page - 1) * 12);
+        $term = $request->query->get('term');
+        $term = is_string($term) && '' !== trim($term) ? trim($term) : '';
 
-        $nbPages = ceil($this->clubRepository->count([]) / $this->nbPerPage);
+        $allFilteredClubs = $this->clubRepository->findLike('name', $term, ['name' => 'ASC']);
+        $nbResults = count($allFilteredClubs);
+
+        $clubs = array_slice($allFilteredClubs, ($page - 1) * $this->nbPerPage, $this->nbPerPage);
 
         return $this->render('club/list.html.twig', [
             'clubs' => $clubs,
-            'nb_pages' => $nbPages,
+            'nb_pages' => ceil($nbResults / $this->nbPerPage),
             'current_page' => $page,
+            'nb_results' => $nbResults,
+            'term' => $term,
         ]);
     }
 
