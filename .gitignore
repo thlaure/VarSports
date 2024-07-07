@@ -13,6 +13,8 @@
 ###> phpunit/phpunit ###
 /phpunit.xml
 .phpunit.result.cache
+/tests/Unit/Service/fixtures/*
+!/tests/Unit/Service/fixtures/image_test.png
 ###< phpunit/phpunit ###
 
 ###> symfony/phpunit-bridge ###
