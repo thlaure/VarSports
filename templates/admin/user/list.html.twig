@@ -1,0 +1,49 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} | Membres{% endblock %}
+
+{% block body %}
+<div class="container my-5">
+    <h1 class="h3 mb-3 font-weight-normal">Utilisateurs</h1>
+
+    <div>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Nom</th>
+                    <th scope="col">Prénom</th>
+                    <th scope="col">E-mail</th>
+                    <th scope="col">Vérifié</th>
+                    <th scope="col">Date d'enregistrement</th>
+                    <th scope="col">Dernière connexion</th>
+                    <th scope="col">Rôles</th>
+                    <th scope="col">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for user in users %}
+                    <tr>
+                        <th scope="row">{{ user.id }}</th>
+                        <td>{{ user.name }}</td>
+                        <td>{{ user.firstname }}</td>
+                        <td>{{ user.email }}</td>
+                        <td>{{ user.isVerified ? 'Oui' : 'Non' }}</td>
+                        <td>{{ user.registrationDate|date('d/m/Y') }}</td>
+                        <td>{{ user.lastLoginDate|date('d/m/Y') }}</td>
+                        <td>
+                            {% for role in user.roles %}
+                                <span class="badge text-bg-secondary">{{ role }}</span>
+                            {% endfor %}
+                        </td>
+                        <td>
+                            <a href="" class="btn btn-primary btn-sm">Modifier</a>
+                            <a href="" class="btn btn-danger btn-sm">Supprimer</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}
