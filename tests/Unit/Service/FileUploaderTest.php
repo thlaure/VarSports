@@ -26,9 +26,9 @@ class FileUploaderTest extends TestCase
         $this->filesystem = $this->createMock(Filesystem::class);
         $this->fileUploader = new FileUploader($this->slugger, $this->logger, $this->filesystem);
 
-        $this->targetDirectory = __DIR__.'/fixtures/';
+        $this->targetDirectory = 'tests/Unit/Service/fixtures';
         $this->imageTestName = 'image_test_copy.png';
-        copy($this->targetDirectory.'image_test.png', $this->targetDirectory.$this->imageTestName);
+        copy($this->targetDirectory.'/image_test.png', $this->targetDirectory.'/'.$this->imageTestName);
     }
 
     // Tests upload
@@ -37,7 +37,7 @@ class FileUploaderTest extends TestCase
         $safeFilename = new UnicodeString($this->imageTestName);
 
         $file = new UploadedFile(
-            $this->targetDirectory.$this->imageTestName,
+            $this->targetDirectory.'/'.$this->imageTestName,
             $this->imageTestName,
             null,
             null,
@@ -55,6 +55,6 @@ class FileUploaderTest extends TestCase
 
         $this->assertFileExists($this->targetDirectory.'/'.$uploadedFileName);
 
-        $this->filesystem->remove($this->targetDirectory.'/'.$uploadedFileName);
+        unlink($this->targetDirectory.'/'.$uploadedFileName);
     }
 }
