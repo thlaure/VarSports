@@ -3,7 +3,6 @@
 namespace App\Controller;
 
 use App\Constant\Message;
-use App\Entity\Club;
 use App\Entity\User;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Bundle\SecurityBundle\Security;
@@ -18,7 +17,7 @@ class UserListController extends AbstractController
         private Security $security
     ) {
     }
-    
+
     #[Route('/user/list', name: 'app_user_list')]
     #[IsGranted('ROLE_ADMIN_CLUB', message: Message::GENERIC_GRANT_ERROR)]
     public function list(): Response

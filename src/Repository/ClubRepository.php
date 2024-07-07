@@ -17,11 +17,7 @@ class ClubRepository extends ServiceEntityRepository
     }
 
     /**
-     * @param string $field
-     * @param string $value
      * @param array<string>|null $orderBy
-     * @param int|null $limit
-     * @param int|null $offset
      *
      * @return Club[]
      */
