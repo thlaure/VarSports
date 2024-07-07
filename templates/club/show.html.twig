@@ -17,7 +17,9 @@
         <img src="{{ asset('images/uploads/club/') ~ (club.logo ? club.id ~ '/' ~ club.logo : 'default_logo.webp') }}" alt="Logo du club {{ club.name }}" class="img-fluid rounded-circle col-3 mb-3 border border-white bg-white border-5 position-absolute top-50 start-50 translate-middle">
     </div> #}
 
-    <img src="{{ asset('images/uploads/club/') ~ (club.coverImage ? club.id ~ '/' ~ club.coverImage : '') }}" alt="Couverture du club {{ club.name }}" class="img-fluid object-fit-cover w-100 club-cover">
+    {% if club.coverImage %}
+        <img src="{{ asset('images/uploads/club/') ~ (club.coverImage ? club.id ~ '/' ~ club.coverImage : '') }}" alt="Couverture du club {{ club.name }}" class="img-fluid object-fit-cover w-100 club-cover rounded">
+    {% endif %}
 
     <div class="container my-5">
         <section class="row mb-5 align-items-center gap-3">
