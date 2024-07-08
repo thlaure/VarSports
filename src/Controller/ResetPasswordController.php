@@ -49,7 +49,7 @@ class ResetPasswordController extends AbstractController
                 $this->logger->warning('Email field must be a string.');
                 throw new \InvalidArgumentException(sprintf('Unexpected type "%s" for email field.', get_debug_type($email)), Response::HTTP_BAD_REQUEST);
             }
-        
+
             return $this->processSendingPasswordResetEmail(
                 $email,
                 $mailer,
