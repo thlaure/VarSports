@@ -22,4 +22,5 @@ class Message
     public const FILE_NOT_FOUND = 'Le fichier n\'a pas été trouvé';
     public const FILE_NOT_READABLE = 'Le fichier n\'a pas pu être lu';
     public const FILE_NOT_WRITABLE = 'Le fichier n\'a pas pu être écrit';
+    public const PASSWORD_UPDATED = 'Mot de passe mis à jour';
 }

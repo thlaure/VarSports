@@ -1,0 +1,9 @@
+<div style="font-family: Arial, sans-serif;">
+    <h1 style="color: #333; font-size: 24px;">Réinitialisation de votre mot de passe</h1>
+    <p style="color: #666; font-size: 16px;">Bonjour,</p>
+    <p style="color: #666; font-size: 16px;">Pour réinitialiser votre mot de passe, cliquez ci-dessous :</p>
+    <p><a href="{{ url('app_reset_password', {token: resetToken.token}) }}" style="font-size: 16px;">{{ url('app_reset_password', {token: resetToken.token}) }}</a></p>
+    <p style="color: #666; font-size: 16px;">Si vous n'avez pas demandé cette vérification, veuillez ignorer cet email.</p>
+    <p style="color: #666; font-size: 16px;">Ce lien expirera dans {{ resetToken.expirationMessageKey|trans(resetToken.expirationMessageData, 'ResetPasswordBundle') }}.</p>
+    <p style="color: #666; font-size: 16px;">Merci et à bientôt !<br><br>L'équipe de VarSports</p>
+</div>
