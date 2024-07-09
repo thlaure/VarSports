@@ -21,6 +21,7 @@
                     {{ form_row(registrationForm.firstname)}}
                     {{ form_row(registrationForm.email, {'attr': {'autocomplete': 'email'}}) }}
                     {{ form_row(registrationForm.plainPassword) }}
+                    <p class="text-danger"><small>Pour des raison de sécurité, le mot de passe doit contenir au moins 12 caractères, une majuscule, une minuscule, un chiffre et un caractère special.</small></p>
                     {{ form_row(registrationForm.agreeTerms) }}
 
                     {{ form_widget(registrationForm.submit, {'attr': {'class': 'btn btn-primary'}}) }}
