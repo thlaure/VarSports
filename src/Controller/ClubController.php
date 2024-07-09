@@ -23,10 +23,14 @@ class ClubController extends AbstractController
         $term = $request->query->get('term');
         $term = is_string($term) && '' !== trim($term) ? trim($term) : '';
 
-        $allFilteredClubs = $this->clubRepository->findLike('name', $term, ['name' => 'ASC']);
-        $nbResults = count($allFilteredClubs);
-
-        $clubs = array_slice($allFilteredClubs, ($page - 1) * $this->nbPerPage, $this->nbPerPage);
+        if (!$term) {
+            $clubs = $this->clubRepository->findBy([], ['name' => 'ASC'], $this->nbPerPage, ($page - 1) * $this->nbPerPage);
+            $nbResults = $this->clubRepository->count([]);
+        } else {
+            $allFilteredClubs = $this->clubRepository->findLike('name', $term, ['name' => 'ASC']);
+            $clubs = array_slice($allFilteredClubs, ($page - 1) * $this->nbPerPage, $this->nbPerPage);
+            $nbResults = count($allFilteredClubs);
+        }
 
         return $this->render('club/list.html.twig', [
             'clubs' => $clubs,
