@@ -73,6 +73,7 @@ class AdminDisciplineController extends AbstractController
 
         try {
             if (!$discipline instanceof Discipline) {
+                $this->logger->error(Message::DATA_NOT_FOUND, ['discipline' => $discipline]);
                 throw new NotFoundResourceException(Message::DATA_NOT_FOUND, Response::HTTP_NOT_FOUND);
             }
 

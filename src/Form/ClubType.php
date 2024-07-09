@@ -6,6 +6,8 @@ use App\Constant\Constraint;
 use App\Constant\Message;
 use App\Entity\Club;
 use App\Entity\Discipline;
+use App\Repository\DisciplineRepository;
+use Doctrine\ORM\QueryBuilder;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
@@ -96,6 +98,9 @@ class ClubType extends AbstractType
                 'class' => Discipline::class,
                 'choice_label' => 'label',
                 'multiple' => true,
+                'query_builder' => function (DisciplineRepository $disciplineRepository): QueryBuilder {
+                    return $disciplineRepository->createQueryBuilder('d')->orderBy('d.label', 'ASC');
+                },
             ])
             ->add('submit', SubmitType::class, [
                 'label' => 'Soumettre',

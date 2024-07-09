@@ -32,7 +32,7 @@ class VarsportsPasswordChangeCommand extends Command
         $io = new SymfonyStyle($input, $output);
 
         $io->title('Varsports - Update user passwords');
-        
+
         if (!file_exists($this->filePath)) {
             touch($this->filePath);
         }
@@ -49,7 +49,7 @@ class VarsportsPasswordChangeCommand extends Command
             $plainPassword = substr(str_shuffle(str_repeat($x = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ@^()[]{}°&éèà-_!?,;./:=+%ù$*§', intval(ceil(8 / strlen($x))))), 1, 12);
 
             fputcsv($file, [$user->getEmail(), $plainPassword], '|');
-    
+
             $user->setPassword($this->userPasswordHasher->hashPassword(
                 $user, $plainPassword
             ));

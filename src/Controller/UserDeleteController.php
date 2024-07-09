@@ -31,15 +31,18 @@ class UserDeleteController extends AbstractController
     {
         $user = $this->security->getUser();
         if (!$user instanceof User) {
+            $this->logger->error(Message::DATA_NOT_FOUND, ['user' => $user]);
             throw new NotFoundResourceException(Message::DATA_NOT_FOUND, Response::HTTP_NOT_FOUND);
         }
 
         $userToDelete = $this->userRepository->findOneBy(['id' => $id]);
         if (!$userToDelete instanceof User) {
+            $this->logger->error(Message::DATA_NOT_FOUND, ['user' => $user]);
             throw new NotFoundResourceException(Message::DATA_NOT_FOUND, Response::HTTP_NOT_FOUND);
         }
 
         if ($userToDelete->hasRole('ROLE_ADMIN') || $user->getId() === $userToDelete->getId()) {
+            $this->logger->error(Message::GENERIC_GRANT_ERROR, ['user' => $user]);
             throw new AccessDeniedHttpException(Message::GENERIC_GRANT_ERROR);
         }
 

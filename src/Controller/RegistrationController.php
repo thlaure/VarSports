@@ -37,6 +37,7 @@ class RegistrationController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $plainPassword = $form->get('plainPassword')->getData();
             if (!is_string($plainPassword) || empty($plainPassword)) {
+                $this->logger->error(Message::DATA_MUST_BE_SET, ['user' => $user]);
                 throw new \InvalidArgumentException(Message::DATA_MUST_BE_SET, Response::HTTP_BAD_REQUEST);
             }
 
@@ -54,6 +55,7 @@ class RegistrationController extends AbstractController
 
             $emailTo = $user->getEmail();
             if (!is_string($emailTo) || empty($emailTo)) {
+                $this->logger->error(Message::DATA_MUST_BE_SET, ['user' => $user]);
                 throw new \InvalidArgumentException(Message::DATA_MUST_BE_SET, Response::HTTP_BAD_REQUEST);
             }
 
@@ -84,6 +86,7 @@ class RegistrationController extends AbstractController
             $user = $this->getUser();
 
             if (!$user instanceof User) {
+                $this->logger->error(Message::ERROR_WHILE_CONFIRM_EMAIL, ['user' => $user]);
                 throw new NotFoundResourceException(Message::ERROR_WHILE_CONFIRM_EMAIL, Response::HTTP_BAD_REQUEST);
             }
 

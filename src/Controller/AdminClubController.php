@@ -42,10 +42,12 @@ class AdminClubController extends AbstractController
     {
         $user = $this->security->getUser();
         if (!$user instanceof User) {
+            $this->logger->error(Message::DATA_NOT_FOUND, ['user' => $user]);
             throw new NotFoundResourceException(Message::DATA_NOT_FOUND, Response::HTTP_NOT_FOUND);
         }
 
         if ($user->hasRole('ROLE_ADMIN')) {
+            $this->logger->error(Message::GENERIC_ACCESS_DENIED, ['user' => $user]);
             throw new AccessDeniedHttpException(Message::GENERIC_ACCESS_DENIED);
         }
 
@@ -72,6 +74,7 @@ class AdminClubController extends AbstractController
             if ($form->isValid()) {
                 try {
                     if (!is_string($club->getName()) || empty($club->getName())) {
+                        $this->logger->error(Message::DATA_MUST_BE_SET, ['club' => $club]);
                         throw new \InvalidArgumentException(Message::DATA_MUST_BE_SET, Response::HTTP_BAD_REQUEST);
                     }
                     $club->setSlug($slugger->slug($club->getName())->lower());
@@ -124,15 +127,18 @@ class AdminClubController extends AbstractController
     {
         $user = $this->security->getUser();
         if (!$user instanceof User) {
+            $this->logger->error(Message::DATA_NOT_FOUND, ['user' => $user]);
             throw new NotFoundResourceException(Message::DATA_NOT_FOUND, Response::HTTP_NOT_FOUND);
         }
 
         $club = $clubRepository->findOneBy(['id' => $id]);
         if (!$club instanceof Club) {
+            $this->logger->error(Message::DATA_NOT_FOUND, ['club' => $club]);
             throw new NotFoundResourceException(Message::DATA_NOT_FOUND, Response::HTTP_NOT_FOUND);
         }
 
         if (null === $user->getClub() || $user->getClub()->getId() !== $club->getId() || !$user->hasRole('ROLE_ADMIN')) {
+            $this->logger->error(Message::GENERIC_ACCESS_DENIED, ['user' => $user]);
             throw new AccessDeniedHttpException(Message::GENERIC_ACCESS_DENIED);
         }
 
@@ -155,15 +161,18 @@ class AdminClubController extends AbstractController
     {
         $user = $this->security->getUser();
         if (!$user instanceof User) {
+            $this->logger->error(Message::DATA_NOT_FOUND, ['user' => $user]);
             throw new NotFoundResourceException(Message::DATA_NOT_FOUND, Response::HTTP_NOT_FOUND);
         }
 
         $club = $clubRepository->findOneBy(['id' => $id]);
         if (!$club instanceof Club) {
+            $this->logger->error(Message::DATA_NOT_FOUND, ['club' => $club]);
             throw new NotFoundResourceException(Message::DATA_NOT_FOUND, Response::HTTP_NOT_FOUND);
         }
 
         if (null === $user->getClub() || $user->getClub()->getId() !== $club->getId() || !$user->hasRole('ROLE_ADMIN')) {
+            $this->logger->error(Message::GENERIC_ACCESS_DENIED, ['user' => $user]);
             throw new AccessDeniedHttpException(Message::GENERIC_ACCESS_DENIED);
         }
 
@@ -194,6 +203,7 @@ class AdminClubController extends AbstractController
                 }
 
                 if (!is_string($club->getName()) || empty($club->getName())) {
+                    $this->logger->error(Message::DATA_MUST_BE_SET, ['club' => $club]);
                     throw new \InvalidArgumentException(Message::DATA_MUST_BE_SET, Response::HTTP_BAD_REQUEST);
                 }
                 $club->setSlug($slugger->slug($club->getName())->lower());
