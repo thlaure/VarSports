@@ -13,6 +13,7 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\String\Slugger\SluggerInterface;
 
 #[AsCommand(
@@ -25,6 +26,7 @@ class ImportClubsCommand extends Command
         private EntityManagerInterface $entityManager,
         private DisciplineRepository $disciplineRepository,
         private SluggerInterface $slugger,
+        private UserPasswordHasherInterface $userPasswordHasher,
         private string $filePath = 'docker/imports/clubs_clean.json'
     ) {
         parent::__construct();
@@ -35,6 +37,8 @@ class ImportClubsCommand extends Command
         ini_set('memory_limit', '256M');
 
         $io = new SymfonyStyle($input, $output);
+
+        $io->title('VarSports - Import clubs');
 
         if (!file_exists($this->filePath)) {
             $io->error(Message::FILE_NOT_FOUND);
@@ -80,6 +84,12 @@ class ImportClubsCommand extends Command
                     $disciplines[] = $discipline;
                 }
 
+                $clubExists = $this->entityManager->getRepository(Club::class)->findOneBy(['slug' => $this->slugger->slug($dataClub['name'])->lower()]);
+                if (null !== $clubExists) {
+                    $rowsNotInserted[] = $dataClub;
+                    continue;
+                }
+
                 $club = (new Club())
                     ->setName($dataClub['name'])
                     ->setEmail($dataClub['email'])
@@ -101,14 +111,20 @@ class ImportClubsCommand extends Command
 
                 $this->entityManager->persist($club);
 
-                $clubAdmin = (new User())
-                    ->setEmail($dataClub['admin_email'])
+                $plainPassword = substr(str_shuffle(str_repeat($x = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ@^()[]{}°&éèà-_!?,;./:=+%ù$*§', intval(ceil(8 / strlen($x))))), 1, 12);
+
+                $clubAdmin = new User();
+                $clubAdmin->setEmail($dataClub['admin_email'])
                     ->setRoles(['ROLE_CLUB_ADMIN'])
                     ->setVerified(true)
                     ->setName($dataClub['lastname'])
                     ->setFirstName($dataClub['firstname'])
                     ->setClub($club)
-                    ->setPassword(substr(str_shuffle(str_repeat($x = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ', intval(ceil(8 / strlen($x))))), 1, 8)); // TODO: secure password
+                    ->setPassword(
+                        $this->userPasswordHasher->hashPassword(
+                            $clubAdmin, $plainPassword
+                        )
+                    );
 
                 $this->entityManager->persist($clubAdmin);
 
