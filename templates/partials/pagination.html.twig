@@ -21,6 +21,12 @@
                         <span aria-hidden="true">&laquo;&laquo;</span>
                     </a>
                 </li>
+
+                <li class="page-item"></li>
+                    <a class="page-link text-black" href="{{ path(path, query_params|merge({ page: current_page - 1 }) ) }}" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                </li>
             {% endif %}
 
             {# Middle pages #}
