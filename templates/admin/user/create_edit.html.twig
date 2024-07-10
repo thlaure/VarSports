@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block robots %}
+<meta name="robots" content="noindex, nofollow" />
+{% endblock %}
+
+{% block title %} | Créer ou modifier un membre{% endblock %}
+
+{% block body %}
+<div class="container my-5">
+    <section>
+        <h1 class="h3 mb-3 font-weight-normal">Créer ou modifier un membre</h1>
+
+        {% include 'partials/flash.html.twig' %}
+
+        <div class="row">
+            <div class="col-md-6 m-auto">
+                {{ form_start(form) }}
+                    {{ form_row(form.name) }}
+                    {{ form_row(form.firstname) }}
+                    {{ form_row(form.email, {'attr': {'autocomplete': 'email'}}) }}
+                    {{ form_row(form.roles) }}
+                    {{ form_row(form.plainPassword) }}
+                    {{ form_row(form.submit, {'attr': {'class': 'btn btn-primary'}}) }}
+                {{ form_end(form) }}
+            </div>
+        </div>
+    </section>
+</div>
+{% endblock %}
