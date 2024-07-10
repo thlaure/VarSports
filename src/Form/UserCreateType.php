@@ -15,9 +15,10 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\Email;
 use Symfony\Component\Validator\Constraints\Length;
+use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\PasswordStrength;
 
-class UserEditType extends AbstractType
+class UserCreateType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
@@ -31,9 +32,11 @@ class UserEditType extends AbstractType
                 'required' => false,
             ])
             ->add('email', EmailType::class, [
-                'label' => 'Adresse e-mail',
-                'required' => false,
+                'label' => 'Adresse e-mail *',
                 'constraints' => [
+                    new NotBlank([
+                        'message' => 'Veuillez renseigner votre adresse e-mail',
+                    ]),
                     new Length([
                         'min' => 3,
                         'minMessage' => 'L\'adresse e-mail doit contenir au moins {{ limit }} caractères',
@@ -45,10 +48,9 @@ class UserEditType extends AbstractType
                 ],
             ])
             ->add('roles', ChoiceType::class, [
-                'label' => 'Rôle',
+                'label' => 'Rôle *',
                 'multiple' => false,
                 'expanded' => false,
-                'required' => false,
                 'choices' => [
                     'Membre' => 'ROLE_MEMBER_CLUB',
                     'Admin' => 'ROLE_ADMIN_CLUB',
@@ -58,9 +60,8 @@ class UserEditType extends AbstractType
                 'type' => PasswordType::class,
                 'invalid_message' => 'Les mots de passe doivent être identiques',
                 'mapped' => false,
-                'required' => false,
                 'first_options' => [
-                    'label' => 'Mot de passe',
+                    'label' => 'Mot de passe *',
                     'attr' => ['autocomplete' => 'new-password'],
                     'constraints' => [
                         new Length([
@@ -75,10 +76,13 @@ class UserEditType extends AbstractType
                     ],
                 ],
                 'second_options' => [
-                    'label' => 'Confirmer le mot de passe',
+                    'label' => 'Confirmer le mot de passe *',
                     'attr' => ['autocomplete' => 'new-password'],
                 ],
                 'constraints' => [
+                    new NotBlank([
+                        'message' => 'Veuillez saisir un mot de passe',
+                    ]),
                     new Length([
                         'min' => 6,
                         'minMessage' => 'Votre mot de passe doit contenir au moins {{ limit }} caractères',

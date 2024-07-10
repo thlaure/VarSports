@@ -30,7 +30,7 @@
                                     <li><a class="dropdown-item" href="{{ path('app_admin_club_create') }}">Créer un club</a></li>
                                 {% endif %}
                                 <li><a class="dropdown-item" href="{{ path('app_user_list') }}">Voir les utilisateurs</a></li>
-                                {# <li><a class="dropdown-item" href="#">Créer un membre</a></li> #}
+                                <li><a class="dropdown-item" href="{{ path('app_user_create') }}">Créer un membre</a></li>
                             {% endif %}
 
                             {% if is_granted('ROLE_ADMIN') %}
