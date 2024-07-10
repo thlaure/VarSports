@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Club;
+use App\Entity\Discipline;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -17,15 +18,23 @@ class ClubRepository extends ServiceEntityRepository
     }
 
     /**
-     * @param array<string>|null $orderBy
+     * @param Discipline[]  $disciplines
+     * @param string[]|null $orderBy
      *
      * @return Club[]
      */
-    public function findLike(string $field, string $value, ?array $orderBy = null, ?int $limit = null, ?int $offset = null): array
+    public function searchClub(string $term, array $disciplines = [], ?array $orderBy = null, ?int $limit = null, ?int $offset = null): array
     {
         $qb = $this->createQueryBuilder('c')
-            ->andWhere('c.'.$field.' LIKE :value')
-            ->setParameter('value', '%'.$value.'%');
+            ->andWhere('c.name LIKE :value')
+            ->setParameter('value', '%'.$term.'%');
+
+        if (count($disciplines) > 0) {
+            $qb->leftJoin('c.disciplines', 'd')
+                ->addSelect('d')
+                ->andWhere('d IN (:disciplines)')
+                ->setParameter('disciplines', $disciplines);
+        }
 
         if ($orderBy) {
             foreach ($orderBy as $field => $direction) {
