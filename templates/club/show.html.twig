@@ -34,9 +34,9 @@
                 <article class="col-md-6">
                     <h3>Coordonnées</h3>
                     <p>Téléphone : <a href="tel:{{ club.phone }}">{{ club.phone }}</a></p>
-                    <p>E-mail : <a href="mailto:{{ club.email }}">{{ club.email }}</a></p>
+                    <p class="text-break">E-mail : <a href="mailto:{{ club.email }}">{{ club.email }}</a></p>
                     {% if club.website %}
-                        <p>Site web : <a href="{{ club.website }}">{{ club.website }}</a></p>
+                        <p class="text-break">Site web : <a href="{{ club.website }}">{{ club.website }}</a></p>
                     {% endif %}
                 </article>
 
@@ -45,7 +45,7 @@
                         <article class="mb-3">
                             <h3>Réseaux sociaux</h3>
 
-                                {% if club.instagram %}
+                            {% if club.instagram %}
                                 <a href="{{ club.instagram }}">Instagram</a>
                             {% endif %}
 

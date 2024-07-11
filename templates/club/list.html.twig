@@ -34,7 +34,7 @@
         <h2 class="h5 pt-5">{{ nb_results }} club{{ nb_results > 1 ? 's' : '' }}</h2>
 
         {% for club in clubs %}
-            <div class="card col-md-3 mb-4 m-md-4">
+            <div class="card col-md-5 col-lg-3 mb-4 m-md-4">
                 <img src="{{ asset("images/uploads/club/") ~ (club.logo ? club.id ~ '/' ~ club.logo : 'default_logo.webp') }}" class="card-img-top rounded-circle w-25 m-auto py-3" alt="Logo du club {{ club.name }}" loading="lazy">
 
                 <div class="card-body">
