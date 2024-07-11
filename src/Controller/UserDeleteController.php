@@ -25,7 +25,7 @@ class UserDeleteController extends AbstractController
     ) {
     }
 
-    #[Route('/user/delete/{id}', name: 'app_user_delete')]
+    #[Route('/admin/user/delete/{id}', name: 'app_user_delete')]
     #[IsGranted('ROLE_ADMIN_CLUB', message: Message::GENERIC_GRANT_ERROR)]
     public function delete(int $id): Response
     {

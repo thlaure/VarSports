@@ -38,9 +38,9 @@
                 <img src="{{ asset("images/uploads/club/") ~ (club.logo ? club.id ~ '/' ~ club.logo : 'default_logo.webp') }}" class="card-img-top rounded-circle w-25 m-auto py-3" alt="Logo du club {{ club.name }}" loading="lazy">
 
                 <div class="card-body">
-                    <h5 class="card-title text-center">
+                    <h3 class="h5 card-title text-center">
                         <a href="{{ path('app_club_show', {'slug': club.slug}) }}" class="stretched-link text-decoration-none text-black">{{ club.name }}</a>
-                    </h5>
+                    </h3>
                     <p class="card-text text-body-secondary text-center"><small>{{ club.postalCode }} {{ club.city }}</small></p>
                     <div class="text-center">
                         {% for discipline in club.disciplines %}

@@ -22,7 +22,7 @@ class UserEditController extends AbstractController
     ) {
     }
 
-    #[Route('/user/{id}/edit', name: 'app_user_edit')]
+    #[Route('/admin/user/{id}/edit', name: 'app_user_edit')]
     #[IsGranted('ROLE_ADMIN_CLUB', message: Message::GENERIC_GRANT_ERROR)]
     public function edit(int $id, Request $request): Response
     {

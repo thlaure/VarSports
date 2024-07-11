@@ -29,7 +29,7 @@ class UserCreateController extends AbstractController
     ) {
     }
 
-    #[Route('/user/create', name: 'app_user_create')]
+    #[Route('/admin/user/create', name: 'app_user_create')]
     #[IsGranted('ROLE_ADMIN_CLUB', message: Message::GENERIC_GRANT_ERROR)]
     public function create(Request $request): Response
     {
