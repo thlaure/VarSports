@@ -13,14 +13,26 @@ liip_imagine:
     filter_sets:
         cache: ~
 
-        logo_club_show:
+        logo_club_show_webp:
             format: webp
-            quality: 75
+            quality: 90
             filters:
-                thumbnail: { size: [160, 160], mode: inset }
+                thumbnail: { size: [300, 300], mode: inset }
 
-        cover_club_show:
+        logo_club_show_jpg:
+            format: jpeg
+            quality: 90
+            filters:
+                thumbnail: { size: [300, 300], mode: inset }
+
+        cover_club_show_webp:
             format: webp
+            quality: 100
+            filters:
+                thumbnail: { size: [1600, 400], mode: inset }
+
+        cover_club_show_jpg:
+            format: jpeg
             quality: 100
             filters:
                 thumbnail: { size: [1600, 400], mode: inset }
