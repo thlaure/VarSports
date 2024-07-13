@@ -51,7 +51,7 @@ class UserCreateController extends AbstractController
                 throw new \InvalidArgumentException(Message::DATA_MUST_BE_SET, Response::HTTP_BAD_REQUEST);
             }
 
-            /** @var User $user */
+            /* @var User $user */
             $userToCreate->setClub($user->getClub());
 
             $userToCreate->setPassword(
