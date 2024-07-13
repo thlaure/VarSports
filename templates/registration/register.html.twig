@@ -14,18 +14,18 @@
 
                 {{ include('partials/flash.html.twig') }}
 
-                {{ form_errors(registrationForm) }}
+                {{ form_errors(registration_form) }}
 
-                {{ form_start(registrationForm) }}
-                    {{ form_row(registrationForm.name) }}
-                    {{ form_row(registrationForm.firstname)}}
-                    {{ form_row(registrationForm.email, {'attr': {'autocomplete': 'email'}}) }}
-                    {{ form_row(registrationForm.plainPassword) }}
+                {{ form_start(registration_form) }}
+                    {{ form_row(registration_form.name) }}
+                    {{ form_row(registration_form.firstname)}}
+                    {{ form_row(registration_form.email, {'attr': {'autocomplete': 'email'}}) }}
+                    {{ form_row(registration_form.plainPassword) }}
                     <p class="text-danger"><small>Pour des raison de sécurité, le mot de passe doit contenir au moins 12 caractères, une majuscule, une minuscule, un chiffre et un caractère special.</small></p>
-                    {{ form_row(registrationForm.agreeTerms) }}
+                    {{ form_row(registration_form.agreeTerms) }}
 
-                    {{ form_widget(registrationForm.submit, {'attr': {'class': 'btn btn-primary'}}) }}
-                {{ form_end(registrationForm) }}
+                    {{ form_widget(registration_form.submit, {'attr': {'class': 'btn btn-primary'}}) }}
+                {{ form_end(registration_form) }}
             </div>
         </section>
     </div>

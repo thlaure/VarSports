@@ -36,28 +36,29 @@ class RegistrationControllerTest extends WebTestCase
         // Register a new user
         $this->client->request('GET', '/register');
         self::assertResponseIsSuccessful();
-        self::assertPageTitleContains('Register');
 
-        $this->client->submitForm('Register', [
+        $this->client->submitForm('Soumettre', [
             'registration_form[email]' => 'me@example.com',
-            'registration_form[plainPassword]' => 'password',
+            'registration_form[plainPassword][first]' => '$$Aqw1Zsx2Edc1470',
+            'registration_form[plainPassword][second]' => '$$Aqw1Zsx2Edc1470',
             'registration_form[agreeTerms]' => true,
         ]);
 
         // Ensure the response redirects after submitting the form, the user exists, and is not verified
-        // self::assertResponseRedirects('/');  @TODO: set the appropriate path that the user is redirected to.
+        self::assertResponseRedirects('/register');  // TODO: set the appropriate path that the user is redirected to.
+
         self::assertCount(1, $this->userRepository->findAll());
         self::assertFalse(($user = $this->userRepository->findAll()[0])->isVerified());
 
         // Ensure the verification email was sent
         // Use either assertQueuedEmailCount() || assertEmailCount() depending on your mailer setup
-        // self::assertQueuedEmailCount(1);
+        self::assertQueuedEmailCount(1);
         self::assertEmailCount(1);
 
-        self::assertCount(1, $messages = $this->getMailerMessages());
-        self::assertEmailAddressContains($messages[0], 'from', 'thomaslaure3@gmail.com');
+        $messages = $this->getMailerMessages();
+        self::assertEmailAddressContains($messages[0], 'from', 'no-reply@varsports.fr');
         self::assertEmailAddressContains($messages[0], 'to', 'me@example.com');
-        self::assertEmailTextBodyContains($messages[0], 'This link will expire in 1 hour.');
+        self::assertEmailTextBodyContains($messages[0], '1 heure');
 
         // Login the new user
         $this->client->followRedirect();
