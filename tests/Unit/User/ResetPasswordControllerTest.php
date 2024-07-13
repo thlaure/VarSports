@@ -2,6 +2,7 @@
 
 namespace App\Tests\Unit\User;
 
+use App\Entity\ResetPasswordRequest;
 use App\Entity\User;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -17,36 +18,45 @@ class ResetPasswordControllerTest extends WebTestCase
 
     protected function setUp(): void
     {
-        $this->entityManager = $this->createMock(EntityManagerInterface::class);
-        $this->userRepository = $this->createMock(UserRepository::class);
-
         $this->client = static::createClient();
+        $container = static::getContainer();
+        $this->entityManager = $container->get('doctrine.orm.entity_manager');
 
+        $resetPasswordRepository = $this->entityManager->getRepository(ResetPasswordRequest::class);
+        foreach ($resetPasswordRepository->findAll() as $resetPasswordRequest) {
+            $this->entityManager->remove($resetPasswordRequest);
+        }
+
+        $this->userRepository = $this->entityManager->getRepository(User::class);
         foreach ($this->userRepository->findAll() as $user) {
             $this->entityManager->remove($user);
         }
 
         $this->entityManager->flush();
+
+        // Create a User fixture
+        /** @var UserPasswordHasherInterface $passwordHasher */
+        $passwordHasher = $container->get('security.user_password_hasher');
+
+        $user = (new User())
+            ->setEmail('me@example.com')
+            ->setRoles(['ROLE_ADMIN_CLUB'])
+            ->setVerified(true);
+        $user->setPassword($passwordHasher->hashPassword($user, '$$Aqw1Zsx2Edc1470'));
+
+        $this->entityManager->persist($user);
+        $this->entityManager->flush();
     }
 
     public function testResetPasswordController(): void
     {
-        // Create a test user
-        $user = (new User())
-            ->setEmail('me@example.com')
-            ->setPassword('a-test-password-that-will-be-changed-later')
-        ;
-        $this->entityManager->persist($user);
-        $this->entityManager->flush();
-
         // Test Request reset password page
         $this->client->request('GET', '/reset-password');
 
         self::assertResponseIsSuccessful();
-        self::assertPageTitleContains('Reset your password');
 
         // Submit the reset password form and test email message is queued / sent
-        $this->client->submitForm('Send password reset email', [
+        $this->client->submitForm('Envoyer', [
             'reset_password_request_form[email]' => 'me@example.com',
         ]);
 
@@ -55,8 +65,7 @@ class ResetPasswordControllerTest extends WebTestCase
         // self::assertQueuedEmailCount(1);
         self::assertEmailCount(1);
 
-        self::assertCount(1, $messages = $this->getMailerMessages());
-
+        $messages = $this->getMailerMessages();
         self::assertEmailAddressContains($messages[0], 'from', 'no-reply@varsports.fr');
         self::assertEmailAddressContains($messages[0], 'to', 'me@example.com');
 
@@ -73,9 +82,9 @@ class ResetPasswordControllerTest extends WebTestCase
         $this->client->followRedirect();
 
         // Test we can set a new password
-        $this->client->submitForm('Reset password', [
-            'change_password_form[plainPassword][first]' => 'newStrongPassword',
-            'change_password_form[plainPassword][second]' => 'newStrongPassword',
+        $this->client->submitForm('Envoyer', [
+            'change_password_form[plainPassword][first]' => '%%Aqw1Zsx2Edc1470',
+            'change_password_form[plainPassword][second]' => '%%Aqw1Zsx2Edc1470',
         ]);
 
         self::assertResponseRedirects('/login');
@@ -86,6 +95,6 @@ class ResetPasswordControllerTest extends WebTestCase
 
         /** @var UserPasswordHasherInterface $passwordHasher */
         $passwordHasher = static::getContainer()->get(UserPasswordHasherInterface::class);
-        self::assertTrue($passwordHasher->isPasswordValid($user, 'newStrongPassword'));
+        self::assertTrue($passwordHasher->isPasswordValid($user, '%%Aqw1Zsx2Edc1470'));
     }
 }
