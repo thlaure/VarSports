@@ -36,9 +36,9 @@
         {% for club in clubs %}
             <div class="card col-md-5 col-lg-3 mb-4 m-md-4">
                 <picture class="d-flex align-items-center">
-                    <source srcset="{{ asset("images/uploads/club/" ~ club.id ~ '/' ~ club.logo ) | imagine_filter('logo_club_list_webp') }}" type="image/webp">
-                    <source srcset="{{ asset("images/uploads/club/" ~ club.id ~ '/' ~ club.logo) | imagine_filter('logo_club_list_jpg') }}" type="image/jpeg">
-                    <img src="{{ asset("images/uploads/club/" ~ club.logo ? club.id ~ '/' ~ club.logo : 'default_logo.webp') }}" alt="Logo du club {{ club.name }}" loading="lazy" class="img-fluid card-img-top rounded-circle w-25 m-auto py-3">
+                    <source srcset="{{ (asset("images/uploads/club/") ~ (club.logo ? club.id ~ '/' ~ club.logo : 'default_logo.webp')) | imagine_filter('logo_club_list_webp') }}" type="image/webp">
+                    <source srcset="{{ (asset("images/uploads/club/") ~ (club.logo ? club.id ~ '/' ~ club.logo : 'default_logo.webp')) | imagine_filter('logo_club_list_jpg') }}" type="image/jpeg">
+                    <img src="{{ asset("images/uploads/club/") ~ (club.logo ? club.id ~ '/' ~ club.logo : 'default_logo.webp') }}" alt="Logo du club {{ club.name }}" loading="lazy" class="img-fluid card-img-top rounded-circle w-25 m-auto py-3">
                 </picture>
 
                 <div class="card-body">

@@ -13,6 +13,18 @@ liip_imagine:
     filter_sets:
         cache: ~
 
+        logo_varsports_header_webp:
+            format: webp
+            quality: 100
+            filters:
+                thumbnail: { size: [550, 110], mode: inset }
+
+        logo_varsports_header_png:
+            format: png
+            quality: 100
+            filters:
+                thumbnail: { size: [550, 110], mode: inset }
+
         logo_club_show_webp:
             format: webp
             quality: 90
