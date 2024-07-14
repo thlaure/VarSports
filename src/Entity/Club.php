@@ -80,7 +80,7 @@ class Club
     /**
      * @var Collection<int, User>
      */
-    #[ORM\OneToMany(targetEntity: User::class, mappedBy: 'club', orphanRemoval: true)]
+    #[ORM\OneToMany(targetEntity: User::class, mappedBy: 'club', orphanRemoval: false)]
     private Collection $users;
 
     #[ORM\Column(length: 100)]

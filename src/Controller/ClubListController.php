@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
 #[Route('/club', name: 'app_club_')]
-class ClubController extends AbstractController
+class ClubListController extends AbstractController
 {
     public function __construct(
         private ClubRepository $clubRepository,
@@ -52,14 +52,6 @@ class ClubController extends AbstractController
             'term' => $term ?? null,
             'disciplines' => $this->disciplineRepository->findBy([], ['label' => 'ASC']),
             'selected_disciplines' => $disciplinesId ?? [],
-        ]);
-    }
-
-    #[Route('/{slug}', name: 'show')]
-    public function show(string $slug): Response
-    {
-        return $this->render('club/show.html.twig', [
-            'club' => $this->clubRepository->findOneBy(['slug' => $slug]),
         ]);
     }
 }

@@ -24,10 +24,14 @@ services:
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
-    App\Controller\AdminClubController:
+    App\Controller\ClubCreateController:
         arguments:
             $targetDirectory: '%club_images_directory%'
 
-    App\Controller\ClubController:
+    App\Controller\ClubEditController:
+        arguments:
+            $targetDirectory: '%club_images_directory%'
+
+    App\Controller\ClubListController:
         arguments:
             $nbPerPage: '%nb_per_page%'

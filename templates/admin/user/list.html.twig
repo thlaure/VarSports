@@ -20,10 +20,13 @@
 {% block title %} | Membres{% endblock %}
 
 {% block body %}
-<div class="container my-5">
-    <h1 class="h3 mb-3 font-weight-normal">Utilisateurs</h1>
+<div class="container-fluid my-5">
 
-    {% include 'partials/flash.html.twig' %}
+    <div class="container">
+        <h1 class="h3 mb-3 font-weight-normal">Utilisateurs</h1>
+
+        {% include 'partials/flash.html.twig' %}
+    </div>
 
     <div class="table-responsive">
         <table class="table" id="table-users">

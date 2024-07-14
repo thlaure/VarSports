@@ -33,6 +33,12 @@ class UserCreateController extends AbstractController
     #[IsGranted('ROLE_ADMIN_CLUB', message: Message::GENERIC_GRANT_ERROR)]
     public function create(Request $request): Response
     {
+        $user = $this->security->getUser();
+        if (!$user instanceof User || !$user->getClub()) {
+            $this->logger->error(Message::CLUB_NOT_FOUND, ['user' => $user]);
+            throw new \InvalidArgumentException(Message::CLUB_NOT_FOUND, Response::HTTP_NOT_FOUND);
+        }
+
         $userToCreate = new User();
 
         $form = $this->createForm(UserEditType::class, $userToCreate);

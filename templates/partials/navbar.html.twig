@@ -36,10 +36,9 @@
                                     {% if app.user.club is null %}
                                         <li><a class="dropdown-item" href="{{ path('app_admin_club_create') }}">Créer un club</a></li>
                                     {% else %}
-                                        <li><a class="dropdown-item" href="{{ path('app_admin_club_edit', {'id': app.user.club.id}) }}">Modifier mon club</a></li>
+                                        <li><a class="dropdown-item" href="{{ path('app_club_show', {'slug': app.user.club.slug}) }}">Voir mon club</a></li>
+                                        <li><a class="dropdown-item" href="{{ path('app_user_create') }}">Créer un membre</a></li>
                                     {% endif %}
-                                    
-                                    <li><a class="dropdown-item" href="{{ path('app_user_create') }}">Créer un membre</a></li>
                                 {% endif %}
                             {% endif %}
 

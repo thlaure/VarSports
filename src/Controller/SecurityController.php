@@ -11,8 +11,9 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class SecurityController extends AbstractController
 {
-    public function __construct(private LoggerInterface $logger)
-    {
+    public function __construct(
+        private LoggerInterface $logger
+    ) {
     }
 
     #[Route(path: '/login', name: 'app_login')]
