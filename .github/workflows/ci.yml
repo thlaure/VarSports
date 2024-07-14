@@ -73,7 +73,7 @@ jobs:
         run: docker compose exec -T php vendor/bin/php-cs-fixer fix
       -
         name: Run PHPStan
-        run: docker compose exec -T php vendor/bin/phpstan analyse src --level=9 --memory-limit=128M
+        run: docker compose exec -T php vendor/bin/phpstan analyse src --level=9 --memory-limit=256M
       -
         name: Twig linter
         run: docker compose exec -T php bin/console lint:twig
