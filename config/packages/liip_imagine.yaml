@@ -10,6 +10,9 @@ liip_imagine:
         default:
             web_path: ~
 
+    twig:
+        mode: lazy
+
     filter_sets:
         cache: ~
 
