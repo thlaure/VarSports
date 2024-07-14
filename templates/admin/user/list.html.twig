@@ -4,6 +4,19 @@
 <meta name="robots" content="noindex, nofollow">
 {% endblock %}
 
+{% block stylesheets %}
+{{ parent() }}
+<link rel="stylesheet" href="https://cdn.datatables.net/2.0.8/css/dataTables.bootstrap5.min.css">
+{% endblock %}
+
+{% block javascripts %}
+{{ parent() }}
+<script src="https://code.jquery.com/jquery-3.7.1.slim.min.js" integrity="sha256-kmHvs0B+OpCW5GVHUNjv9rOmY0IvSIRcf7zGUDTDQM8=" crossorigin="anonymous" defer></script>
+<script src="https://cdn.datatables.net/2.0.8/js/dataTables.min.js" defer></script>
+<script src="https://cdn.datatables.net/2.0.8/js/dataTables.bootstrap5.min.js" defer></script>
+<script src="{{ asset('js/datatable-users.js') }}" defer></script>
+{% endblock %}
+
 {% block title %} | Membres{% endblock %}
 
 {% block body %}
@@ -13,13 +26,14 @@
     {% include 'partials/flash.html.twig' %}
 
     <div class="table-responsive">
-        <table class="table">
+        <table class="table" id="table-users">
             <thead>
                 <tr>
                     <th scope="col">#</th>
                     <th scope="col">Nom</th>
                     <th scope="col">Prénom</th>
                     <th scope="col">E-mail</th>
+                    <th scope="col">Club</th>
                     <th scope="col">Vérifié</th>
                     <th scope="col">Date d'enregistrement</th>
                     <th scope="col">Dernière connexion</th>
@@ -34,6 +48,7 @@
                         <td>{{ user.name }}</td>
                         <td>{{ user.firstname }}</td>
                         <td>{{ user.email }}</td>
+                        <td>{{ user.club ? user.club.name : null }}</td>
                         <td>{{ user.isVerified ? 'Oui' : 'Non' }}</td>
                         <td>{{ user.registrationDate|date('d/m/Y') }}</td>
                         <td>{{ user.lastLoginDate|date('d/m/Y') }}</td>
@@ -43,7 +58,7 @@
                             {% endfor %}
                         </td>
                         <td>
-                            <a href="{{ path('app_user_edit', {'id': user.id}) }}" class="btn btn-primary btn-sm">Modifier</a>
+                            <a href="{{ path('app_user_edit', {'id': user.id}) }}" class="btn btn-warning btn-sm">Modifier</a>
                             <a href="{{ path('app_user_delete', {'id': user.id}) }}" class="btn btn-danger btn-sm">Supprimer</a>
                         </td>
                     </tr>

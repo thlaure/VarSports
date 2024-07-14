@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Constant\Message;
 use App\Entity\User;
+use App\Repository\UserRepository;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Bundle\SecurityBundle\Security;
@@ -16,7 +17,8 @@ class UserListController extends AbstractController
 {
     public function __construct(
         private Security $security,
-        private LoggerInterface $logger
+        private LoggerInterface $logger,
+        private UserRepository $userRepository
     ) {
     }
 
@@ -28,6 +30,12 @@ class UserListController extends AbstractController
         if (!$user instanceof User) {
             $this->logger->error(Message::GENERIC_ERROR, ['user' => $user]);
             throw new NotFoundResourceException(Message::DATA_NOT_FOUND, Response::HTTP_NOT_FOUND);
+        }
+
+        if ($user->hasRole('ROLE_ADMIN')) {
+            return $this->render('admin/user/list.html.twig', [
+                'users' => $this->userRepository->findBy([], ['id' => 'DESC']),
+            ]);
         }
 
         if (null === $user->getClub()) {
