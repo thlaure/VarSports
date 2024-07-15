@@ -38,7 +38,7 @@
                 <picture class="d-flex align-items-center">
                     <source srcset="{{ (asset("images/uploads/club/") ~ (club.logo ? club.id ~ '/' ~ club.logo : 'default_logo.webp')) | imagine_filter('logo_club_list_webp') }}" type="image/webp">
                     <source srcset="{{ (asset("images/uploads/club/") ~ (club.logo ? club.id ~ '/' ~ club.logo : 'default_logo.webp')) | imagine_filter('logo_club_list_jpg') }}" type="image/jpeg">
-                    <img src="{{ asset("images/uploads/club/") ~ (club.logo ? club.id ~ '/' ~ club.logo : 'default_logo.webp') }}" alt="Logo du club {{ club.name }}" loading="lazy" class="img-fluid card-img-top rounded-circle w-25 m-auto py-3">
+                    <img src="{{ asset("images/uploads/club/") ~ (club.logo ? club.id ~ '/' ~ club.logo : 'default_logo.webp') }}" alt="Logo du club {{ club.name }}" loading="lazy" class="img-fluid card-img-top rounded-circle w-25 m-auto py-3" width="150" height="150">
                 </picture>
 
                 <div class="card-body">
