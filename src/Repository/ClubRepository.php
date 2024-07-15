@@ -19,6 +19,7 @@ class ClubRepository extends ServiceEntityRepository
 
     /**
      * @param Discipline[]  $disciplines
+     * @param int[] $cities
      * @param string[]|null $orderBy
      *
      * @return Club[]
@@ -63,15 +64,24 @@ class ClubRepository extends ServiceEntityRepository
         return $result;
     }
 
+    /**
+     * @return int[]
+     */
     public function getCities(): array
     {
-        return $this->createQueryBuilder('c')
+        $result = $this->createQueryBuilder('c')
             ->select('c.city, c.postalCode')
             ->distinct()
             ->orderBy('c.city', 'ASC')
             ->andWhere('c.city IS NOT NULL AND c.postalCode IS NOT NULL')
             ->getQuery()
             ->getResult();
+        
+        if (!\is_array($result)) {
+            $result = [];
+        }
+
+        return $result;
     }
 
     //    /**
