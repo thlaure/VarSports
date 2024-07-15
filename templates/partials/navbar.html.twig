@@ -4,7 +4,7 @@
             <picture class="d-flex align-items-center">
                 <source srcset="{{ asset('images/varsports_logo.webp') | imagine_filter('logo_varsports_header_webp') }}" type="image/webp">
                 <source srcset="{{ asset('images/varsports_logo.png') | imagine_filter('logo_varsports_header_png') }}" type="image/png">
-                <img src="{{ asset('images/varsports_logo.webp') }}" alt="Logo de VarSports" class="d-inline-block align-text-top img-fluid" width="550" height="110" rel="preload">
+                <img src="{{ asset('images/varsports_logo.webp') }}" alt="Logo de VarSports" loading="lazy" class="d-inline-block align-text-top img-fluid" width="550" height="110">
             </picture>
         </a>
     </div>
