@@ -23,7 +23,7 @@ class ClubRepository extends ServiceEntityRepository
      *
      * @return Club[]
      */
-    public function searchClub(string $term, array $disciplines = [], ?array $orderBy = null, ?int $limit = null, ?int $offset = null): array
+    public function searchClub(string $term, array $disciplines = [], array $cities = [], ?array $orderBy = null, ?int $limit = null, ?int $offset = null): array
     {
         $qb = $this->createQueryBuilder('c')
             ->andWhere('c.name LIKE :value')
@@ -34,6 +34,11 @@ class ClubRepository extends ServiceEntityRepository
                 ->addSelect('d')
                 ->andWhere('d IN (:disciplines)')
                 ->setParameter('disciplines', $disciplines);
+        }
+
+        if (count($cities) > 0) {
+            $qb->andWhere('c.postalCode IN (:postal_codes)')
+                ->setParameter('postal_codes', $cities);
         }
 
         if ($orderBy) {
@@ -56,6 +61,17 @@ class ClubRepository extends ServiceEntityRepository
         }
 
         return $result;
+    }
+
+    public function getCities(): array
+    {
+        return $this->createQueryBuilder('c')
+            ->select('c.city, c.postalCode')
+            ->distinct()
+            ->orderBy('c.city', 'ASC')
+            ->andWhere('c.city IS NOT NULL AND c.postalCode IS NOT NULL')
+            ->getQuery()
+            ->getResult();
     }
 
     //    /**

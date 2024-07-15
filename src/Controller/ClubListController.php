@@ -30,16 +30,23 @@ class ClubListController extends AbstractController
             $nbResults = $this->clubRepository->count([]);
         } else {
             $term = isset($searchParams['term']) && is_string($searchParams['term']) && '' !== trim($searchParams['term']) ? trim($searchParams['term']) : '';
-            $disciplinesId = isset($searchParams['disciplines']) && is_array($searchParams['disciplines']) ? $searchParams['disciplines'] : [];
-            $disciplines = [];
-            foreach ($disciplinesId as $id) {
+
+            $selectedDisciplinesId = isset($searchParams['disciplines']) && is_array($searchParams['disciplines']) ? $searchParams['disciplines'] : [];
+            $selectedDisciplines = [];
+            foreach ($selectedDisciplinesId as $id) {
                 $discipline = $this->disciplineRepository->find($id);
                 if ($discipline instanceof Discipline) {
-                    $disciplines[] = $discipline;
+                    $selectedDisciplines[] = $discipline;
                 }
             }
 
-            $allFilteredClubs = $this->clubRepository->searchClub($term, $disciplines, ['name' => 'ASC']);
+            $selectedCitiesId = isset($searchParams['cities']) && is_array($searchParams['cities']) ? $searchParams['cities'] : [];
+            $selectedCities = [];
+            foreach ($selectedCitiesId as $city) {
+                $selectedCities[] = $city;
+            }
+
+            $allFilteredClubs = $this->clubRepository->searchClub($term, $selectedDisciplines, $selectedCities, ['name' => 'ASC']);
             $clubs = array_slice($allFilteredClubs, ($page - 1) * $this->nbPerPage, $this->nbPerPage);
             $nbResults = count($allFilteredClubs);
         }
@@ -51,7 +58,9 @@ class ClubListController extends AbstractController
             'nb_results' => $nbResults,
             'term' => $term ?? null,
             'disciplines' => $this->disciplineRepository->findBy([], ['label' => 'ASC']),
-            'selected_disciplines' => $disciplinesId ?? [],
+            'selected_disciplines' => $selectedDisciplinesId ?? [],
+            'cities' => $this->clubRepository->getCities(),
+            'selected_cities' => $selectedCities ?? [],
         ]);
     }
 }

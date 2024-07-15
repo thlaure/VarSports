@@ -28,6 +28,17 @@
                 </ul>
             </div>
 
+            <div class="dropdown m-2">
+                <button class="btn btn-outline-secondary dropdown-toggle w-100" type="button" data-bs-toggle="dropdown" aria-expanded="false">Villes</button>
+                <ul class="dropdown-menu overflow-auto dropdown-cities">
+                    {% for city in cities %}
+                    <li class="p-2">
+                        <input class="form-check-input" type="checkbox" name="cities[]" value="{{ city.postalCode }}" {{ city.postalCode in selected_cities ? 'checked' : '' }}> {{ city.city }} ({{ city.postalCode }})
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+
             <button class="btn btn-danger m-2" type="submit">Rechercher</button>
         </form>
 
@@ -62,7 +73,8 @@
         path: 'app_club_list',
         params: {
             term: term,
-            disciplines: selected_disciplines
+            disciplines: selected_disciplines,
+            cities: selected_cities
         }
     } %}
 </div>

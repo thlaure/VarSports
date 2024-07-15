@@ -1,6 +1,6 @@
 <div class="d-flex justify-content-center">
     <nav aria-label="Navigation clubs">
-        {% set query_params = { term: term, disciplines: selected_disciplines } %}
+        {% set query_params = { term: term, disciplines: selected_disciplines, cities: selected_cities } %}
         <ul class="pagination">
             {# Left arrows #}
             {% if current_page == 1 %}

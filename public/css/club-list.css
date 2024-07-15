@@ -1,4 +1,5 @@
-.dropdown-disciplines {
+.dropdown-disciplines,
+.dropdown-cities {
     max-height: 2cqb;
 
     @media screen and (min-width: 768px) {
