@@ -3,13 +3,13 @@
         <picture>
             <source srcset="{{ (asset('images/uploads/club/') ~ (club.coverImage ? club.id ~ '/' ~ club.coverImage : 'default_cover.webp'))  | imagine_filter('cover_club_show_webp') }}" type="image/webp">
             <source srcset="{{ (asset('images/uploads/club/') ~ (club.coverImage ? club.id ~ '/' ~ club.coverImage : 'default_cover.webp'))  | imagine_filter('cover_club_show_jpg') }}" type="image/webp">
-            <img src="{{ asset('images/uploads/club/') ~ (club.coverImage ? club.id ~ '/' ~ club.coverImage : 'default_cover.webp') }}" alt="Couverture du club {{ club.name }}" class="img-fluid object-fit-cover w-100 rounded-top-1 club-cover-list">
+            <img src="{{ asset('images/uploads/club/') ~ (club.coverImage ? club.id ~ '/' ~ club.coverImage : 'default_cover.webp') }}" alt="Couverture du club {{ club.name }}" class="img-fluid object-fit-cover w-100 rounded-top-1 club-cover-list" loading="lazy">
         </picture>
 
         <picture>
             <source srcset="{{ (asset('images/uploads/club/') ~ (club.logo ? club.id ~ '/' ~ club.logo : 'default_logo.webp')) | imagine_filter('logo_club_show_webp') }}" type="image/webp">
             <source srcset="{{ (asset('images/uploads/club/') ~ (club.logo ? club.id ~ '/' ~ club.logo : 'default_logo.webp')) | imagine_filter('logo_club_show_jpg') }}" type="image/webp">
-            <img src="{{ asset('images/uploads/club/') ~ (club.logo ? club.id ~ '/' ~ club.logo : 'default_logo.webp') }}" alt="Logo du club {{ club.name }}" class="img-fluid rounded-circle col-2 border border-white bg-white border-5 position-absolute top-100 start-50 translate-middle">
+            <img src="{{ asset('images/uploads/club/') ~ (club.logo ? club.id ~ '/' ~ club.logo : 'default_logo.webp') }}" alt="Logo du club {{ club.name }}" class="img-fluid rounded-circle col-2 border border-white bg-white border-3 position-absolute top-100 start-50 translate-middle" loading="lazy">
         </picture>
     </div>
 

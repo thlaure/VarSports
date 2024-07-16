@@ -54,17 +54,19 @@
                         <article class="mb-3">
                             <h3>Réseaux sociaux</h3>
 
-                            {% if club.instagram %}
-                                <a href="{{ club.instagram }}">Instagram</a>
-                            {% endif %}
+                            <div>
+                                {% if club.instagram %}
+                                    <a href="{{ club.instagram }}" aria-label="{{ club.name }} Instagram link" class="text-dark fs-2" title="Instagram"><i class="bi bi-instagram"></i></a>
+                                {% endif %}
 
-                            {% if club.facebook %}
-                                - <a href="{{ club.facebook }}">Facebook</a>
-                            {% endif %}
+                                {% if club.facebook %}
+                                    <a href="{{ club.facebook }}" aria-label="{{ club.name }} Facebook link" class="text-dark fs-2" title="Facebook"><i class="bi bi-facebook"></i></a>
+                                {% endif %}
 
-                            {% if club.youtube %}
-                                - <a href="{{ club.youtube }}">YouTube</a>
-                            {% endif %}
+                                {% if club.youtube %}
+                                    <a href="{{ club.youtube }}" aria-label="{{ club.name }} YouTube link" class="text-dark fs-2" title="YouTube"><i class="bi bi-youtube"></i></a>
+                                {% endif %}
+                            </div>
                         </article>
                     {% endif %}
 
@@ -81,7 +83,7 @@
 
         {% if club.description %}
             <section>
-                <h2>À propos</h2>
+                <h2>Informations complémentaires</h2>
                 <p class="lead">{{ club.description|nl2br }}</p>
             </section>
         {% endif %}
