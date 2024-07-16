@@ -3,14 +3,19 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="author" content="Thomas Laure">
+
         {% block robots %}
             <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
         {% endblock %}
+
+        {% block canonical %}{% endblock %}
+
         <title>VarSports{% block title %}{% endblock %}</title>
         <link rel="icon" href="{{ asset("images/favicon.ico") }}" sizes="32x32">
         <link rel="apple-touch-icon" href="{{ asset("images/varsports_logo.webp") }}">
 
-        <meta name="description" content="VarSports est une association">
+        <meta name="description" content="VarSports est une association dont la raison d'être est de mettre en avant les clubs sportifs Varois, ainsi que leurs actualités et événements.">
 
         <meta property="og:title" content="VarSports">
         <meta property="og:type" content="website">

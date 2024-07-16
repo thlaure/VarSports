@@ -2,6 +2,10 @@
 
 {% block title %} | Nos clubs{% endblock %}
 
+{% block canonical %}
+<link rel="canonical" href="{{ path('app_club_list') }}">
+{% endblock %}
+
 {% block stylesheets %}
 {{ parent() }}
 <link rel="stylesheet" href="{{ asset('css/club-list.css') }}">
