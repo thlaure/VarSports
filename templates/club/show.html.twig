@@ -35,7 +35,7 @@
                     {% if club.addressComplement %}
                         <p>{{ club.addressComplement }}</p>
                     {% endif %}
-                    <p>{{ club.postalCode }} {{ club.city }}</p>
+                    <p>{{ club.postalCode.code }} {{ club.city.name }}</p>
                 </div>
             </div>
 
