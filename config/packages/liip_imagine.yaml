@@ -56,10 +56,22 @@ liip_imagine:
             format: webp
             quality: 75
             filters:
-                thumbnail: { size: [150, 150], mode: inset }
+                thumbnail: { size: [100, 100], mode: inset }
 
         logo_club_list_jpg:
             format: jpeg
             quality: 75
             filters:
-                thumbnail: { size: [150, 150], mode: inset }
+                thumbnail: { size: [100, 100], mode: inset }
+
+        cover_club_list_webp:
+            format: webp
+            quality: 80
+            filters:
+                thumbnail: { size: [390, 140], mode: inset }
+
+        cover_club_list_jpg:
+            format: jpeg
+            quality: 80
+            filters:
+                thumbnail: { size: [390, 140], mode: inset }
