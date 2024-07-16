@@ -8,62 +8,23 @@
 {% endblock %}
 
 {% block body %}
-<div class="container my-5">
-    <h1 class="h3 mb-3 font-weight-normal">Nos clubs</h1>
+<div class="container-fluid my-5">
 
-    <div class="row justify-content-between p-3">
+    <div class="container">
+        <h1 class="h3 mb-3 font-weight-normal">Nos clubs</h1>
+
         {% include 'partials/flash.html.twig' %}
 
-        <form class="d-flex flex-column flex-md-row" role="search" action="{{ path('app_club_list', { term: term }) }}">
-            <input class="form-control m-2" type="search" placeholder="Rechercher" aria-label="Rechercher" name="term" value="{{ term }}">
+        {% include 'club/partials/search.html.twig' with {
+            term: term,
+            selected_disciplines: selected_disciplines,
+            selected_cities: selected_cities
+        } %}
+    </div>
 
-            <div class="dropdown m-2">
-                <button class="btn btn-outline-secondary dropdown-toggle w-100" type="button" data-bs-toggle="dropdown" aria-expanded="false">Disciplines</button>
-                <ul class="dropdown-menu overflow-auto dropdown-disciplines">
-                    {% for discipline in disciplines %}
-                    <li class="p-2">
-                        <input class="form-check-input" type="checkbox" name="disciplines[]" value="{{ discipline.id }}" {{ discipline.id in selected_disciplines ? 'checked' : '' }}> {{ discipline.label }}
-                    </li>
-                    {% endfor %}
-                </ul>
-            </div>
-
-            <div class="dropdown m-2">
-                <button class="btn btn-outline-secondary dropdown-toggle w-100" type="button" data-bs-toggle="dropdown" aria-expanded="false">Villes</button>
-                <ul class="dropdown-menu overflow-auto dropdown-cities">
-                    {% for city in cities %}
-                    <li class="p-2">
-                        <input class="form-check-input" type="checkbox" name="cities[]" value="{{ city.postalCode }}" {{ city.postalCode in selected_cities ? 'checked' : '' }}> {{ city.city }} ({{ city.postalCode }})
-                    </li>
-                    {% endfor %}
-                </ul>
-            </div>
-
-            <button class="btn btn-danger m-2" type="submit">Rechercher</button>
-        </form>
-
-        <h2 class="h5 pt-5">{{ nb_results }} club{{ nb_results > 1 ? 's' : '' }}</h2>
-
+    <div class="row justify-content-evenly p-3">
         {% for club in clubs %}
-            <div class="card col-md-5 col-lg-3 mb-4 m-md-4">
-                <picture class="d-flex align-items-center">
-                    <source srcset="{{ (asset("images/uploads/club/") ~ (club.logo ? club.id ~ '/' ~ club.logo : 'default_logo.webp')) | imagine_filter('logo_club_list_webp') }}" type="image/webp">
-                    <source srcset="{{ (asset("images/uploads/club/") ~ (club.logo ? club.id ~ '/' ~ club.logo : 'default_logo.webp')) | imagine_filter('logo_club_list_jpg') }}" type="image/jpeg">
-                    <img src="{{ asset("images/uploads/club/") ~ (club.logo ? club.id ~ '/' ~ club.logo : 'default_logo.webp') }}" alt="Logo du club {{ club.name }}" loading="lazy" class="img-fluid card-img-top rounded-circle w-25 m-auto py-3" width="150" height="150">
-                </picture>
-
-                <div class="card-body">
-                    <h3 class="h5 card-title text-center">
-                        <a href="{{ path('app_club_show', {'slug': club.slug}) }}" class="stretched-link text-decoration-none text-black">{{ club.name }}</a>
-                    </h3>
-                    <p class="card-text text-body-secondary text-center"><small>{{ club.postalCode }} {{ club.city }}</small></p>
-                    <div class="text-center">
-                        {% for discipline in club.disciplines %}
-                            <span class="badge text-bg-secondary">{{ discipline.label }}</span>
-                        {% endfor %}
-                    </div>
-                </div>
-            </div>
+            {% include 'club/partials/club-item.html.twig' with { club: club } %}
         {% endfor %}
     </div>
 

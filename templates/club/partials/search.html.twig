@@ -1,0 +1,33 @@
+<div>
+    <p class="text-varsports">Trouver votre club par : Mot clé, Discipline et/ou Commune</p>
+
+    <form class="d-flex flex-column flex-md-row" role="search" action="{{ path('app_club_list', { term: term }) }}">
+        <input class="form-control m-2 col border-secondary" type="search" placeholder="Rechercher par mot clé" aria-label="Rechercher par mot clé" name="term" value="{{ term }}">
+
+        <div class="dropdown m-2 col">
+            <button class="btn btn-outline-secondary dropdown-toggle w-100 text-start" type="button" data-bs-toggle="dropdown" aria-expanded="false">Disciplines sportives</button>
+            <ul class="dropdown-menu overflow-auto dropdown-disciplines">
+                {% for discipline in disciplines %}
+                <li class="p-2">
+                    <input class="form-check-input" type="checkbox" name="disciplines[]" value="{{ discipline.id }}" {{ discipline.id in selected_disciplines ? 'checked' : '' }}> {{ discipline.label }}
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <div class="dropdown m-2 col">
+            <button class="btn btn-outline-secondary dropdown-toggle w-100" type="button" data-bs-toggle="dropdown" aria-expanded="false">Villes</button>
+            <ul class="dropdown-menu overflow-auto dropdown-cities">
+                {% for city in cities %}
+                <li class="p-2">
+                    <input class="form-check-input" type="checkbox" name="cities[]" value="{{ city.postalCode }}" {{ city.postalCode in selected_cities ? 'checked' : '' }}> {{ city.city }} ({{ city.postalCode }})
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <button class="btn btn-varsports m-2" type="submit">Rechercher</button>
+    </form>
+
+    <h2 class="h5 pt-5">{{ nb_results }} club{{ nb_results > 1 ? 's' : '' }}</h2>
+</div>

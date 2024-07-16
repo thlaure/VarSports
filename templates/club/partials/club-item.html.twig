@@ -1,0 +1,27 @@
+<div class="card rounded-1 col-md-5 col-lg-3 mb-4 m-md-4 p-0">
+    <div class="position-relative">
+        <picture>
+            <source srcset="{{ (asset('images/uploads/club/') ~ (club.coverImage ? club.id ~ '/' ~ club.coverImage : 'default_cover.webp'))  | imagine_filter('cover_club_show_webp') }}" type="image/webp">
+            <source srcset="{{ (asset('images/uploads/club/') ~ (club.coverImage ? club.id ~ '/' ~ club.coverImage : 'default_cover.webp'))  | imagine_filter('cover_club_show_jpg') }}" type="image/webp">
+            <img src="{{ asset('images/uploads/club/') ~ (club.coverImage ? club.id ~ '/' ~ club.coverImage : 'default_cover.webp') }}" alt="Couverture du club {{ club.name }}" class="img-fluid object-fit-cover w-100 rounded-top-1 club-cover-list">
+        </picture>
+
+        <picture>
+            <source srcset="{{ (asset('images/uploads/club/') ~ (club.logo ? club.id ~ '/' ~ club.logo : 'default_logo.webp')) | imagine_filter('logo_club_show_webp') }}" type="image/webp">
+            <source srcset="{{ (asset('images/uploads/club/') ~ (club.logo ? club.id ~ '/' ~ club.logo : 'default_logo.webp')) | imagine_filter('logo_club_show_jpg') }}" type="image/webp">
+            <img src="{{ asset('images/uploads/club/') ~ (club.logo ? club.id ~ '/' ~ club.logo : 'default_logo.webp') }}" alt="Logo du club {{ club.name }}" class="img-fluid rounded-circle col-2 border border-white bg-white border-5 position-absolute top-100 start-50 translate-middle">
+        </picture>
+    </div>
+
+    <div class="card-body p-3 mt-3 mt-sm-5 mt-md-3">
+        <h3 class="h5 card-title text-center">
+            <a href="{{ path('app_club_show', {'slug': club.slug}) }}" class="stretched-link text-decoration-none text-black">{{ club.name }}</a>
+        </h3>
+        <p class="card-text text-body-secondary text-center"><small>{{ club.postalCode }} {{ club.city }}</small></p>
+        <div class="text-center">
+            {% for discipline in club.disciplines %}
+                <span class="badge text-bg-secondary">{{ discipline.label }}</span>
+            {% endfor %}
+        </div>
+    </div>
+</div>

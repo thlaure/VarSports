@@ -33,11 +33,11 @@
             {% for i in max(1, current_page - 2)..min(nb_pages, current_page + 2) %}
                 {% if i == current_page %}
                     <li class="page-item active">
-                        <a class="page-link bg-danger border-danger" href="{{ path(path, query_params|merge({ page: i }) ) }}" aria-current="page">{{ i }}</a>
+                        <a class="page-link bg-varsports border-varsports" href="{{ path(path, query_params|merge({ page: i }) ) }}" aria-current="page">{{ i }}</a>
                     </li>
                 {% else %}
                     <li class="page-item {% if i == current_page %}active{% endif %}">
-                        <a class="page-link text-danger" href="{{ path(path, query_params|merge({ page: i }) ) }}" {{ i == current_page ? 'aria-current="page"' : ''}}>{{ i }}</a>
+                        <a class="page-link text-varsports" href="{{ path(path, query_params|merge({ page: i }) ) }}" {{ i == current_page ? 'aria-current="page"' : ''}}>{{ i }}</a>
                     </li>
                 {% endif %}
             {% endfor %}
