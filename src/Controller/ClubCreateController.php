@@ -3,7 +3,10 @@
 namespace App\Controller;
 
 use App\Constant\Message;
+use App\Entity\City;
 use App\Entity\Club;
+use App\Entity\Department;
+use App\Entity\PostalCode;
 use App\Entity\User;
 use App\Form\ClubType;
 use App\Service\FileChecker;
@@ -98,6 +101,36 @@ class ClubCreateController extends AbstractController
                         $coverName = $this->fileUploader->upload($cover, $this->targetDirectory.'/'.$club->getId());
                         $club->setCoverImage($coverName);
                         $this->entityManager->persist($club);
+                    }
+
+                    $cityForm = $form->get('city')->getData();
+                    if ($cityForm && is_string($cityForm)) {
+                        $city = $this->entityManager->getRepository(City::class)->findOneBy(['name' => $cityForm]);
+                        if ($city instanceof City) {
+                            $club->setCityfk($city);
+                        } else {
+                            $city = new City();
+                            $city->setName(trim(ucwords(strtolower($cityForm), ' -')));
+
+                            $department = $this->entityManager->getRepository(Department::class)->findOneBy(['code' => '83']);
+                            if ($department instanceof Department) {
+                                $city->setDepartment($department);
+                            }
+
+                            $this->entityManager->persist($city);
+                        }
+                    }
+
+                    $postalCodeForm = $form->get('postalCode')->getData();
+                    if ($postalCodeForm && is_string($postalCodeForm)) {
+                        $postalCode = $this->entityManager->getRepository(PostalCode::class)->findOneBy(['code' => $postalCodeForm]);
+                        if ($postalCode instanceof PostalCode) {
+                            $club->setPostalCodefk($postalCode);
+                        } else {
+                            $postalCode = new PostalCode();
+                            $postalCode->setCode($postalCodeForm);
+                            $this->entityManager->persist($postalCode);
+                        }
                     }
 
                     $user = $this->security->getUser();

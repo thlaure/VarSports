@@ -38,9 +38,11 @@ class ClubType extends AbstractType
             ])
             ->add('postalCode', TextType::class, [
                 'label' => 'Code postal *',
+                'mapped' => false,
             ])
             ->add('city', TextType::class, [
                 'label' => 'Ville *',
+                'mapped' => false,
             ])
             ->add('phone', TelType::class, [
                 'label' => 'Téléphone *',

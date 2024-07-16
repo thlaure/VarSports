@@ -130,6 +130,12 @@ class Club
     #[Assert\Regex(pattern: Constraint::REGEX_COMMON, message: Message::GENERIC_ENTITY_FIELD_ERROR)]
     private ?string $coverImage = null;
 
+    #[ORM\ManyToOne]
+    private ?City $cityfk = null;
+
+    #[ORM\ManyToOne]
+    private ?PostalCode $postalCodefk = null;
+
     public function __construct()
     {
         $this->disciplines = new ArrayCollection();
@@ -413,6 +419,30 @@ class Club
     public function setCoverImage(?string $coverImage): static
     {
         $this->coverImage = $coverImage;
+
+        return $this;
+    }
+
+    public function getCityfk(): ?City
+    {
+        return $this->cityfk;
+    }
+
+    public function setCityfk(?City $cityfk): static
+    {
+        $this->cityfk = $cityfk;
+
+        return $this;
+    }
+
+    public function getPostalCodefk(): ?PostalCode
+    {
+        return $this->postalCodefk;
+    }
+
+    public function setPostalCodefk(?PostalCode $postalCodefk): static
+    {
+        $this->postalCodefk = $postalCodefk;
 
         return $this;
     }
