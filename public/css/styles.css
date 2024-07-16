@@ -1,9 +1,9 @@
 .bg-varsports {
-    background-color: #C24949 !important;
+    background-color: #c30101 !important;
 }
 
 .btn-varsports {
-    background-color: #C24949;
+    background-color: #c30101;
     color: #fff;
 
     &:hover {
@@ -13,11 +13,11 @@
 }
 
 .border-varsports {
-    border-color: #C24949 !important;
+    border-color: #c30101 !important;
 }
 
 .text-varsports {
-    color: #C24949 !important;
+    color: #c30101 !important;
 }
 
 .logo-varsports {
