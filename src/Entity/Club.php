@@ -31,6 +31,18 @@ class Club
     #[Assert\Regex(pattern: Constraint::REGEX_COMMON, message: Message::GENERIC_ENTITY_FIELD_ERROR)]
     private ?string $address = null;
 
+    #[ORM\Column(length: 5, nullable: true)]
+    #[Assert\NotBlank(message: Message::GENERIC_ENTITY_FIELD_ERROR)]
+    #[Assert\Length(max: 5, maxMessage: Message::GENERIC_ENTITY_FIELD_ERROR)]
+    #[Assert\Regex(pattern: Constraint::REGEX_POSTAL_CODE, message: Message::GENERIC_ENTITY_FIELD_ERROR)]
+    private ?string $postalCode = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    #[Assert\NotBlank(message: Message::GENERIC_ENTITY_FIELD_ERROR)]
+    #[Assert\Length(max: 255, maxMessage: Message::GENERIC_ENTITY_FIELD_ERROR)]
+    #[Assert\Regex(pattern: Constraint::REGEX_COMMON, message: Message::GENERIC_ENTITY_FIELD_ERROR)]
+    private ?string $city = null;
+
     #[ORM\Column(length: 10, nullable: true)]
     #[Assert\Length(max: 10, maxMessage: Message::GENERIC_ENTITY_FIELD_ERROR)]
     #[Assert\Regex(pattern: Constraint::REGEX_PHONE, message: Message::GENERIC_ENTITY_FIELD_ERROR)]
@@ -119,10 +131,10 @@ class Club
     private ?string $coverImage = null;
 
     #[ORM\ManyToOne]
-    private ?City $city = null;
+    private ?City $cityfk = null;
 
     #[ORM\ManyToOne]
-    private ?PostalCode $postalCode = null;
+    private ?PostalCode $postalCodefk = null;
 
     public function __construct()
     {
@@ -156,6 +168,30 @@ class Club
     public function setAddress(?string $address): static
     {
         $this->address = $address;
+
+        return $this;
+    }
+
+    public function getPostalCode(): ?string
+    {
+        return $this->postalCode;
+    }
+
+    public function setPostalCode(?string $postalCode): static
+    {
+        $this->postalCode = $postalCode;
+
+        return $this;
+    }
+
+    public function getCity(): ?string
+    {
+        return $this->city;
+    }
+
+    public function setCity(?string $city): static
+    {
+        $this->city = $city;
 
         return $this;
     }
@@ -387,26 +423,26 @@ class Club
         return $this;
     }
 
-    public function getCity(): ?City
+    public function getCityfk(): ?City
     {
-        return $this->city;
+        return $this->cityfk;
     }
 
-    public function setCity(?City $city): static
+    public function setCityfk(?City $cityfk): static
     {
-        $this->city = $city;
+        $this->cityfk = $cityfk;
 
         return $this;
     }
 
-    public function getPostalCode(): ?PostalCode
+    public function getPostalCodefk(): ?PostalCode
     {
-        return $this->postalCode;
+        return $this->postalCodefk;
     }
 
-    public function setPostalCode(?PostalCode $postalCode): static
+    public function setPostalCodefk(?PostalCode $postalCodefk): static
     {
-        $this->postalCode = $postalCode;
+        $this->postalCodefk = $postalCodefk;
 
         return $this;
     }
