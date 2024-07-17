@@ -50,16 +50,16 @@ class VarsportsClubCitySeparateCommand extends Command
 
         $clubs = $this->clubRepository->findAll();
         foreach ($clubs as $club) {
-            if (null === $club->getCity() || null === $club->getPostalCode()) {
+            if (null === $club->getCityName() || null === $club->getPostalCodeCode()) {
                 continue;
             }
 
-            $postalCode = $this->postalCodeRepository->findOneBy(['code' => $club->getPostalCode()]);
-            $io->info('Postal code '.$club->getPostalCode().' found: '.($postalCode instanceof PostalCode ? 'yes' : 'no'));
+            $postalCode = $this->postalCodeRepository->findOneBy(['code' => $club->getPostalCodeCode()]);
+            $io->info('Postal code '.$club->getPostalCodeCode().' found: '.($postalCode instanceof PostalCode ? 'yes' : 'no'));
             if (!$postalCode instanceof PostalCode) {
                 $postalCode = (new PostalCode())
-                    ->setCode($club->getPostalCode());
-                $io->comment('Postal code '.$club->getPostalCode());
+                    ->setCode($club->getPostalCodeCode());
+                $io->comment('Postal code '.$club->getPostalCodeCode());
 
                 try {
                     $this->entityManager->persist($postalCode);
@@ -73,13 +73,13 @@ class VarsportsClubCitySeparateCommand extends Command
                 }
             }
 
-            $city = $this->cityRepository->findOneBy(['name' => $club->getCity()]);
-            $io->info('City '.$club->getCity().' found: '.($city instanceof City ? 'yes' : 'no'));
+            $city = $this->cityRepository->findOneBy(['name' => $club->getCityName()]);
+            $io->info('City '.$club->getCityName().' found: '.($city instanceof City ? 'yes' : 'no'));
             if (!$city instanceof City) {
                 $city = (new City())
                     ->setDepartment($defaultDepartment)
-                    ->setName($club->getCity());
-                $io->comment('City '.$club->getCity());
+                    ->setName($club->getCityName());
+                $io->comment('City '.$club->getCityName());
 
                 try {
                     $this->entityManager->persist($city);

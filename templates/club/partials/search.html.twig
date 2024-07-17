@@ -20,7 +20,7 @@
             <ul class="dropdown-menu overflow-auto dropdown-cities">
                 {% for city in cities %}
                 <li class="p-2">
-                    <input class="form-check-input" type="checkbox" name="cities[]" value="{{ city.postalCode }}" {{ city.postalCode in selected_cities ? 'checked' : '' }}> {{ city.city }} ({{ city.postalCode }})
+                    <input class="form-check-input" type="checkbox" name="cities[]" value="{{ city.postalCodeCode }}" {{ city.postalCodeCode in selected_cities ? 'checked' : '' }}> {{ city.cityName }} ({{ city.postalCodeCode }})
                 </li>
                 {% endfor %}
             </ul>

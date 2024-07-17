@@ -36,12 +36,12 @@ class VarsportsLinkClubCityCommand extends Command
 
         $clubs = $this->clubRepository->findAll();
         foreach ($clubs as $club) {
-            if (null === $club->getCity() || null === $club->getPostalCode()) {
+            if (null === $club->getCityName() || null === $club->getPostalCodeCode()) {
                 continue;
             }
 
-            $city = $this->cityRepository->findOneBy(['name' => $club->getCity()]);
-            $postalCode = $this->postalCodeRepository->findOneBy(['code' => $club->getPostalCode()]);
+            $city = $this->cityRepository->findOneBy(['name' => $club->getCityName()]);
+            $postalCode = $this->postalCodeRepository->findOneBy(['code' => $club->getPostalCodeCode()]);
 
             if (null === $city || null === $postalCode) {
                 $io->error('City and postal code not found for club '.$club->getId());
@@ -49,8 +49,8 @@ class VarsportsLinkClubCityCommand extends Command
             }
 
             if ($club instanceof Club) {
-                $club->setCityfk($city);
-                $club->setPostalCodefk($postalCode);
+                $club->setCity($city);
+                $club->setPostalCode($postalCode);
                 $this->entityManager->flush();
             }
         }

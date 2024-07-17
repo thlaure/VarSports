@@ -38,7 +38,7 @@ class ClubRepository extends ServiceEntityRepository
         }
 
         if (count($cities) > 0) {
-            $qb->andWhere('c.postalCode IN (:postal_codes)')
+            $qb->andWhere('c.postalCodeCode IN (:postal_codes)')
                 ->setParameter('postal_codes', $cities);
         }
 
@@ -70,10 +70,10 @@ class ClubRepository extends ServiceEntityRepository
     public function getCities(): array
     {
         $result = $this->createQueryBuilder('c')
-            ->select('c.city, c.postalCode')
+            ->select('c.cityName, c.postalCodeCode')
             ->distinct()
-            ->orderBy('c.city', 'ASC')
-            ->andWhere('c.city IS NOT NULL AND c.postalCode IS NOT NULL')
+            ->orderBy('c.cityName', 'ASC')
+            ->andWhere('c.cityName IS NOT NULL AND c.postalCodeCode IS NOT NULL')
             ->getQuery()
             ->getResult();
 

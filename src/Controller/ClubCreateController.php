@@ -107,7 +107,7 @@ class ClubCreateController extends AbstractController
                     if ($cityForm && is_string($cityForm)) {
                         $city = $this->entityManager->getRepository(City::class)->findOneBy(['name' => $cityForm]);
                         if ($city instanceof City) {
-                            $club->setCityfk($city);
+                            $club->setCity($city);
                         } else {
                             $city = new City();
                             $city->setName(trim(ucwords(strtolower($cityForm), ' -')));
@@ -125,7 +125,7 @@ class ClubCreateController extends AbstractController
                     if ($postalCodeForm && is_string($postalCodeForm)) {
                         $postalCode = $this->entityManager->getRepository(PostalCode::class)->findOneBy(['code' => $postalCodeForm]);
                         if ($postalCode instanceof PostalCode) {
-                            $club->setPostalCodefk($postalCode);
+                            $club->setPostalCode($postalCode);
                         } else {
                             $postalCode = new PostalCode();
                             $postalCode->setCode($postalCodeForm);

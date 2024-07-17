@@ -29,8 +29,8 @@ class AppFixtures extends Fixture
             $club = new Club();
             $club->setName('Club '.$i)
                 ->setAddress('Adresse '.$i)
-                ->setPostalCode('12345')
-                ->setCity('Ville')
+                ->setPostalCodeCode('12345')
+                ->setCityName('Ville')
                 ->setPhone('0123456789')
                 ->setEmail('club'.$i.'@mail.com')
                 ->setWebsite('https://www.club'.$i.'.com')
