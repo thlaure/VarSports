@@ -10,3 +10,7 @@
 .club-cover-list {
     max-height: 140px;
 }
+
+#search-clubs li label {
+    cursor: pointer;
+}

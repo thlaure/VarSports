@@ -1,15 +1,16 @@
 <div>
     <p class="text-varsports">Trouver votre club par : Mot clé, Discipline et/ou Commune</p>
 
-    <form class="d-flex flex-column flex-md-row" role="search" action="{{ path('app_club_list', { term: term }) }}">
+    <form class="d-flex flex-column flex-md-row" id="search-clubs" role="search" action="{{ path('app_club_list', { term: term }) }}">
         <input class="form-control m-2 me-md-2 ms-md-0 col border-secondary w-auto" type="search" placeholder="Rechercher par mot clé" aria-label="Rechercher par mot clé" name="term" value="{{ term }}">
 
         <div class="dropdown m-2 col">
             <button class="btn btn-outline-secondary dropdown-toggle w-100 d-flex justify-content-between align-items-center" type="button" data-bs-toggle="dropdown" aria-expanded="false">Disciplines sportives</button>
             <ul class="dropdown-menu overflow-auto dropdown-disciplines">
                 {% for discipline in disciplines %}
-                <li class="p-2">
-                    <input class="form-check-input" type="checkbox" name="disciplines[]" value="{{ discipline.id }}" {{ discipline.id in selected_disciplines ? 'checked' : '' }}> {{ discipline.label }}
+                <li class="p-2 cursor">
+                    <input class="form-check-input border border-2 border-dark" type="checkbox" name="disciplines[]" id="discipline-{{ discipline.id }}" value="{{ discipline.id }}" {{ discipline.id in selected_disciplines ? 'checked' : '' }}> 
+                    <label for="discipline-{{ discipline.id }}">{{ discipline.label }}</label>
                 </li>
                 {% endfor %}
             </ul>
@@ -20,7 +21,8 @@
             <ul class="dropdown-menu overflow-auto dropdown-cities">
                 {% for city in cities %}
                 <li class="p-2">
-                    <input class="form-check-input" type="checkbox" name="cities[]" value="{{ city.postalCode }}" {{ city.postalCode in selected_cities ? 'checked' : '' }}> {{ city.city }} ({{ city.postalCode }})
+                    <input class="form-check-input border border-2 border-dark" type="checkbox" name="cities[]" id="city-{{ city.postalCode }}" value="{{ city.postalCode }}" {{ city.postalCode in selected_cities ? 'checked' : '' }}>
+                    <label for="city-{{ city.postalCode }}">{{ city.city }} ({{ city.postalCode }})</label>
                 </li>
                 {% endfor %}
             </ul>
