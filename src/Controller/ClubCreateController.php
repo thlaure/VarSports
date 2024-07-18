@@ -104,13 +104,15 @@ class ClubCreateController extends AbstractController
                     }
 
                     $cityForm = $form->get('city')->getData();
-                    if ($cityForm && is_string($cityForm)) {
-                        $city = $this->entityManager->getRepository(City::class)->findOneBy(['name' => $cityForm]);
+                    $postalCodeForm = $form->get('postalCode')->getData();
+                    if ($cityForm && is_string($cityForm) && $postalCodeForm && is_string($postalCodeForm)) {
+                        $city = $this->entityManager->getRepository(City::class)->findOneBy(['name' => $cityForm, 'postalCode' => $postalCodeForm]);
                         if ($city instanceof City) {
                             $club->setCity($city);
                         } else {
                             $city = new City();
                             $city->setName(trim(ucwords(strtolower($cityForm), ' -')));
+                            $city->setPostalCode(trim($postalCodeForm));
 
                             $department = $this->entityManager->getRepository(Department::class)->findOneBy(['code' => '83']);
                             if ($department instanceof Department) {
@@ -118,18 +120,6 @@ class ClubCreateController extends AbstractController
                             }
 
                             $this->entityManager->persist($city);
-                        }
-                    }
-
-                    $postalCodeForm = $form->get('postalCode')->getData();
-                    if ($postalCodeForm && is_string($postalCodeForm)) {
-                        $postalCode = $this->entityManager->getRepository(PostalCode::class)->findOneBy(['code' => $postalCodeForm]);
-                        if ($postalCode instanceof PostalCode) {
-                            $club->setPostalCode($postalCode);
-                        } else {
-                            $postalCode = new PostalCode();
-                            $postalCode->setCode($postalCodeForm);
-                            $this->entityManager->persist($postalCode);
                         }
                     }
 

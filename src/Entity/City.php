@@ -33,6 +33,12 @@ class City
     #[ORM\ManyToOne(inversedBy: 'cities')]
     private ?Department $department = null;
 
+    #[ORM\Column(length: 5)]
+    #[Assert\NotBlank(message: Message::GENERIC_ENTITY_FIELD_ERROR)]
+    #[Assert\Length(max: 5, maxMessage: Message::GENERIC_ENTITY_FIELD_ERROR)]
+    #[Assert\Regex(pattern: Constraint::REGEX_POSTAL_CODE, message: Message::GENERIC_ENTITY_FIELD_ERROR)]
+    private ?string $postalCode = null;
+
     public function __construct()
     {
         $this->postalCodes = new ArrayCollection();
@@ -90,6 +96,18 @@ class City
     public function setDepartment(?Department $department): static
     {
         $this->department = $department;
+
+        return $this;
+    }
+
+    public function getPostalCode(): ?string
+    {
+        return $this->postalCode;
+    }
+
+    public function setPostalCode(string $postalCode): static
+    {
+        $this->postalCode = $postalCode;
 
         return $this;
     }
