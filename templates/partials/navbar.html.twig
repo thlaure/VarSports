@@ -19,10 +19,19 @@
         <div class="collapse navbar-collapse" id="mainNavbar">
             <ul class="navbar-nav m-auto mb-2 mb-lg-0">
                 <li class="nav-item">
-                    <a class="nav-link text-white active" aria-current="page" href="{{ path('app_home_index') }}">Accueil</a>
+                    <a class="nav-link text-white active" aria-current="page" href="https://www.varsports.fr/">Accueil</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link text-white" href="{{ path('app_club_list') }}">Les clubs</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-white" href="https://www.varsports.fr/infos/">Infos</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-white" href="https://www.varsports.fr/carte-vs/">Carte VS+</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-white" href="https://www.varsports.fr/contact/">Contact</a>
                 </li>
 
                 {% if is_granted('IS_AUTHENTICATED_FULLY') %}
