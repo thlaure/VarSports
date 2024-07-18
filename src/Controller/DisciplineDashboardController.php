@@ -62,7 +62,7 @@ class DisciplineDashboardController extends AbstractController
 
         return $this->render('admin/discipline/dashboard.html.twig', [
             'form' => $form,
-            'disciplines' => $this->disciplineRepository->findAll(),
+            'disciplines' => $this->disciplineRepository->findBy([], ['label' => 'ASC']),
         ]);
     }
 }
