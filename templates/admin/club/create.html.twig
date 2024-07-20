@@ -92,6 +92,16 @@
                         {{ form_label(form.youtube) }}
                         {{ form_widget(form.youtube, {'attr': {'class': 'form-control'}}) }}
                     </div>
+
+                    {% if is_granted('ROLE_ADMIN') %}
+                    <div class="mb-3">
+                        {{ form_label(form.admin_email) }}
+                        {{ form_widget(form.admin_email, {'attr': {
+                            'class': 'form-control',
+                            'required': true
+                        }}) }}
+                    </div>
+                    {% endif %}
                 </div>
             </div>
 

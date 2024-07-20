@@ -34,7 +34,7 @@ class UserCreateController extends AbstractController
     public function create(Request $request): Response
     {
         $user = $this->security->getUser();
-        if (!$user instanceof User || !$user->getClub()) {
+        if ((!$user instanceof User || !$user->getClub()) && !$this->security->isGranted('ROLE_ADMIN')) {
             $this->logger->error(Message::CLUB_NOT_FOUND, ['user' => $user]);
             throw new \InvalidArgumentException(Message::CLUB_NOT_FOUND, Response::HTTP_NOT_FOUND);
         }
@@ -53,7 +53,9 @@ class UserCreateController extends AbstractController
 
             $user = $this->security->getUser();
             if ($user instanceof User) {
-                $userToCreate->setClub($user->getClub());
+                if (!$user->hasRole('ROLE_ADMIN')) {
+                    $userToCreate->setClub($user->getClub());
+                }
             } else {
                 $this->logger->error(Message::DATA_NOT_FOUND, ['user' => $user]);
                 $this->createNotFoundException();
@@ -63,25 +65,14 @@ class UserCreateController extends AbstractController
                 $this->userPasswordHasher->hashPassword($userToCreate, $plainPassword)
             );
 
+            $userToCreate->setVerified(true);
+
             $this->entityManager->persist($userToCreate);
             $this->entityManager->flush();
 
-            $emailTo = $userToCreate->getEmail();
-            if (!is_string($emailTo) || empty($emailTo)) {
-                $this->logger->error(Message::DATA_MUST_BE_SET, ['user' => $userToCreate]);
-                throw new \InvalidArgumentException(Message::DATA_MUST_BE_SET, Response::HTTP_BAD_REQUEST);
-            }
-
-            // generate a signed url and email it to the user
-            $this->emailVerifier->sendEmailConfirmation('app_verify_email', $userToCreate,
-                (new TemplatedEmail())
-                    ->from(new Address('no-reply@varsports.fr', 'VarSports'))
-                    ->to($emailTo)
-                    ->subject(Message::CONFIRM_EMAIL)
-                    ->htmlTemplate('registration/confirmation_email.html.twig')
-            );
-
-            $this->addFlash('success', Message::CONSULT_MAILBOX_TO_CONFIRM);
+            /** @var User $user */
+            $successMessage = $user->hasRole('ROLE_ADMIN') ? Message::GENERIC_SUCCESS : Message::CONSULT_MAILBOX_TO_CONFIRM;
+            $this->addFlash('success', $successMessage);
 
             return $this->redirectToRoute('app_user_list');
         }

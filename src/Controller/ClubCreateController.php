@@ -48,12 +48,7 @@ class ClubCreateController extends AbstractController
             throw new NotFoundResourceException(Message::DATA_NOT_FOUND, Response::HTTP_NOT_FOUND);
         }
 
-        if ($user->hasRole('ROLE_ADMIN')) {
-            $this->logger->error(Message::GENERIC_ACCESS_DENIED, ['user' => $user]);
-            throw new AccessDeniedHttpException(Message::GENERIC_ACCESS_DENIED);
-        }
-
-        if ($user->getClub() instanceof Club) {
+        if (!$user->hasRole('ROLE_ADMIN') && $user->getClub() instanceof Club) {
             $this->addFlash('warning', Message::CLUB_ALREADY_EXISTS_FOR_THIS_ACCOUNT);
 
             return $this->redirectToRoute('app_admin_club_edit', ['id' => $user->getClub()->getId()]);
@@ -100,12 +95,21 @@ class ClubCreateController extends AbstractController
                         $this->entityManager->persist($club);
                     }
 
-                    $user = $this->security->getUser();
-                    if ($user instanceof User) {
+                    /** @var string|null $emailAdminClub */
+                    $emailAdminClub = $form->get('admin_email')->getData();
+                    if ($emailAdminClub && $user->hasRole('ROLE_ADMIN')) {
+                        $adminClub = $this->entityManager->getRepository(User::class)->findOneBy(['email' => $emailAdminClub]);
+                        if (!$adminClub instanceof User) {
+                            $this->createNotFoundException();
+                        }
+
+                        $adminClub->setClub($club);
+                    } else {
+                        /** @var User $user */
                         $user->setClub($club);
                         $this->entityManager->persist($user);
                     }
-
+                    
                     $this->entityManager->flush();
 
                     $this->addFlash('success', Message::GENERIC_SUCCESS);

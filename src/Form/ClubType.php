@@ -19,7 +19,9 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\UrlType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\Email;
 use Symfony\Component\Validator\Constraints\File;
+use Symfony\Component\Validator\Constraints\Regex;
 
 class ClubType extends AbstractType
 {
@@ -101,6 +103,19 @@ class ClubType extends AbstractType
                 'query_builder' => function (DisciplineRepository $disciplineRepository): QueryBuilder {
                     return $disciplineRepository->createQueryBuilder('d')->orderBy('d.label', 'ASC');
                 },
+            ])
+            ->add('admin_email', EmailType::class, [
+                'label' => 'E-mail de l\'administrateur *',
+                'required' => false,
+                'mapped' => false,
+                'help' => 'Cet e-mail sera le contact par défaut pour toute nouvelle inscription.',
+                'constraints' => [
+                    new Email(['message' => Message::GENERIC_ENTITY_FIELD_ERROR]),
+                    new Regex([
+                        'pattern' => Constraint::REGEX_EMAIL,
+                        'message' => Message::GENERIC_ENTITY_FIELD_ERROR,
+                    ]),
+                ],
             ])
             ->add('submit', SubmitType::class, [
                 'label' => 'Soumettre',
