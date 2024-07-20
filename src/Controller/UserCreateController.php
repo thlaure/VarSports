@@ -5,15 +5,12 @@ namespace App\Controller;
 use App\Constant\Message;
 use App\Entity\User;
 use App\Form\UserEditType;
-use App\Security\EmailVerifier;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
-use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Mime\Address;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
@@ -24,7 +21,6 @@ class UserCreateController extends AbstractController
         private EntityManagerInterface $entityManager,
         private LoggerInterface $logger,
         private UserPasswordHasherInterface $userPasswordHasher,
-        private EmailVerifier $emailVerifier,
         private Security $security
     ) {
     }

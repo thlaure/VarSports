@@ -15,7 +15,6 @@ use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Component\String\Slugger\SluggerInterface;
@@ -99,17 +98,17 @@ class ClubCreateController extends AbstractController
                     $emailAdminClub = $form->get('admin_email')->getData();
                     if ($emailAdminClub && $user->hasRole('ROLE_ADMIN')) {
                         $adminClub = $this->entityManager->getRepository(User::class)->findOneBy(['email' => $emailAdminClub]);
-                        if (!$adminClub instanceof User) {
+                        if ($adminClub instanceof User) {
+                            $adminClub->setClub($club);
+                        } else {
                             $this->createNotFoundException();
                         }
-
-                        $adminClub->setClub($club);
                     } else {
-                        /** @var User $user */
+                        /* @var User $user */
                         $user->setClub($club);
                         $this->entityManager->persist($user);
                     }
-                    
+
                     $this->entityManager->flush();
 
                     $this->addFlash('success', Message::GENERIC_SUCCESS);

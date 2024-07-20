@@ -19,7 +19,7 @@ class ClubRepository extends ServiceEntityRepository
 
     /**
      * @param Discipline[]  $disciplines
-     * @param int[] $cities
+     * @param int[]         $cities
      * @param string[]|null $orderBy
      *
      * @return Club[]
@@ -76,7 +76,7 @@ class ClubRepository extends ServiceEntityRepository
             ->andWhere('c.city IS NOT NULL AND c.postalCode IS NOT NULL')
             ->getQuery()
             ->getResult();
-        
+
         if (!\is_array($result)) {
             $result = [];
         }
