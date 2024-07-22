@@ -37,6 +37,8 @@ class UserEditController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             try {
+                $user->setLastUpdateDate(new \DateTimeImmutable());
+
                 $this->entityManager->flush();
                 $this->addFlash('success', Message::GENERIC_SUCCESS);
 
