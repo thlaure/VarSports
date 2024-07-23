@@ -58,7 +58,7 @@ class LoginAuthenticator extends AbstractLoginFormAuthenticator
             return new RedirectResponse($targetPath);
         }
 
-        return new RedirectResponse($this->urlGenerator->generate('app_club_list'));
+        return new RedirectResponse($this->urlGenerator->generate('app_home_index'));
     }
 
     protected function getLoginUrl(Request $request): string
