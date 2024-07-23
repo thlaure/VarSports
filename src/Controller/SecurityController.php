@@ -3,7 +3,6 @@
 namespace App\Controller;
 
 use App\Constant\Message;
-use App\Entity\User;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -20,21 +19,17 @@ class SecurityController extends AbstractController
     #[Route(path: '/login', name: 'app_login')]
     public function login(AuthenticationUtils $authenticationUtils): Response
     {
-        $error = $authenticationUtils->getLastAuthenticationError();
-        $lastUsername = $authenticationUtils->getLastUsername();
-
         if ($this->isGranted('IS_AUTHENTICATED_FULLY')) {
             return $this->redirectToRoute('app_club_list');
         }
+
+        $error = $authenticationUtils->getLastAuthenticationError();
+        $lastUsername = $authenticationUtils->getLastUsername();
 
         if ($error) {
             $this->logger->error('Authentication error: '.$error->getMessage());
             $this->addFlash('error', Message::INVALID_CREDENTIALS);
         }
-
-        /** @var User $user */
-        $user = $this->getUser();
-        $user->setLastLoginDate(new \DateTimeImmutable());
 
         return $this->render('security/login.html.twig', [
             'last_username' => $lastUsername,
