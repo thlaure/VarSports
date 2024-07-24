@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Constant\Message;
 use App\Entity\Club;
+use App\Entity\Discipline;
 use App\Entity\User;
 use App\Form\ClubType;
 use App\Service\FileChecker;
@@ -109,6 +110,12 @@ class ClubCreateController extends AbstractController
                         $this->entityManager->persist($user);
                     }
 
+                    $selectedDisciplines = $request->get('disciplines');
+                    $disciplines = $this->entityManager->getRepository(Discipline::class)->findBy(['id' => $selectedDisciplines]);
+                    foreach ($disciplines as $discipline) {
+                        $club->addDiscipline($discipline);
+                    }
+
                     $this->entityManager->flush();
 
                     $this->addFlash('success', Message::GENERIC_SUCCESS);
@@ -123,6 +130,7 @@ class ClubCreateController extends AbstractController
 
         return $this->render('admin/club/create.html.twig', [
             'form' => $form->createView(),
+            'disciplines' => $this->entityManager->getRepository(Discipline::class)->findBy([], ['label' => 'ASC']),
         ]);
     }
 }

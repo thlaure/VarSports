@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Constant\Message;
 use App\Entity\Club;
+use App\Entity\Discipline;
 use App\Entity\User;
 use App\Form\ClubType;
 use App\Repository\ClubRepository;
@@ -104,6 +105,12 @@ class ClubEditController extends AbstractController
                         throw new \InvalidArgumentException(Message::DATA_MUST_BE_SET, Response::HTTP_BAD_REQUEST);
                     }
                     $club->setSlug($this->slugger->slug($club->getName())->lower());
+
+                    $selectedDisciplines = $request->get('disciplines');
+                    $disciplines = $this->entityManager->getRepository(Discipline::class)->findBy(['id' => $selectedDisciplines]);
+                    foreach ($disciplines as $discipline) {
+                        $club->addDiscipline($discipline);
+                    }
 
                     $this->entityManager->flush();
 
