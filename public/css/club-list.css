@@ -1,16 +1,3 @@
-.dropdown-disciplines,
-.dropdown-cities {
-    max-height: 200px;
-
-    @media screen and (min-width: 768px) {
-        max-height: 400px;
-    }
-}
-
 .club-cover-list {
     max-height: 140px;
-}
-
-#search-clubs li label {
-    cursor: pointer;
 }

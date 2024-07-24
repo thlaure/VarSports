@@ -23,3 +23,15 @@
 .logo-varsports {
     max-height: 100px;
 }
+
+.dropdown-select {
+    max-height: 200px;
+
+    @media screen and (min-width: 768px) {
+        max-height: 400px;
+    }
+}
+
+.dropdown-select-label {
+    cursor: pointer;
+}
