@@ -6,7 +6,7 @@
 
 {% block javascripts %}
 {{ parent() }}
-<script src="{{ asset('js/dropdown-select.js') }}" defer></script>
+<script src="{{ asset('js/select2.js') }}" defer></script>
 {% endblock %}
 
 {% block title %} | Admin - Créer un club{% endblock %}
@@ -63,10 +63,10 @@
                 </div>
 
                 <div class="col-md-6">
-                    {# <div class="mb-3">
+                    <div class="mb-3">
                         {{ form_label(form.disciplines) }}
-                        {{ form_widget(form.disciplines, {'attr': {'class': 'form-control'}}) }}
-                    </div> #}
+                        {{ form_widget(form.disciplines, {'attr': {'class': 'form-control select2-autocomplete'}}) }}
+                    </div>
 
                     <div class="mb-3">
                         {{ form_label(form.logo) }}
@@ -107,18 +107,6 @@
                         }}) }}
                     </div>
                     {% endif %}
-
-                    <div class="dropdown col mb-3" id="club-create">
-                        <button class="btn btn-outline-secondary dropdown-toggle w-100 d-flex justify-content-between align-items-center" type="button" data-bs-toggle="dropdown" aria-expanded="false">Disciplines sportives *</button>
-                        <ul class="dropdown-menu overflow-auto dropdown-select">
-                            {% for discipline in disciplines %}
-                            <li class="px-2 py-1">
-                                <input class="form-check-input border border-2 border-secondary" type="checkbox" name="club[disciplines][]" id="discipline-{{ discipline.id }}" value="{{ discipline.id }}"> 
-                                <label class="dropdown-select-label" for="discipline-{{ discipline.id }}">{{ discipline.label }}</label>
-                            </li>
-                            {% endfor %}
-                        </ul>
-                    </div>
                 </div>
             </div>
 

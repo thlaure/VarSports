@@ -3,7 +3,7 @@
 {% block title %} | Nos clubs{% endblock %}
 
 {% block canonical %}
-<link rel="canonical" href="{{ absolute_url('app_club_list') }}">
+<link rel="canonical" href="{{ url('app_club_list') }}">
 {% endblock %}
 
 {% block stylesheets %}
@@ -14,6 +14,7 @@
 {% block javascripts %}
 {{ parent() }}
 <script src="{{ asset('js/dropdown-select.js') }}" defer></script>
+<script src="{{ asset('js/select2.js') }}" defer></script>
 {% endblock %}
 
 {% block body %}

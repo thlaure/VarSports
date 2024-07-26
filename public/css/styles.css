@@ -35,3 +35,11 @@
 .dropdown-select-label {
     cursor: pointer;
 }
+
+.h-fit-content {
+    height: fit-content;
+}
+
+ul.select2-selection__rendered > .select2-selection__choice {
+    width: fit-content;
+}

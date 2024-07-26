@@ -2,33 +2,25 @@
     <p class="text-varsports">Trouver votre club par : Mot clé, Discipline et/ou Commune</p>
 
     <form class="d-flex flex-column flex-md-row" id="search-clubs" role="search" action="{{ path('app_club_list', { term: term }) }}">
-        <input class="form-control m-2 me-md-2 ms-md-0 col border-secondary w-auto" type="search" placeholder="Rechercher par mot clé" aria-label="Rechercher par mot clé" name="term" value="{{ term }}">
+        <input class="form-control m-2 me-md-2 ms-md-0 col border-secondary w-auto h-fit-content" type="search" placeholder="Rechercher par mot clé" aria-label="Rechercher par mot clé" name="term" value="{{ term }}">
 
         <div class="dropdown m-2 col">
-            <button class="btn btn-outline-secondary dropdown-toggle w-100 d-flex justify-content-between align-items-center" type="button" data-bs-toggle="dropdown" aria-expanded="false">Disciplines sportives</button>
-            <ul class="dropdown-menu overflow-auto dropdown-select">
+            <select class="form-select select2-autocomplete border border-2 border-secondary" multiple aria-label="Select discipline" name="disciplines[]" data-placeholder="Disciplines sportives">
                 {% for discipline in disciplines %}
-                <li class="px-2 py-1">
-                    <input class="form-check-input border border-2 border-secondary" type="checkbox" name="disciplines[]" id="discipline-{{ discipline.id }}" value="{{ discipline.id }}" {{ discipline.id in selected_disciplines ? 'checked' : '' }}> 
-                    <label class="dropdown-select-label" for="discipline-{{ discipline.id }}">{{ discipline.label }}</label>
-                </li>
+                    <option value="{{ discipline.id }}" {{ discipline.id in selected_disciplines ? 'selected' : '' }}>{{ discipline.label }}</option>
                 {% endfor %}
-            </ul>
+            </select>
         </div>
 
         <div class="dropdown m-2 col">
-            <button class="btn btn-outline-secondary dropdown-toggle w-100 d-flex justify-content-between align-items-center" type="button" data-bs-toggle="dropdown" aria-expanded="false">Villes</button>
-            <ul class="dropdown-menu overflow-auto dropdown-select">
+            <select class="form-select select2-autocomplete border border-2 border-secondary" multiple aria-label="Select city" name="cities[]" data-placeholder="Villes">
                 {% for city in cities %}
-                <li class="px-2 py-1">
-                    <input class="form-check-input border border-2 border-secondary" type="checkbox" name="cities[]" id="city-{{ city.postalCode }}" value="{{ city.postalCode }}" {{ city.postalCode in selected_cities ? 'checked' : '' }}>
-                    <label class="dropdown-select-label" for="city-{{ city.postalCode }}">{{ city.city }} ({{ city.postalCode }})</label>
-                </li>
+                    <option value="{{ city.postalCode }}" {{ city.postalCode in selected_cities ? 'selected' : '' }}>{{ city.city }} ({{ city.postalCode }})</option>
                 {% endfor %}
-            </ul>
+            </select>
         </div>
 
-        <button class="btn btn-varsports m-2" type="submit">Rechercher</button>
+        <button class="btn btn-varsports m-2 h-fit-content" type="submit">Rechercher</button>
     </form>
 
     <h2 class="h5 pt-5">{{ nb_results }} club{{ nb_results > 1 ? 's' : '' }}</h2>
