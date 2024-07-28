@@ -35,13 +35,13 @@ class Club
     #[Assert\NotBlank(message: Message::GENERIC_ENTITY_FIELD_ERROR)]
     #[Assert\Length(max: 5, maxMessage: Message::GENERIC_ENTITY_FIELD_ERROR)]
     #[Assert\Regex(pattern: Constraint::REGEX_POSTAL_CODE, message: Message::GENERIC_ENTITY_FIELD_ERROR)]
-    private ?string $postalCode = null;
+    private ?string $postalCodeCode = null;
 
     #[ORM\Column(length: 255, nullable: true)]
     #[Assert\NotBlank(message: Message::GENERIC_ENTITY_FIELD_ERROR)]
     #[Assert\Length(max: 255, maxMessage: Message::GENERIC_ENTITY_FIELD_ERROR)]
     #[Assert\Regex(pattern: Constraint::REGEX_COMMON, message: Message::GENERIC_ENTITY_FIELD_ERROR)]
-    private ?string $city = null;
+    private ?string $cityName = null;
 
     #[ORM\Column(length: 10, nullable: true)]
     #[Assert\Length(max: 10, maxMessage: Message::GENERIC_ENTITY_FIELD_ERROR)]
@@ -166,26 +166,26 @@ class Club
         return $this;
     }
 
-    public function getPostalCode(): ?string
+    public function getPostalCodeCode(): ?string
     {
-        return $this->postalCode;
+        return $this->postalCodeCode;
     }
 
-    public function setPostalCode(?string $postalCode): static
+    public function setPostalCodeCode(?string $postalCodeCode): static
     {
-        $this->postalCode = $postalCode;
+        $this->postalCodeCode = $postalCodeCode;
 
         return $this;
     }
 
-    public function getCity(): ?string
+    public function getCityName(): ?string
     {
-        return $this->city;
+        return $this->cityName;
     }
 
-    public function setCity(?string $city): static
+    public function setCityName(?string $cityName): static
     {
-        $this->city = $city;
+        $this->cityName = $cityName;
 
         return $this;
     }

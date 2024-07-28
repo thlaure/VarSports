@@ -38,10 +38,10 @@ class ClubType extends AbstractType
                 'label' => 'Complément d\'adresse',
                 'required' => false,
             ])
-            ->add('postalCode', TextType::class, [
+            ->add('postalCodeCode', TextType::class, [
                 'label' => 'Code postal *',
             ])
-            ->add('city', TextType::class, [
+            ->add('cityName', TextType::class, [
                 'label' => 'Ville *',
             ])
             ->add('phone', TelType::class, [

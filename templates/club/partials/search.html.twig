@@ -15,7 +15,7 @@
         <div class="dropdown m-2 col">
             <select class="form-select select2-autocomplete border border-2 border-secondary" multiple aria-label="Select city" name="cities[]" data-placeholder="Villes">
                 {% for city in cities %}
-                    <option value="{{ city.postalCode }}" {{ city.postalCode in selected_cities ? 'selected' : '' }}>{{ city.city }} ({{ city.postalCode }})</option>
+                    <option value="{{ city.postalCodeCode }}" {{ city.postalCodeCode in selected_cities ? 'selected' : '' }}>{{ city.cityName }} ({{ city.postalCodeCode }})</option>
                 {% endfor %}
             </select>
         </div>
