@@ -101,8 +101,8 @@ class ImportClubsCommand extends Command
                     ->setTwitter($dataClub['twitter'])
                     ->setWebsite($dataClub['website'])
                     ->setAddress($dataClub['address'])
-                    ->setPostalCode($dataClub['postal_code'])
-                    ->setCity($dataClub['city'])
+                    ->setPostalCodeCode($dataClub['postal_code'])
+                    ->setCityName($dataClub['city'])
                     ->setPhone($dataClub['phone']);
 
                 foreach ($disciplines as $discipline) {
