@@ -27,6 +27,15 @@ class ClubType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
+        $club = $builder->getData();
+        if ($club instanceof Club && null !== $club->getCity()) {
+            $postalCode = $club->getCity()->getPostalCode();
+            $cityName = $club->getCity()->getName();
+        } else {
+            $postalCode = null;
+            $cityName = null;
+        }
+
         $builder
             ->add('name', TextType::class, [
                 'label' => 'Nom *',
@@ -41,10 +50,12 @@ class ClubType extends AbstractType
             ->add('cityPostalCode', TextType::class, [
                 'label' => 'Code postal *',
                 'mapped' => false,
+                'data' => $postalCode ?? null,
             ])
             ->add('cityName', TextType::class, [
                 'label' => 'Ville *',
                 'mapped' => false,
+                'data' => $cityName ?? null,
             ])
             ->add('phone', TelType::class, [
                 'label' => 'Téléphone *',
