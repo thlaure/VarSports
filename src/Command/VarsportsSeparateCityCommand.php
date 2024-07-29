@@ -19,8 +19,7 @@ class VarsportsSeparateCityCommand extends Command
 {
     public function __construct(
         private EntityManagerInterface $entityManager
-    )
-    {
+    ) {
         parent::__construct();
     }
 
