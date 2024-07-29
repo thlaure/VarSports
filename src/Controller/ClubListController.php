@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Discipline;
+use App\Repository\CityRepository;
 use App\Repository\ClubRepository;
 use App\Repository\DisciplineRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -16,6 +17,7 @@ class ClubListController extends AbstractController
     public function __construct(
         private ClubRepository $clubRepository,
         private DisciplineRepository $disciplineRepository,
+        private CityRepository $cityRepository,
         private int $nbPerPage
     ) {
     }
@@ -59,7 +61,7 @@ class ClubListController extends AbstractController
             'term' => $term ?? null,
             'disciplines' => $this->disciplineRepository->findBy([], ['label' => 'ASC']),
             'selected_disciplines' => $selectedDisciplinesId ?? [],
-            'cities' => $this->clubRepository->getCities(),
+            'cities' => $this->cityRepository->findBy([], ['name' => 'ASC']),
             'selected_cities' => $selectedCities ?? [],
         ]);
     }

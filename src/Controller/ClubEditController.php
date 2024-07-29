@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Constant\Message;
+use App\Entity\City;
 use App\Entity\Club;
 use App\Entity\User;
 use App\Form\ClubType;
@@ -63,7 +64,9 @@ class ClubEditController extends AbstractController
             throw new AccessDeniedHttpException(Message::GENERIC_ACCESS_DENIED);
         }
 
-        $form = $this->createForm(ClubType::class, $club);
+        $form = $this->createForm(ClubType::class, $club, [
+            'roles' => $user->getRoles(),
+        ]);
 
         $form->handleRequest($request);
 
@@ -104,6 +107,21 @@ class ClubEditController extends AbstractController
                         throw new \InvalidArgumentException(Message::DATA_MUST_BE_SET, Response::HTTP_BAD_REQUEST);
                     }
                     $club->setSlug($this->slugger->slug($club->getName())->lower());
+
+                    $cityName = $form->get('cityName')->getData();
+                    $cityPostalCode = $form->get('postalCodeCode')->getData();
+                    if ($cityName && is_string($cityName) && $cityPostalCode && is_string($cityPostalCode)) {
+                        $city = $this->entityManager->getRepository(City::class)->findOneBy(['name' => $cityName, 'postalCode' => $cityPostalCode]);
+                        if ($city instanceof City) {
+                            $club->setCity($city);
+                        } else {
+                            $city = new City();
+                            $city->setName(trim(ucwords(strtolower($cityName), ' -')));
+                            $city->setPostalCode(trim($cityPostalCode));
+
+                            $this->entityManager->persist($city);
+                        }
+                    }
 
                     $this->entityManager->flush();
 

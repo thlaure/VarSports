@@ -38,11 +38,13 @@ class ClubType extends AbstractType
                 'label' => 'Complément d\'adresse',
                 'required' => false,
             ])
-            ->add('postalCodeCode', TextType::class, [
+            ->add('cityPostalCode', TextType::class, [
                 'label' => 'Code postal *',
+                'mapped' => false,
             ])
             ->add('cityName', TextType::class, [
                 'label' => 'Ville *',
+                'mapped' => false,
             ])
             ->add('phone', TelType::class, [
                 'label' => 'Téléphone *',
@@ -104,7 +106,13 @@ class ClubType extends AbstractType
                     return $disciplineRepository->createQueryBuilder('d')->orderBy('d.label', 'ASC');
                 },
             ])
-            ->add('admin_email', EmailType::class, [
+            ->add('submit', SubmitType::class, [
+                'label' => 'Soumettre',
+            ])
+        ;
+
+        if (is_array($options['roles']) && in_array('ROLE_ADMIN', $options['roles'])) {
+            $builder->add('admin_email', EmailType::class, [
                 'label' => 'E-mail de l\'administrateur *',
                 'required' => false,
                 'mapped' => false,
@@ -116,17 +124,15 @@ class ClubType extends AbstractType
                         'message' => Message::GENERIC_ENTITY_FIELD_ERROR,
                     ]),
                 ],
-            ])
-            ->add('submit', SubmitType::class, [
-                'label' => 'Soumettre',
-            ])
-        ;
+            ]);
+        }
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
             'data_class' => Club::class,
+            'roles' => [],
         ]);
     }
 }

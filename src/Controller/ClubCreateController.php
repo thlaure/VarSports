@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Constant\Message;
+use App\Entity\City;
 use App\Entity\Club;
 use App\Entity\User;
 use App\Form\ClubType;
@@ -54,7 +55,9 @@ class ClubCreateController extends AbstractController
         }
 
         $club = new Club();
-        $form = $this->createForm(ClubType::class, $club);
+        $form = $this->createForm(ClubType::class, $club, [
+            'roles' => $user->getRoles(),
+        ]);
 
         $form->handleRequest($request);
         if ($form->isSubmitted()) {
@@ -94,14 +97,31 @@ class ClubCreateController extends AbstractController
                         $this->entityManager->persist($club);
                     }
 
-                    /** @var string|null $emailAdminClub */
-                    $emailAdminClub = $form->get('admin_email')->getData();
-                    if ($emailAdminClub && $user->hasRole('ROLE_ADMIN')) {
-                        $adminClub = $this->entityManager->getRepository(User::class)->findOneBy(['email' => $emailAdminClub]);
-                        if ($adminClub instanceof User) {
-                            $adminClub->setClub($club);
+                    $cityName = $form->get('cityName')->getData();
+                    $cityPostalCode = $form->get('cityPostalCode')->getData();
+                    if ($cityName && is_string($cityName) && $cityPostalCode && is_string($cityPostalCode)) {
+                        $city = $this->entityManager->getRepository(City::class)->findOneBy(['name' => $cityName, 'postalCode' => $cityPostalCode]);
+                        if ($city instanceof City) {
+                            $club->setCity($city);
                         } else {
-                            $this->createNotFoundException();
+                            $city = new City();
+                            $city->setName(trim(ucwords(strtolower($cityName), ' -')));
+                            $city->setPostalCode(trim($cityPostalCode));
+
+                            $this->entityManager->persist($city);
+                        }
+                    }
+
+                    if ($user->hasRole('ROLE_ADMIN')) {
+                        /** @var string|null $emailAdminClub */
+                        $emailAdminClub = $form->get('admin_email')->getData();
+                        if ($emailAdminClub) {
+                            $adminClub = $this->entityManager->getRepository(User::class)->findOneBy(['email' => $emailAdminClub]);
+                            if ($adminClub instanceof User) {
+                                $adminClub->setClub($club);
+                            } else {
+                                $this->createNotFoundException();
+                            }
                         }
                     } else {
                         /* @var User $user */

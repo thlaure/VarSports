@@ -17,7 +17,9 @@
         <h3 class="h5 card-title text-center">
             <a href="{{ path('app_club_show', {'slug': club.slug}) }}" class="stretched-link text-decoration-none text-black">{{ club.name }}</a>
         </h3>
-        <p class="card-text text-body-secondary text-center"><small>{{ club.postalCodeCode }} {{ club.cityName }}</small></p>
+        {% if not club.city is null %}
+            <p class="card-text text-body-secondary text-center"><small>{{ club.city.postalCode }} {{ club.city.name }}</small></p>
+        {% endif %}
         <div class="text-center">
             {% for discipline in club.disciplines %}
                 <span class="badge text-bg-secondary">{{ discipline.label }}</span>

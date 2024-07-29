@@ -26,25 +26,26 @@ class ClubRepository extends ServiceEntityRepository
      */
     public function searchClub(string $term, array $disciplines = [], array $cities = [], ?array $orderBy = null, ?int $limit = null, ?int $offset = null): array
     {
-        $qb = $this->createQueryBuilder('c')
-            ->andWhere('c.name LIKE :value')
+        $qb = $this->createQueryBuilder('club')
+            ->andWhere('club.name LIKE :value')
             ->setParameter('value', '%'.$term.'%');
 
         if (count($disciplines) > 0) {
-            $qb->leftJoin('c.disciplines', 'd')
-                ->addSelect('d')
-                ->andWhere('d IN (:disciplines)')
+            $qb->leftJoin('club.disciplines', 'discipline')
+                ->addSelect('discipline')
+                ->andWhere('discipline IN (:disciplines)')
                 ->setParameter('disciplines', $disciplines);
         }
 
         if (count($cities) > 0) {
-            $qb->andWhere('c.postalCodeCode IN (:postal_codes)')
-                ->setParameter('postal_codes', $cities);
+            $qb->innerJoin('club.city', 'city');
+            $qb->andWhere('city IN (:cities)')
+                ->setParameter('cities', $cities);
         }
 
         if ($orderBy) {
             foreach ($orderBy as $field => $direction) {
-                $qb->addOrderBy('c.'.$field, $direction);
+                $qb->addOrderBy('club.'.$field, $direction);
             }
         }
 
@@ -57,26 +58,6 @@ class ClubRepository extends ServiceEntityRepository
         }
 
         $result = $qb->getQuery()->getResult();
-        if (!\is_array($result)) {
-            $result = [];
-        }
-
-        return $result;
-    }
-
-    /**
-     * @return int[]
-     */
-    public function getCities(): array
-    {
-        $result = $this->createQueryBuilder('c')
-            ->select('c.cityName, c.postalCodeCode')
-            ->distinct()
-            ->orderBy('c.cityName', 'ASC')
-            ->andWhere('c.cityName IS NOT NULL AND c.postalCodeCode IS NOT NULL')
-            ->getQuery()
-            ->getResult();
-
         if (!\is_array($result)) {
             $result = [];
         }
