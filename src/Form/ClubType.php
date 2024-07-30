@@ -6,7 +6,9 @@ use App\Constant\Constraint;
 use App\Constant\Message;
 use App\Entity\Club;
 use App\Entity\Discipline;
+use App\Entity\User;
 use App\Repository\DisciplineRepository;
+use App\Repository\UserRepository;
 use Doctrine\ORM\QueryBuilder;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
@@ -25,6 +27,11 @@ use Symfony\Component\Validator\Constraints\Regex;
 
 class ClubType extends AbstractType
 {
+    public function __construct(
+        private UserRepository $userRepository,
+    ) {
+    }
+
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $club = $builder->getData();
@@ -123,6 +130,15 @@ class ClubType extends AbstractType
         ;
 
         if (is_array($options['roles']) && in_array('ROLE_ADMIN', $options['roles'])) {
+            if ($club instanceof Club) {
+                $clubAdmin = $this->userRepository->getClubAdmin($club);
+                if (!$clubAdmin instanceof User) {
+                    $clubAdmin = null;
+                }
+            } else {
+                $clubAdmin = null;
+            }
+
             $builder->add('admin_email', EmailType::class, [
                 'label' => 'E-mail de l\'administrateur *',
                 'required' => false,
@@ -135,6 +151,7 @@ class ClubType extends AbstractType
                         'message' => Message::GENERIC_ENTITY_FIELD_ERROR,
                     ]),
                 ],
+                'data' => $clubAdmin ? $clubAdmin->getEmail() : null,
             ]);
         }
     }

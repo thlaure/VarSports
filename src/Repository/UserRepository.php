@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\Club;
 use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -31,6 +32,24 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         $user->setPassword($newHashedPassword);
         $this->getEntityManager()->persist($user);
         $this->getEntityManager()->flush();
+    }
+
+    public function getClubAdmin(Club $club): ?User
+    {
+        $result = $this->createQueryBuilder('user')
+            ->innerJoin('user.club', 'club')
+            ->andWhere('club = :club')
+            ->setParameter('club', $club)
+            ->andWhere('user.roles LIKE :role')
+            ->setParameter('role', '%"ROLE_CLUB_ADMIN"%')
+            ->getQuery()
+            ->getOneOrNullResult();
+
+        if (!$result instanceof User) {
+            return null;
+        }
+
+        return $result;
     }
 
     //    /**
