@@ -116,7 +116,7 @@ class ClubType extends AbstractType
                 'label' => 'E-mail *',
             ])
             ->add('disciplines', EntityType::class, [
-                'label' => 'Disciplines associsées *',
+                'label' => 'Disciplines associées *',
                 'class' => Discipline::class,
                 'choice_label' => 'label',
                 'multiple' => true,
