@@ -109,7 +109,7 @@ class ClubEditController extends AbstractController
                     $club->setSlug($this->slugger->slug($club->getName())->lower());
 
                     $cityName = $form->get('cityName')->getData();
-                    $cityPostalCode = $form->get('postalCodeCode')->getData();
+                    $cityPostalCode = $form->get('cityPostalCode')->getData();
                     if ($cityName && is_string($cityName) && $cityPostalCode && is_string($cityPostalCode)) {
                         $city = $this->entityManager->getRepository(City::class)->findOneBy(['name' => $cityName, 'postalCode' => $cityPostalCode]);
                         if ($city instanceof City) {
