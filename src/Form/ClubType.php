@@ -130,7 +130,7 @@ class ClubType extends AbstractType
         ;
 
         if (is_array($options['roles']) && in_array('ROLE_ADMIN', $options['roles'])) {
-            if ($club instanceof Club) {
+            if ($club instanceof Club && null !== $club->getId()) {
                 $clubAdmin = $this->userRepository->getClubAdmin($club);
                 if (!$clubAdmin instanceof User) {
                     $clubAdmin = null;
