@@ -110,7 +110,8 @@ class ClubType extends AbstractType
                 ],
             ])
             ->add('description', TextareaType::class, [
-                'label' => 'Description *',
+                'label' => 'Description',
+                'required' => false,
             ])
             ->add('email', EmailType::class, [
                 'label' => 'E-mail *',
