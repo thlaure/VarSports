@@ -57,7 +57,8 @@ class UserCreateType extends AbstractType
                         'minMessage' => 'Le numéro de téléphone doit contenir au moins {{ limit }} caractères',
                         'max' => 20,
                     ]),
-                ]
+                ],
+                'help' => 'Format : 0612345678',
             ])
             ->add('roles', ChoiceType::class, [
                 'label' => 'Rôle *',
