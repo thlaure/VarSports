@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Constant\Message;
 use App\Entity\User;
+use App\Form\UserCreateType;
 use App\Form\UserEditType;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
@@ -37,7 +38,7 @@ class UserCreateController extends AbstractController
 
         $userToCreate = new User();
 
-        $form = $this->createForm(UserEditType::class, $userToCreate);
+        $form = $this->createForm(UserCreateType::class, $userToCreate);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {

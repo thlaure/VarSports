@@ -75,6 +75,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[Assert\Type(type: Types::DATETIME_MUTABLE, message: Message::GENERIC_ENTITY_FIELD_ERROR)]
     private ?\DateTimeInterface $lastUpdateDate = null;
 
+    #[ORM\Column(length: 10, nullable: true)]
+    private ?string $phone = null;
+
     public function __construct()
     {
         $this->registrationDate = new \DateTime();
@@ -239,6 +242,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setLastUpdateDate(?\DateTimeInterface $lastUpdateDate): static
     {
         $this->lastUpdateDate = $lastUpdateDate;
+
+        return $this;
+    }
+
+    public function getPhone(): ?string
+    {
+        return $this->phone;
+    }
+
+    public function setPhone(?string $phone): static
+    {
+        $this->phone = $phone;
 
         return $this;
     }

@@ -10,6 +10,7 @@ use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TelType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -43,6 +44,17 @@ class UserEditType extends AbstractType
                         'message' => 'Veuillez renseigner une adresse e-mail valide',
                     ]),
                 ],
+            ])
+            ->add('phone', TelType::class, [
+                'label' => 'Téléphone',
+                'required' => false,
+                'constraints' => [
+                    new Length([
+                        'min' => 3,
+                        'minMessage' => 'Le numéro de téléphone doit contenir au moins {{ limit }} caractères',
+                        'max' => 20,
+                    ]),
+                ]
             ])
             ->add('roles', ChoiceType::class, [
                 'label' => 'Rôle',
