@@ -65,8 +65,23 @@ class ClubCreateController extends AbstractController
                 }
                 $club->setSlug($this->slugger->slug($club->getName())->lower());
 
+                $cityName = $form->get('cityName')->getData();
+                $cityPostalCode = $form->get('cityPostalCode')->getData();
+                if ($cityName && is_string($cityName) && $cityPostalCode && is_string($cityPostalCode)) {
+                    $city = $this->entityManager->getRepository(City::class)->findOneBy(['name' => $cityName, 'postalCode' => $cityPostalCode]);
+                    if ($city instanceof City) {
+                        $club->setCity($city);
+                    } else {
+                        $city = new City();
+                        $city->setName(trim(ucwords(strtolower($cityName), ' -')));
+                        $city->setPostalCode(trim($cityPostalCode));
+
+                        $this->entityManager->persist($city);
+                    }
+                }
+
                 $this->entityManager->persist($club);
-                // $this->entityManager->flush();
+                $this->entityManager->flush();
 
                 /** @var ?UploadedFile $logo */
                 $logo = $form->get('logo')->getData();
@@ -82,21 +97,6 @@ class ClubCreateController extends AbstractController
                     $coverName = $this->fileUploader->upload($cover, $this->targetDirectory.'/'.$club->getId());
                     $club->setCoverImage($coverName);
                     $this->entityManager->persist($club);
-                }
-
-                $cityName = $form->get('cityName')->getData();
-                $cityPostalCode = $form->get('cityPostalCode')->getData();
-                if ($cityName && is_string($cityName) && $cityPostalCode && is_string($cityPostalCode)) {
-                    $city = $this->entityManager->getRepository(City::class)->findOneBy(['name' => $cityName, 'postalCode' => $cityPostalCode]);
-                    if ($city instanceof City) {
-                        $club->setCity($city);
-                    } else {
-                        $city = new City();
-                        $city->setName(trim(ucwords(strtolower($cityName), ' -')));
-                        $city->setPostalCode(trim($cityPostalCode));
-
-                        $this->entityManager->persist($city);
-                    }
                 }
 
                 if ($user->hasRole('ROLE_ADMIN')) {
