@@ -13,8 +13,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
-use Symfony\Component\Validator\ConstraintViolation;
-use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 #[Route('/admin/discipline', name: 'app_admin_discipline_')]
 class DisciplineDashboardController extends AbstractController
@@ -22,7 +20,6 @@ class DisciplineDashboardController extends AbstractController
     public function __construct(
         private LoggerInterface $logger,
         private EntityManagerInterface $entityManager,
-        private ValidatorInterface $validator,
         private DisciplineRepository $disciplineRepository
     ) {
     }
@@ -35,29 +32,16 @@ class DisciplineDashboardController extends AbstractController
         $form = $this->createForm(DisciplineType::class, $discipline);
 
         $form->handleRequest($request);
-        if ($form->isSubmitted()) {
-            $errors = $this->validator->validate($form);
-            if (count($errors) > 0) {
-                /** @var ConstraintViolation $error */
-                $error = $errors[0];
-                $this->addFlash('error', $error->getMessage());
+        if ($form->isSubmitted() && $form->isValid()) {
+            try {
+                $this->entityManager->persist($discipline);
+                $this->entityManager->flush();
 
-                return $this->redirectToRoute('app_admin_discipline_dashboard');
+                $this->addFlash('success', Message::GENERIC_SUCCESS);
+            } catch (\Exception $e) {
+                $this->logger->error($e->getMessage());
+                $this->addFlash('error', Message::GENERIC_ERROR);
             }
-
-            if ($form->isValid()) {
-                try {
-                    $this->entityManager->persist($discipline);
-                    $this->entityManager->flush();
-
-                    $this->addFlash('success', Message::GENERIC_SUCCESS);
-                } catch (\Exception $e) {
-                    $this->logger->error($e->getMessage());
-                    $this->addFlash('error', Message::GENERIC_ERROR);
-                }
-            }
-
-            return $this->redirectToRoute('app_admin_discipline_dashboard');
         }
 
         return $this->render('admin/discipline/dashboard.html.twig', [

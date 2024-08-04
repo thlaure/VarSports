@@ -20,8 +20,6 @@ use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Component\String\Slugger\SluggerInterface;
 use Symfony\Component\Translation\Exception\NotFoundResourceException;
-use Symfony\Component\Validator\ConstraintViolation;
-use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 #[Route('/admin/club', name: 'app_admin_club_')]
 class ClubCreateController extends AbstractController
@@ -33,8 +31,7 @@ class ClubCreateController extends AbstractController
         private Security $security,
         private FileChecker $fileChecker,
         private FileUploader $fileUploader,
-        private SluggerInterface $slugger,
-        private ValidatorInterface $validator
+        private SluggerInterface $slugger
     ) {
     }
 
@@ -60,84 +57,73 @@ class ClubCreateController extends AbstractController
         ]);
 
         $form->handleRequest($request);
-        if ($form->isSubmitted()) {
-            $errors = $this->validator->validate($form);
-            if (count($errors) > 0) {
-                /** @var ConstraintViolation $error */
-                $error = $errors[0];
-                $this->addFlash('error', $error->getMessage());
-
-                return $this->redirectToRoute('app_admin_club_create');
-            }
-
-            if ($form->isValid()) {
-                try {
-                    if (!is_string($club->getName()) || empty($club->getName())) {
-                        $this->logger->error(Message::DATA_MUST_BE_SET, ['club' => $club]);
-                        throw new \InvalidArgumentException(Message::DATA_MUST_BE_SET, Response::HTTP_BAD_REQUEST);
-                    }
-                    $club->setSlug($this->slugger->slug($club->getName())->lower());
-
-                    $this->entityManager->persist($club);
-                    $this->entityManager->flush();
-
-                    /** @var ?UploadedFile $logo */
-                    $logo = $form->get('logo')->getData();
-                    if ($logo && $this->fileChecker->checkImageIsValid($logo)) {
-                        $logoName = $this->fileUploader->upload($logo, $this->targetDirectory.'/'.$club->getId());
-                        $club->setLogo($logoName);
-                        $this->entityManager->persist($club);
-                    }
-
-                    /** @var ?UploadedFile $cover */
-                    $cover = $form->get('coverImage')->getData();
-                    if ($cover && $this->fileChecker->checkImageIsValid($cover)) {
-                        $coverName = $this->fileUploader->upload($cover, $this->targetDirectory.'/'.$club->getId());
-                        $club->setCoverImage($coverName);
-                        $this->entityManager->persist($club);
-                    }
-
-                    $cityName = $form->get('cityName')->getData();
-                    $cityPostalCode = $form->get('cityPostalCode')->getData();
-                    if ($cityName && is_string($cityName) && $cityPostalCode && is_string($cityPostalCode)) {
-                        $city = $this->entityManager->getRepository(City::class)->findOneBy(['name' => $cityName, 'postalCode' => $cityPostalCode]);
-                        if ($city instanceof City) {
-                            $club->setCity($city);
-                        } else {
-                            $city = new City();
-                            $city->setName(trim(ucwords(strtolower($cityName), ' -')));
-                            $city->setPostalCode(trim($cityPostalCode));
-
-                            $this->entityManager->persist($city);
-                        }
-                    }
-
-                    if ($user->hasRole('ROLE_ADMIN')) {
-                        /** @var string|null $emailAdminClub */
-                        $emailAdminClub = $form->get('admin_email')->getData();
-                        if ($emailAdminClub) {
-                            $adminClub = $this->entityManager->getRepository(User::class)->findOneBy(['email' => $emailAdminClub]);
-                            if ($adminClub instanceof User) {
-                                $adminClub->setClub($club);
-                            } else {
-                                $this->createNotFoundException();
-                            }
-                        }
-                    } else {
-                        /* @var User $user */
-                        $user->setClub($club);
-                        $this->entityManager->persist($user);
-                    }
-
-                    $this->entityManager->flush();
-
-                    $this->addFlash('success', Message::GENERIC_SUCCESS);
-
-                    return $this->redirectToRoute('app_club_list');
-                } catch (\Exception $e) {
-                    $this->logger->error($e->getMessage());
-                    $this->addFlash('error', Message::GENERIC_ERROR);
+        if ($form->isSubmitted() && $form->isValid()) {
+            try {
+                if (!is_string($club->getName()) || empty($club->getName())) {
+                    $this->logger->error(Message::DATA_MUST_BE_SET, ['club' => $club]);
+                    throw new \InvalidArgumentException(Message::DATA_MUST_BE_SET, Response::HTTP_BAD_REQUEST);
                 }
+                $club->setSlug($this->slugger->slug($club->getName())->lower());
+
+                $this->entityManager->persist($club);
+                // $this->entityManager->flush();
+
+                /** @var ?UploadedFile $logo */
+                $logo = $form->get('logo')->getData();
+                if ($logo && $this->fileChecker->checkImageIsValid($logo)) {
+                    $logoName = $this->fileUploader->upload($logo, $this->targetDirectory.'/'.$club->getId());
+                    $club->setLogo($logoName);
+                    $this->entityManager->persist($club);
+                }
+
+                /** @var ?UploadedFile $cover */
+                $cover = $form->get('coverImage')->getData();
+                if ($cover && $this->fileChecker->checkImageIsValid($cover)) {
+                    $coverName = $this->fileUploader->upload($cover, $this->targetDirectory.'/'.$club->getId());
+                    $club->setCoverImage($coverName);
+                    $this->entityManager->persist($club);
+                }
+
+                $cityName = $form->get('cityName')->getData();
+                $cityPostalCode = $form->get('cityPostalCode')->getData();
+                if ($cityName && is_string($cityName) && $cityPostalCode && is_string($cityPostalCode)) {
+                    $city = $this->entityManager->getRepository(City::class)->findOneBy(['name' => $cityName, 'postalCode' => $cityPostalCode]);
+                    if ($city instanceof City) {
+                        $club->setCity($city);
+                    } else {
+                        $city = new City();
+                        $city->setName(trim(ucwords(strtolower($cityName), ' -')));
+                        $city->setPostalCode(trim($cityPostalCode));
+
+                        $this->entityManager->persist($city);
+                    }
+                }
+
+                if ($user->hasRole('ROLE_ADMIN')) {
+                    /** @var string|null $emailAdminClub */
+                    $emailAdminClub = $form->get('admin_email')->getData();
+                    if ($emailAdminClub) {
+                        $adminClub = $this->entityManager->getRepository(User::class)->findOneBy(['email' => $emailAdminClub]);
+                        if ($adminClub instanceof User) {
+                            $adminClub->setClub($club);
+                        } else {
+                            $this->createNotFoundException();
+                        }
+                    }
+                } else {
+                    /* @var User $user */
+                    $user->setClub($club);
+                    $this->entityManager->persist($user);
+                }
+
+                $this->entityManager->flush();
+
+                $this->addFlash('success', Message::GENERIC_SUCCESS);
+
+                return $this->redirectToRoute('app_club_list');
+            } catch (\Exception $e) {
+                $this->logger->error($e->getMessage());
+                $this->addFlash('error', $e->getMessage());
             }
         }
 

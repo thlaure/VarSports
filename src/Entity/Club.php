@@ -41,7 +41,7 @@ class Club
     private ?string $cityName = null;
 
     #[ORM\Column(length: 10, nullable: true)]
-    #[Assert\Length(max: 10)]
+    #[Assert\Length(min: 10, max: 10)]
     #[Assert\Regex(pattern: Constraint::REGEX_PHONE)]
     private ?string $phone = null;
 

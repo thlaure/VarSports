@@ -43,7 +43,7 @@ class UserDeleteController extends AbstractController
 
         if ($userToDelete->hasRole('ROLE_ADMIN') || $user->getId() === $userToDelete->getId()) {
             $this->logger->error(Message::GENERIC_GRANT_ERROR, ['user' => $user]);
-            throw new AccessDeniedHttpException(Message::GENERIC_GRANT_ERROR);
+            throw new AccessDeniedHttpException();
         }
 
         if (null === $user->getClub()) {

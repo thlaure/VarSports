@@ -5,7 +5,6 @@ namespace App\Controller;
 use App\Constant\Message;
 use App\Entity\User;
 use App\Form\UserCreateType;
-use App\Form\UserEditType;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;

@@ -3,7 +3,6 @@
 namespace App\Entity;
 
 use App\Constant\Constraint;
-use App\Constant\Message;
 use App\Repository\CityRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;

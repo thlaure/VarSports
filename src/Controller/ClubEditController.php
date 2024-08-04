@@ -61,7 +61,7 @@ class ClubEditController extends AbstractController
 
         if ($user->hasRole('ROLE_ADMIN_CLUB') && (null === $user->getClub() || $user->getClub()->getId() !== $club->getId())) {
             $this->logger->error(Message::GENERIC_ACCESS_DENIED, ['user' => $user]);
-            throw new AccessDeniedHttpException(Message::GENERIC_ACCESS_DENIED);
+            throw new AccessDeniedHttpException();
         }
 
         $form = $this->createForm(ClubType::class, $club, [
