@@ -17,15 +17,15 @@ class City
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Assert\NotBlank(message: Message::GENERIC_ENTITY_FIELD_ERROR)]
-    #[Assert\Length(max: 255, maxMessage: Message::GENERIC_ENTITY_FIELD_ERROR)]
-    #[Assert\Regex(pattern: Constraint::REGEX_COMMON, message: Message::GENERIC_ENTITY_FIELD_ERROR)]
+    #[Assert\NotBlank()]
+    #[Assert\Length(max: 255)]
+    #[Assert\Regex(pattern: Constraint::REGEX_COMMON)]
     private ?string $name = null;
 
     #[ORM\Column(length: 5)]
-    #[Assert\NotBlank(message: Message::GENERIC_ENTITY_FIELD_ERROR)]
-    #[Assert\Length(max: 5, maxMessage: Message::GENERIC_ENTITY_FIELD_ERROR)]
-    #[Assert\Regex(pattern: Constraint::REGEX_POSTAL_CODE, message: Message::GENERIC_ENTITY_FIELD_ERROR)]
+    #[Assert\NotBlank()]
+    #[Assert\Length(max: 5)]
+    #[Assert\Regex(pattern: Constraint::REGEX_POSTAL_CODE, )]
     private ?string $postalCode = null;
 
     public function getId(): ?int

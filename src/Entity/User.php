@@ -24,10 +24,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?int $id = null;
 
     #[ORM\Column(length: 180)]
-    #[Assert\NotBlank(message: Message::GENERIC_ENTITY_FIELD_ERROR)]
-    #[Assert\Email(message: Message::GENERIC_ENTITY_FIELD_ERROR)]
-    #[Assert\Regex(pattern: Constraint::REGEX_EMAIL, message: Message::GENERIC_ENTITY_FIELD_ERROR)]
-    #[Assert\Length(max: 180, maxMessage: Message::GENERIC_ENTITY_FIELD_ERROR)]
+    #[Assert\NotBlank()]
+    #[Assert\Email()]
+    #[Assert\Regex(pattern: Constraint::REGEX_EMAIL)]
+    #[Assert\Length(max: 180)]
     private ?string $email = null;
 
     /**
@@ -41,8 +41,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     #[ORM\Column]
     #[Assert\Length(
-        min: 8, minMessage: Message::GENERIC_ENTITY_FIELD_ERROR,
-        max: 255, maxMessage: Message::GENERIC_ENTITY_FIELD_ERROR
+        min: 8,
+        max: 255
     )]
     private ?string $password = null;
 
@@ -54,25 +54,25 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?Club $club = null;
 
     #[ORM\Column(length: 100, nullable: true)]
-    #[Assert\Length(max: 100, maxMessage: Message::GENERIC_ENTITY_FIELD_ERROR)]
-    #[Assert\Regex(pattern: Constraint::REGEX_NAME, message: Message::GENERIC_ENTITY_FIELD_ERROR)]
+    #[Assert\Length(max: 100)]
+    #[Assert\Regex(pattern: Constraint::REGEX_NAME)]
     private ?string $name = null;
 
     #[ORM\Column(length: 100, nullable: true)]
-    #[Assert\Length(max: 100, maxMessage: Message::GENERIC_ENTITY_FIELD_ERROR)]
-    #[Assert\Regex(pattern: Constraint::REGEX_NAME, message: Message::GENERIC_ENTITY_FIELD_ERROR)]
+    #[Assert\Length(max: 100)]
+    #[Assert\Regex(pattern: Constraint::REGEX_NAME)]
     private ?string $firstname = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    #[Assert\Type(type: Types::DATETIME_MUTABLE, message: Message::GENERIC_ENTITY_FIELD_ERROR)]
+    #[Assert\Type(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $registrationDate = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
-    #[Assert\Type(type: Types::DATETIME_MUTABLE, message: Message::GENERIC_ENTITY_FIELD_ERROR)]
+    #[Assert\Type(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $lastLoginDate = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
-    #[Assert\Type(type: Types::DATETIME_MUTABLE, message: Message::GENERIC_ENTITY_FIELD_ERROR)]
+    #[Assert\Type(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $lastUpdateDate = null;
 
     #[ORM\Column(length: 10, nullable: true)]

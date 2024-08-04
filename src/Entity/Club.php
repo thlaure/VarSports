@@ -3,7 +3,6 @@
 namespace App\Entity;
 
 use App\Constant\Constraint;
-use App\Constant\Message;
 use App\Repository\ClubRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -20,41 +19,41 @@ class Club
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Assert\NotBlank(message: Message::GENERIC_ENTITY_FIELD_ERROR)]
-    #[Assert\Length(max: 255, maxMessage: Message::GENERIC_ENTITY_FIELD_ERROR)]
-    #[Assert\Regex(pattern: Constraint::REGEX_COMMON, message: Message::GENERIC_ENTITY_FIELD_ERROR)]
+    #[Assert\NotBlank()]
+    #[Assert\Length(max: 255)]
+    #[Assert\Regex(pattern: Constraint::REGEX_COMMON)]
     private ?string $name = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    #[Assert\NotBlank(message: Message::GENERIC_ENTITY_FIELD_ERROR)]
-    #[Assert\Length(max: 255, maxMessage: Message::GENERIC_ENTITY_FIELD_ERROR)]
-    #[Assert\Regex(pattern: Constraint::REGEX_COMMON, message: Message::GENERIC_ENTITY_FIELD_ERROR)]
+    #[Assert\NotBlank()]
+    #[Assert\Length(max: 255)]
+    #[Assert\Regex(pattern: Constraint::REGEX_COMMON)]
     private ?string $address = null;
 
     #[ORM\Column(length: 5, nullable: true)]
-    #[Assert\Length(max: 5, maxMessage: Message::GENERIC_ENTITY_FIELD_ERROR)]
-    #[Assert\Regex(pattern: Constraint::REGEX_POSTAL_CODE, message: Message::GENERIC_ENTITY_FIELD_ERROR)]
+    #[Assert\Length(max: 5)]
+    #[Assert\Regex(pattern: Constraint::REGEX_POSTAL_CODE)]
     private ?string $postalCodeCode = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    #[Assert\Length(max: 255, maxMessage: Message::GENERIC_ENTITY_FIELD_ERROR)]
-    #[Assert\Regex(pattern: Constraint::REGEX_COMMON, message: Message::GENERIC_ENTITY_FIELD_ERROR)]
+    #[Assert\Length(max: 255)]
+    #[Assert\Regex(pattern: Constraint::REGEX_COMMON)]
     private ?string $cityName = null;
 
     #[ORM\Column(length: 10, nullable: true)]
-    #[Assert\Length(max: 10, maxMessage: Message::GENERIC_ENTITY_FIELD_ERROR)]
-    #[Assert\Regex(pattern: Constraint::REGEX_PHONE, message: Message::GENERIC_ENTITY_FIELD_ERROR)]
+    #[Assert\Length(max: 10)]
+    #[Assert\Regex(pattern: Constraint::REGEX_PHONE)]
     private ?string $phone = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    #[Assert\Length(max: 255, maxMessage: Message::GENERIC_ENTITY_FIELD_ERROR)]
-    #[Assert\Url(message: Message::GENERIC_ENTITY_FIELD_ERROR)]
-    #[Assert\Regex(pattern: Constraint::REGEX_LINK, message: Message::GENERIC_ENTITY_FIELD_ERROR)]
+    #[Assert\Length(max: 255)]
+    #[Assert\Url()]
+    #[Assert\Regex(pattern: Constraint::REGEX_LINK)]
     private ?string $website = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    #[Assert\Length(max: 255, maxMessage: Message::GENERIC_ENTITY_FIELD_ERROR)]
-    #[Assert\Regex(pattern: Constraint::REGEX_COMMON, message: Message::GENERIC_ENTITY_FIELD_ERROR)]
+    #[Assert\Length(max: 255)]
+    #[Assert\Regex(pattern: Constraint::REGEX_COMMON)]
     private ?string $logo = null;
 
     /**
@@ -64,15 +63,15 @@ class Club
     private Collection $disciplines;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
-    #[Assert\Length(max: 10000, maxMessage: Message::GENERIC_ENTITY_FIELD_ERROR)]
-    #[Assert\Regex(pattern: Constraint::REGEX_COMMON, message: Message::GENERIC_ENTITY_FIELD_ERROR)]
+    #[Assert\Length(max: 10000)]
+    #[Assert\Regex(pattern: Constraint::REGEX_COMMON)]
     private ?string $description = null;
 
     #[ORM\Column(length: 180)]
-    #[Assert\NotBlank(message: Message::GENERIC_ENTITY_FIELD_ERROR)]
-    #[Assert\Length(max: 180, maxMessage: Message::GENERIC_ENTITY_FIELD_ERROR)]
-    #[Assert\Email(message: Message::GENERIC_ENTITY_FIELD_ERROR)]
-    #[Assert\Regex(pattern: Constraint::REGEX_EMAIL, message: Message::GENERIC_ENTITY_FIELD_ERROR)]
+    #[Assert\NotBlank()]
+    #[Assert\Length(max: 180)]
+    #[Assert\Email()]
+    #[Assert\Regex(pattern: Constraint::REGEX_EMAIL)]
     private ?string $email = null;
 
     /**
@@ -82,60 +81,67 @@ class Club
     private Collection $users;
 
     #[ORM\Column(length: 100)]
-    #[Assert\Length(max: 100, maxMessage: Message::GENERIC_ENTITY_FIELD_ERROR)]
-    #[Assert\Regex(pattern: Constraint::REGEX_LINK, message: Message::GENERIC_ENTITY_FIELD_ERROR)]
+    #[Assert\Length(max: 100)]
+    #[Assert\Regex(pattern: Constraint::REGEX_LINK)]
     private ?string $slug = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    #[Assert\Length(max: 255, maxMessage: Message::GENERIC_ENTITY_FIELD_ERROR)]
-    #[Assert\Regex(pattern: Constraint::REGEX_LINK, message: Message::GENERIC_ENTITY_FIELD_ERROR)]
-    #[Assert\Url(message: Message::GENERIC_ENTITY_FIELD_ERROR)]
+    #[Assert\Length(max: 255)]
+    #[Assert\Regex(pattern: Constraint::REGEX_LINK)]
+    #[Assert\Url()]
     private ?string $instagram = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    #[Assert\Length(max: 255, maxMessage: Message::GENERIC_ENTITY_FIELD_ERROR)]
-    #[Assert\Regex(pattern: Constraint::REGEX_LINK, message: Message::GENERIC_ENTITY_FIELD_ERROR)]
-    #[Assert\Url(message: Message::GENERIC_ENTITY_FIELD_ERROR)]
+    #[Assert\Length(max: 255)]
+    #[Assert\Regex(pattern: Constraint::REGEX_LINK)]
+    #[Assert\Url()]
     private ?string $facebook = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    #[Assert\Length(max: 255, maxMessage: Message::GENERIC_ENTITY_FIELD_ERROR)]
-    #[Assert\Regex(pattern: Constraint::REGEX_LINK, message: Message::GENERIC_ENTITY_FIELD_ERROR)]
-    #[Assert\Url(message: Message::GENERIC_ENTITY_FIELD_ERROR)]
+    #[Assert\Length(max: 255)]
+    #[Assert\Regex(pattern: Constraint::REGEX_LINK)]
+    #[Assert\Url()]
     private ?string $youtube = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    #[Assert\Length(max: 255, maxMessage: Message::GENERIC_ENTITY_FIELD_ERROR)]
-    #[Assert\Regex(pattern: Constraint::REGEX_COMMON, message: Message::GENERIC_ENTITY_FIELD_ERROR)]
+    #[Assert\Length(max: 255)]
+    #[Assert\Regex(pattern: Constraint::REGEX_COMMON)]
     private ?string $addressComplement = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
-    #[Assert\Type(type: Types::DATETIME_MUTABLE, message: Message::GENERIC_ENTITY_FIELD_ERROR)]
+    #[Assert\Type(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $lastUpdate = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    #[Assert\Type(type: Types::DATETIME_MUTABLE, message: Message::GENERIC_ENTITY_FIELD_ERROR)]
+    #[Assert\Type(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $creationDate = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    #[Assert\Length(max: 255, maxMessage: Message::GENERIC_ENTITY_FIELD_ERROR)]
-    #[Assert\Regex(pattern: Constraint::REGEX_LINK, message: Message::GENERIC_ENTITY_FIELD_ERROR)]
-    #[Assert\Url(message: Message::GENERIC_ENTITY_FIELD_ERROR)]
+    #[Assert\Length(max: 255)]
+    #[Assert\Regex(pattern: Constraint::REGEX_LINK)]
+    #[Assert\Url()]
     private ?string $twitter = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    #[Assert\Length(max: 255, maxMessage: Message::GENERIC_ENTITY_FIELD_ERROR)]
-    #[Assert\Regex(pattern: Constraint::REGEX_COMMON, message: Message::GENERIC_ENTITY_FIELD_ERROR)]
+    #[Assert\Length(max: 255)]
+    #[Assert\Regex(pattern: Constraint::REGEX_COMMON)]
     private ?string $coverImage = null;
 
     #[ORM\ManyToOne]
     private ?City $city = null;
+
+    /**
+     * @var Collection<int, Article>
+     */
+    #[ORM\OneToMany(targetEntity: Article::class, mappedBy: 'club')]
+    private Collection $articles;
 
     public function __construct()
     {
         $this->disciplines = new ArrayCollection();
         $this->users = new ArrayCollection();
         $this->creationDate = new \DateTime();
+        $this->articles = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -426,6 +432,36 @@ class Club
     public function setCity(?City $city): static
     {
         $this->city = $city;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Article>
+     */
+    public function getArticles(): Collection
+    {
+        return $this->articles;
+    }
+
+    public function addArticle(Article $article): static
+    {
+        if (!$this->articles->contains($article)) {
+            $this->articles->add($article);
+            $article->setClub($this);
+        }
+
+        return $this;
+    }
+
+    public function removeArticle(Article $article): static
+    {
+        if ($this->articles->removeElement($article)) {
+            // set the owning side to null (unless already changed)
+            if ($article->getClub() === $this) {
+                $article->setClub(null);
+            }
+        }
 
         return $this;
     }

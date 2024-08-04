@@ -3,7 +3,6 @@
 namespace App\Entity;
 
 use App\Constant\Constraint;
-use App\Constant\Message;
 use App\Repository\DisciplineRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -19,10 +18,10 @@ class Discipline
     private ?int $id = null;
 
     #[ORM\Column(length: 100)]
-    #[Assert\NotBlank(message: Message::GENERIC_ENTITY_FIELD_ERROR)]
-    #[Assert\Length(max: 100, maxMessage: Message::GENERIC_ENTITY_FIELD_ERROR)]
-    #[Assert\Type(type: 'string', message: Message::GENERIC_ENTITY_FIELD_ERROR)]
-    #[Assert\Regex(pattern: Constraint::REGEX_TITLE, message: Message::GENERIC_ENTITY_FIELD_ERROR)]
+    #[Assert\NotBlank()]
+    #[Assert\Length(max: 100)]
+    #[Assert\Type(type: 'string', )]
+    #[Assert\Regex(pattern: Constraint::REGEX_TITLE, )]
     private ?string $label = null;
 
     /**
