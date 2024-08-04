@@ -86,7 +86,7 @@
         {% if club.description %}
             <section>
                 <h2>Informations complémentaires</h2>
-                <p>{{ club.description|nl2br }}</p>
+                <p>{{ club.description|raw|nl2br }}</p>
             </section>
         {% endif %}
 
