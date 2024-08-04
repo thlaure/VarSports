@@ -44,8 +44,8 @@ class ClubDeleteController extends AbstractController
         }
 
         if (
-        ($user->hasRole('ROLE_ADMIN_CLUB') && $user->getClub() && $user->getClub()->getId() !== $club->getId()) ||
-        (!$user->hasRole('ROLE_ADMIN_CLUB') && !$user->hasRole('ROLE_ADMIN'))
+            ($user->hasRole('ROLE_ADMIN_CLUB') && $user->getClub() && $user->getClub()->getId() !== $club->getId())
+            || (!$user->hasRole('ROLE_ADMIN_CLUB') && !$user->hasRole('ROLE_ADMIN'))
         ) {
             $this->logger->error(Message::GENERIC_ACCESS_DENIED, ['user' => $user]);
             throw new AccessDeniedHttpException();
