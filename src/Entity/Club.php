@@ -30,16 +30,6 @@ class Club
     #[Assert\Regex(pattern: Constraint::REGEX_COMMON)]
     private ?string $address = null;
 
-    #[ORM\Column(length: 5, nullable: true)]
-    #[Assert\Length(max: 5)]
-    #[Assert\Regex(pattern: Constraint::REGEX_POSTAL_CODE)]
-    private ?string $postalCodeCode = null;
-
-    #[ORM\Column(length: 255, nullable: true)]
-    #[Assert\Length(max: 255)]
-    #[Assert\Regex(pattern: Constraint::REGEX_COMMON)]
-    private ?string $cityName = null;
-
     #[ORM\Column(length: 10, nullable: true)]
     #[Assert\Length(min: 10, max: 10)]
     #[Assert\Regex(pattern: Constraint::REGEX_PHONE)]
@@ -168,30 +158,6 @@ class Club
     public function setAddress(?string $address): static
     {
         $this->address = $address;
-
-        return $this;
-    }
-
-    public function getPostalCodeCode(): ?string
-    {
-        return $this->postalCodeCode;
-    }
-
-    public function setPostalCodeCode(?string $postalCodeCode): static
-    {
-        $this->postalCodeCode = $postalCodeCode;
-
-        return $this;
-    }
-
-    public function getCityName(): ?string
-    {
-        return $this->cityName;
-    }
-
-    public function setCityName(?string $cityName): static
-    {
-        $this->cityName = $cityName;
 
         return $this;
     }
