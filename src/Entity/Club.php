@@ -64,7 +64,6 @@ class Club
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     #[Assert\Length(max: 10000)]
-    #[Assert\Regex(pattern: Constraint::REGEX_COMMON)]
     private ?string $description = null;
 
     #[ORM\Column(length: 180)]
