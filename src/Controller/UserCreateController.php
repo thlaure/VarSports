@@ -8,7 +8,6 @@ use App\Form\UserCreateType;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
@@ -20,8 +19,7 @@ class UserCreateController extends AbstractController
     public function __construct(
         private EntityManagerInterface $entityManager,
         private LoggerInterface $logger,
-        private UserPasswordHasherInterface $userPasswordHasher,
-        private Security $security
+        private UserPasswordHasherInterface $userPasswordHasher
     ) {
     }
 
@@ -29,8 +27,8 @@ class UserCreateController extends AbstractController
     #[IsGranted('ROLE_ADMIN_CLUB', message: Message::GENERIC_GRANT_ERROR)]
     public function create(Request $request): Response
     {
-        $user = $this->security->getUser();
-        if ((!$user instanceof User || !$user->getClub()) && !$this->security->isGranted('ROLE_ADMIN')) {
+        $user = $this->getUser();
+        if ((!$user instanceof User || !$user->getClub()) && !$this->isGranted('ROLE_ADMIN')) {
             $this->logger->error(Message::CLUB_NOT_FOUND, ['user' => $user]);
             throw new \InvalidArgumentException(Message::CLUB_NOT_FOUND, Response::HTTP_NOT_FOUND);
         }
@@ -47,7 +45,7 @@ class UserCreateController extends AbstractController
                 throw new \InvalidArgumentException(Message::DATA_MUST_BE_SET, Response::HTTP_BAD_REQUEST);
             }
 
-            $user = $this->security->getUser();
+            $user = $this->getUser();
             if ($user instanceof User) {
                 if (!$user->hasRole('ROLE_ADMIN')) {
                     $userToCreate->setClub($user->getClub());

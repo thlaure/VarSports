@@ -14,7 +14,6 @@ use App\Service\FileUploader;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -34,7 +33,6 @@ class ClubEditController extends AbstractController
         private LoggerInterface $logger,
         private ClubRepository $clubRepository,
         private string $targetDirectory,
-        private Security $security,
         private FileChecker $fileChecker,
         private FileUploader $fileUploader,
         private FileRemover $fileRemover,
@@ -47,7 +45,7 @@ class ClubEditController extends AbstractController
     #[IsGranted('ROLE_ADMIN_CLUB', message: Message::GENERIC_GRANT_ERROR)]
     public function edit(int $id, Request $request): Response
     {
-        $user = $this->security->getUser();
+        $user = $this->getUser();
         if (!$user instanceof User) {
             $this->logger->error(Message::DATA_NOT_FOUND, ['user' => $user]);
             throw new NotFoundResourceException(Message::DATA_NOT_FOUND, Response::HTTP_NOT_FOUND);

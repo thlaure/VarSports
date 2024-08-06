@@ -12,7 +12,6 @@ use App\Service\FileUploader;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -28,7 +27,6 @@ class ClubCreateController extends AbstractController
         private EntityManagerInterface $entityManager,
         private LoggerInterface $logger,
         private string $targetDirectory,
-        private Security $security,
         private FileChecker $fileChecker,
         private FileUploader $fileUploader,
         private SluggerInterface $slugger
@@ -39,7 +37,7 @@ class ClubCreateController extends AbstractController
     #[IsGranted('ROLE_ADMIN_CLUB', message: Message::GENERIC_GRANT_ERROR)]
     public function create(Request $request): Response
     {
-        $user = $this->security->getUser();
+        $user = $this->getUser();
         if (!$user instanceof User) {
             $this->logger->error(Message::DATA_NOT_FOUND, ['user' => $user]);
             throw new NotFoundResourceException(Message::DATA_NOT_FOUND, Response::HTTP_NOT_FOUND);
@@ -59,7 +57,7 @@ class ClubCreateController extends AbstractController
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             try {
-                if (!is_string($club->getName()) || empty($club->getName())) {
+                if (!is_string($club->getName())) {
                     $this->logger->error(Message::DATA_MUST_BE_SET, ['club' => $club]);
                     throw new \InvalidArgumentException(Message::DATA_MUST_BE_SET, Response::HTTP_BAD_REQUEST);
                 }

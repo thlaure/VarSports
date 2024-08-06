@@ -8,7 +8,6 @@ use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\Routing\Attribute\Route;
@@ -18,7 +17,6 @@ use Symfony\Component\Translation\Exception\NotFoundResourceException;
 class UserDeleteController extends AbstractController
 {
     public function __construct(
-        private Security $security,
         private UserRepository $userRepository,
         private EntityManagerInterface $entityManager,
         private LoggerInterface $logger
@@ -29,7 +27,7 @@ class UserDeleteController extends AbstractController
     #[IsGranted('ROLE_ADMIN_CLUB', message: Message::GENERIC_GRANT_ERROR)]
     public function delete(int $id): Response
     {
-        $user = $this->security->getUser();
+        $user = $this->getUser();
         if (!$user instanceof User) {
             $this->logger->error(Message::DATA_NOT_FOUND, ['user' => $user]);
             throw new NotFoundResourceException(Message::DATA_NOT_FOUND, Response::HTTP_NOT_FOUND);
