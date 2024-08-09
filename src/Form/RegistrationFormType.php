@@ -33,7 +33,7 @@ class RegistrationFormType extends AbstractType
                 'required' => false,
             ])
             ->add('email', EmailType::class, [
-                'label' => 'Adresse e-mail *',
+                'label' => 'Adresse e-mail',
                 'constraints' => [
                     new NotBlank([
                         'message' => 'Veuillez renseigner votre adresse e-mail',
@@ -74,7 +74,7 @@ class RegistrationFormType extends AbstractType
                 'invalid_message' => 'Les mots de passe doivent être identiques',
                 'mapped' => false,
                 'first_options' => [
-                    'label' => 'Mot de passe *',
+                    'label' => 'Mot de passe',
                     'attr' => ['autocomplete' => 'new-password'],
                     'constraints' => [
                         new Length([
@@ -89,7 +89,7 @@ class RegistrationFormType extends AbstractType
                     ],
                 ],
                 'second_options' => [
-                    'label' => 'Confirmer le mot de passe *',
+                    'label' => 'Confirmer le mot de passe',
                     'attr' => ['autocomplete' => 'new-password'],
                 ],
                 'constraints' => [

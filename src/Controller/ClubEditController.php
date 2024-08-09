@@ -17,11 +17,9 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Component\String\Slugger\SluggerInterface;
-use Symfony\Component\Translation\Exception\NotFoundResourceException;
 use Symfony\Component\Validator\ConstraintViolation;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
@@ -48,18 +46,18 @@ class ClubEditController extends AbstractController
         $user = $this->getUser();
         if (!$user instanceof User) {
             $this->logger->error(Message::DATA_NOT_FOUND, ['user' => $user]);
-            throw new NotFoundResourceException(Message::DATA_NOT_FOUND, Response::HTTP_NOT_FOUND);
+            throw $this->createNotFoundException('User not found');
         }
 
         $club = $this->clubRepository->findOneBy(['id' => $id]);
         if (!$club instanceof Club) {
             $this->logger->error(Message::DATA_NOT_FOUND, ['club' => $club]);
-            throw new NotFoundResourceException(Message::DATA_NOT_FOUND, Response::HTTP_NOT_FOUND);
+            throw $this->createNotFoundException('Club not found');
         }
 
         if ($user->hasRole('ROLE_ADMIN_CLUB') && (null === $user->getClub() || $user->getClub()->getId() !== $club->getId())) {
             $this->logger->error(Message::GENERIC_ACCESS_DENIED, ['user' => $user]);
-            throw new AccessDeniedHttpException();
+            throw $this->createAccessDeniedException();
         }
 
         $form = $this->createForm(ClubType::class, $club, [
@@ -104,21 +102,22 @@ class ClubEditController extends AbstractController
                         $this->logger->error(Message::DATA_MUST_BE_SET, ['club' => $club]);
                         throw new \InvalidArgumentException(Message::DATA_MUST_BE_SET, Response::HTTP_BAD_REQUEST);
                     }
-                    $club->setSlug($this->slugger->slug($club->getName())->lower());
+                    $club->setSlug($this->slugger->slug((string) $club->getName())->lower().'-'.$club->getId());
 
-                    $cityName = $form->get('cityName')->getData();
-                    $cityPostalCode = $form->get('cityPostalCode')->getData();
-                    if ($cityName && is_string($cityName) && $cityPostalCode && is_string($cityPostalCode)) {
-                        $city = $this->entityManager->getRepository(City::class)->findOneBy(['name' => $cityName, 'postalCode' => $cityPostalCode]);
-                        if ($city instanceof City) {
-                            $club->setCity($city);
-                        } else {
-                            $city = new City();
-                            $city->setName(trim(ucwords(strtolower($cityName), ' -')));
-                            $city->setPostalCode(trim($cityPostalCode));
+                    if (null === $club->getCity()) {
+                        $this->logger->error(Message::DATA_MUST_BE_SET, ['club' => $club]);
+                        throw new \InvalidArgumentException(Message::DATA_MUST_BE_SET, Response::HTTP_BAD_REQUEST);
+                    }
 
-                            $this->entityManager->persist($city);
-                        }
+                    $existingCity = $this->entityManager->getRepository(City::class)->findOneBy([
+                        'name' => $club->getCity()->getName(),
+                        'postalCode' => $club->getCity()->getPostalCode(),
+                    ]);
+
+                    if (null !== $existingCity) {
+                        $club->setCity($existingCity);
+                    } else {
+                        $this->entityManager->persist($club->getCity());
                     }
 
                     $this->entityManager->flush();

@@ -13,4 +13,13 @@ grumphp:
             triggered_by: ['php']
             memory_limit: "256M"
             use_grumphp_paths: true
-        phpcsfixer: ~
+        phpcsfixer:
+            allow_risky: ~
+            cache_file: ~
+            config: ~
+            rules: []
+            using_cache: ~
+            config_contains_finder: true
+            verbose: true
+            diff: true
+            triggered_by: ['php vendor/bin/php-cs-fixer fix']

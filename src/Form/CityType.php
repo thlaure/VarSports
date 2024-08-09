@@ -2,23 +2,24 @@
 
 namespace App\Form;
 
-use App\Entity\Discipline;
+use App\Entity\City;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class DisciplineType extends AbstractType
+class CityType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('label', TextType::class, [
-                'label' => 'Label',
+            ->add('name', TextType::class, [
+                'label' => 'Ville',
+                'data' => $options['city_name'] ?? null,
             ])
-            ->add('submit', SubmitType::class, [
-                'label' => 'Soumettre',
+            ->add('postalCode', TextType::class, [
+                'label' => 'Code postal',
+                'data' => $options['city_postal_code'] ?? null,
             ])
         ;
     }
@@ -26,7 +27,9 @@ class DisciplineType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => Discipline::class,
+            'data_class' => City::class,
+            'city_name' => null,
+            'city_postal_code' => null,
         ]);
     }
 }

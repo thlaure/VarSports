@@ -43,3 +43,7 @@
 ul.select2-selection__rendered > .select2-selection__choice {
     width: fit-content;
 }
+
+form label.required::after {
+    content: "*";
+}

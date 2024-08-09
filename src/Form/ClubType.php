@@ -3,7 +3,6 @@
 namespace App\Form;
 
 use App\Constant\Constraint;
-use App\Constant\Message;
 use App\Entity\Club;
 use App\Entity\Discipline;
 use App\Entity\User;
@@ -45,27 +44,21 @@ class ClubType extends AbstractType
 
         $builder
             ->add('name', TextType::class, [
-                'label' => 'Nom *',
+                'label' => 'Nom',
             ])
             ->add('address', TextType::class, [
-                'label' => 'Adresse *',
+                'label' => 'Adresse',
             ])
             ->add('addressComplement', TextType::class, [
                 'label' => 'Complément d\'adresse',
                 'required' => false,
             ])
-            ->add('cityPostalCode', TextType::class, [
-                'label' => 'Code postal *',
-                'mapped' => false,
-                'data' => $postalCode ?? null,
-            ])
-            ->add('cityName', TextType::class, [
-                'label' => 'Ville *',
-                'mapped' => false,
-                'data' => $cityName ?? null,
+            ->add('city', CityType::class, [
+                'city_name' => $cityName,
+                'city_postal_code' => $postalCode,
             ])
             ->add('phone', TelType::class, [
-                'label' => 'Téléphone *',
+                'label' => 'Téléphone',
             ])
             ->add('website', UrlType::class, [
                 'label' => 'Site internet',
@@ -91,8 +84,6 @@ class ClubType extends AbstractType
                     new File([
                         'maxSize' => Constraint::IMAGE_MAX_FILE_SIZE,
                         'mimeTypes' => Constraint::IMAGE_ALLOWED_MIME_TYPES,
-                        'maxSizeMessage' => Message::GENERIC_FILE_FORM_ERROR,
-                        'mimeTypesMessage' => Message::GENERIC_FILE_FORM_ERROR,
                     ]),
                 ],
             ])
@@ -104,8 +95,6 @@ class ClubType extends AbstractType
                     new File([
                         'maxSize' => Constraint::IMAGE_MAX_FILE_SIZE,
                         'mimeTypes' => Constraint::IMAGE_ALLOWED_MIME_TYPES,
-                        'maxSizeMessage' => Message::GENERIC_FILE_FORM_ERROR,
-                        'mimeTypesMessage' => Message::GENERIC_FILE_FORM_ERROR,
                     ]),
                 ],
             ])
@@ -114,10 +103,10 @@ class ClubType extends AbstractType
                 'required' => false,
             ])
             ->add('email', EmailType::class, [
-                'label' => 'E-mail *',
+                'label' => 'E-mail',
             ])
             ->add('disciplines', EntityType::class, [
-                'label' => 'Disciplines associées *',
+                'label' => 'Disciplines associées',
                 'class' => Discipline::class,
                 'choice_label' => 'label',
                 'multiple' => true,
@@ -141,15 +130,14 @@ class ClubType extends AbstractType
             }
 
             $builder->add('admin_email', EmailType::class, [
-                'label' => 'E-mail de l\'administrateur *',
+                'label' => 'E-mail de l\'administrateur',
                 'required' => false,
                 'mapped' => false,
                 'help' => 'Cet e-mail sera le contact par défaut pour toute nouvelle inscription.',
                 'constraints' => [
-                    new Email(['message' => Message::GENERIC_ENTITY_FIELD_ERROR]),
+                    new Email(),
                     new Regex([
                         'pattern' => Constraint::REGEX_EMAIL,
-                        'message' => Message::GENERIC_ENTITY_FIELD_ERROR,
                     ]),
                 ],
                 'data' => $clubAdmin ? $clubAdmin->getEmail() : null,

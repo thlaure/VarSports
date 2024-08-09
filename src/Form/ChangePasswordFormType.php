@@ -26,7 +26,7 @@ class ChangePasswordFormType extends AbstractType
                 'first_options' => [
                     'constraints' => [
                         new NotBlank([
-                            'message' => 'Saisir votre nouveau mot de passe *',
+                            'message' => 'Saisir votre nouveau mot de passe',
                         ]),
                         new Length([
                             'min' => 12,
@@ -38,10 +38,10 @@ class ChangePasswordFormType extends AbstractType
                             'message' => 'Le mot de passe doit contenir au moins un chiffre, un caractère majuscule et un caractère minuscule.',
                         ]),
                     ],
-                    'label' => 'Nouveau mot de passe *',
+                    'label' => 'Nouveau mot de passe',
                 ],
                 'second_options' => [
-                    'label' => 'Confirmer le mot de passe *',
+                    'label' => 'Confirmer le mot de passe',
                 ],
                 'invalid_message' => 'Les mots de passe doivent être identiques',
                 // Instead of being set onto the object directly,
