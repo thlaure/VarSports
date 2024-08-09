@@ -1,6 +1,7 @@
 grumphp:
     tasks:
-        git_commit_message: ~
+        git_commit_message:
+            enforce_capitalized_subject: false
         yamllint: ~
         securitychecker_symfony: ~
         phpstan:
