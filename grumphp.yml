@@ -1,0 +1,15 @@
+grumphp:
+    tasks:
+        git_commit_message: ~
+        yamllint: ~
+        securitychecker_symfony: ~
+        phpstan:
+            autoload_file: ~
+            configuration: ~
+            level: 9
+            force_patterns: []
+            ignore_patterns: ['tests', 'vendor']
+            triggered_by: ['php']
+            memory_limit: "256M"
+            use_grumphp_paths: true
+        phpcsfixer: ~

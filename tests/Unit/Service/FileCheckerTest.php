@@ -34,14 +34,14 @@ class FileCheckerTest extends TestCase
         $this->assertFalse($result);
     }
 
-    public function testIsExtensionValidWithNoExtension()
+    public function testIsExtensionValidWithNoExtension(): void
     {
         $result = $this->fileChecker->isExtensionValid('image', Constraint::IMAGE_ALLOWED_EXTENSIONS);
 
         $this->assertFalse($result);
     }
 
-    public function testIsExtensionValidWithUppercaseExtension()
+    public function testIsExtensionValidWithUppercaseExtension(): void
     {
         $result = $this->fileChecker->isExtensionValid('image.JPG', Constraint::IMAGE_ALLOWED_EXTENSIONS);
 
@@ -69,7 +69,7 @@ class FileCheckerTest extends TestCase
         $this->assertFalse($result);
     }
 
-    public function testIsMimeTypeValidWithNoMimeType()
+    public function testIsMimeTypeValidWithNoMimeType(): void
     {
         $file = $this->createMock(UploadedFile::class);
 
@@ -78,7 +78,7 @@ class FileCheckerTest extends TestCase
         $this->assertFalse($result);
     }
 
-    public function testIsMimeTypeValidWithUppercaseMimeType()
+    public function testIsMimeTypeValidWithUppercaseMimeType(): void
     {
         $file = $this->createMock(UploadedFile::class);
         $file->method('getMimeType')->willReturn('image/JPG');
@@ -109,7 +109,7 @@ class FileCheckerTest extends TestCase
         $this->assertFalse($result);
     }
 
-    public function testIsSizeValidWithNoSize()
+    public function testIsSizeValidWithNoSize(): void
     {
         $file = $this->createMock(UploadedFile::class);
         $file->method('getSize')->willReturn(0);
@@ -142,7 +142,7 @@ class FileCheckerTest extends TestCase
         $this->assertFalse($result);
     }
 
-    public function testIsMimeTypeCorrespondingToExtensionWithNoMimeType()
+    public function testIsMimeTypeCorrespondingToExtensionWithNoMimeType(): void
     {
         $file = $this->createMock(UploadedFile::class);
         $file->method('getClientOriginalExtension')->willReturn('jpg');
@@ -152,7 +152,7 @@ class FileCheckerTest extends TestCase
         $this->assertFalse($result);
     }
 
-    public function testIsMimeTypeCorrespondingToExtensionWithUppercaseMimeType()
+    public function testIsMimeTypeCorrespondingToExtensionWithUppercaseMimeType(): void
     {
         $file = $this->createMock(UploadedFile::class);
         $file->method('getClientOriginalExtension')->willReturn('jpg');
