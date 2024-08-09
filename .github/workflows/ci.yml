@@ -79,7 +79,7 @@ jobs:
         run: docker compose exec -T php bin/console lint:twig
       -
         name: YAML linter
-        run: docker compose exec -T php bin/console lint:yaml .
+        run: docker compose exec -T php bin/console lint:yaml . --exclude=./vendor/
       -
         name: Doctrine Schema Validator
         run: docker compose exec -T php bin/console -e test doctrine:schema:validate --skip-sync
