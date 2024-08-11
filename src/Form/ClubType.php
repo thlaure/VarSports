@@ -136,9 +136,6 @@ class ClubType extends AbstractType
                 'help' => 'Cet e-mail sera le contact par défaut pour toute nouvelle inscription.',
                 'constraints' => [
                     new Email(),
-                    new Regex([
-                        'pattern' => Constraint::REGEX_EMAIL,
-                    ]),
                 ],
                 'data' => $clubAdmin ? $clubAdmin->getEmail() : null,
             ]);
