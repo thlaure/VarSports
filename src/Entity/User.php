@@ -26,7 +26,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 180)]
     #[Assert\NotBlank()]
     #[Assert\Email()]
-    #[Assert\Regex(pattern: Constraint::REGEX_EMAIL)]
     #[Assert\Length(max: 180)]
     private ?string $email = null;
 
@@ -75,7 +74,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[Assert\Type(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $lastUpdateDate = null;
 
-    #[ORM\Column(length: 10, nullable: true)]
+    #[ORM\Column(length: 20, nullable: true)]
+    #[Assert\Length(min: 10, max: 20)]
+    #[Assert\Regex(pattern: Constraint::REGEX_PHONE)]
     private ?string $phone = null;
 
     public function __construct()

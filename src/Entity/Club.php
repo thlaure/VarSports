@@ -30,8 +30,8 @@ class Club
     #[Assert\Regex(pattern: Constraint::REGEX_COMMON)]
     private ?string $address = null;
 
-    #[ORM\Column(length: 10, nullable: true)]
-    #[Assert\Length(min: 10, max: 10)]
+    #[ORM\Column(length: 20, nullable: true)]
+    #[Assert\Length(min: 10, max: 20)]
     #[Assert\Regex(pattern: Constraint::REGEX_PHONE)]
     private ?string $phone = null;
 
@@ -60,7 +60,6 @@ class Club
     #[Assert\NotBlank()]
     #[Assert\Length(max: 180)]
     #[Assert\Email()]
-    #[Assert\Regex(pattern: Constraint::REGEX_EMAIL)]
     private ?string $email = null;
 
     /**
