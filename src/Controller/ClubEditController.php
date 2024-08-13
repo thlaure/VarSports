@@ -102,7 +102,11 @@ class ClubEditController extends AbstractController
                         $this->logger->error(Message::DATA_MUST_BE_SET, ['club' => $club]);
                         throw new \InvalidArgumentException(Message::DATA_MUST_BE_SET, Response::HTTP_BAD_REQUEST);
                     }
-                    $club->setSlug($this->slugger->slug((string) $club->getName())->lower().'-'.$club->getId());
+
+                    $newSlug = $this->slugger->slug((string) $club->getName())->lower();
+                    if ($club->getSlug() !== $newSlug) {
+                        $club->setSlug($newSlug.'-'.$club->getId());
+                    }
 
                     if (null === $club->getCity()) {
                         $this->logger->error(Message::DATA_MUST_BE_SET, ['club' => $club]);
