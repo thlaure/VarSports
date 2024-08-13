@@ -100,6 +100,9 @@ class ClubType extends AbstractType
             ->add('description', TextareaType::class, [
                 'label' => 'Description',
                 'required' => false,
+                'attr' => [
+                    'class' => 'ckeditor',
+                ],
             ])
             ->add('email', EmailType::class, [
                 'label' => 'E-mail',

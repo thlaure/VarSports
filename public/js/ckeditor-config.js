@@ -9,7 +9,7 @@ import {
 } from 'ckeditor5';
 
 ClassicEditor
-    .create(document.querySelector('#club_description'), {
+    .create(document.querySelector('.ckeditor'), {
         plugins: [ Essentials, Heading, Bold, Italic, Font, Paragraph ],
         toolbar: {
             items: [
@@ -18,5 +18,6 @@ ClassicEditor
             ]
         }
     })
-    .then( /* ... */ )
-    .catch( /* ... */ );
+    .catch(error => {
+        console.error(error);
+    });

@@ -47,3 +47,7 @@ ul.select2-selection__rendered > .select2-selection__choice {
 form label.required::after {
     content: "*";
 }
+
+.ck-editor__editable {
+    min-height: 200px;
+}
