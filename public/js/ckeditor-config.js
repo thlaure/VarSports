@@ -5,19 +5,48 @@ import {
     Italic,
     Font,
     Paragraph,
-    Heading
+    Heading,
+    Image,
+    ImageToolbar,
+    ImageCaption,
+    ImageStyle,
+    ImageUpload,
+    ImageResize
 } from 'ckeditor5';
 
-ClassicEditor
-    .create(document.querySelector('.ckeditor'), {
-        plugins: [ Essentials, Heading, Bold, Italic, Font, Paragraph ],
-        toolbar: {
-            items: [
-                'heading' , '|', 'undo', 'redo', '|', 'bold', 'italic', '|',
-                'fontSize', 'fontFamily', 'fontColor'
-            ]
-        }
-    })
-    .catch(error => {
-        console.error(error);
-    });
+document.querySelectorAll('.ckeditor').forEach(element => {
+    ClassicEditor
+        .create(element, {
+            plugins: [
+                Essentials,
+                Heading,
+                Bold,
+                Italic,
+                Font,
+                Paragraph,
+                Image,
+                ImageToolbar,
+                ImageCaption,
+                ImageStyle,
+                ImageUpload,
+                ImageResize
+            ],
+            toolbar: {
+                items: [
+                    'heading', '|', 'undo', 'redo', '|', 'bold', 'italic', '|',
+                    'fontSize', 'fontFamily', 'fontColor', '|', 'insertImage'
+                ]
+            },
+            image: {
+                toolbar: [
+                    'imageStyle:full',
+                    'imageStyle:side',
+                    '|',
+                    'imageTextAlternative'
+                ]
+            }
+        })
+        .catch(error => {
+            console.error(error);
+        });
+});
