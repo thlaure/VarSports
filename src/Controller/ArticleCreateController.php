@@ -23,7 +23,7 @@ class ArticleCreateController extends AbstractController
     ) {
     }
 
-    #[Route('/article/create', name: 'app_article_create')]
+    #[Route('/admin/article/create', name: 'app_article_create')]
     #[IsGranted('ROLE_MEMBER_CLUB', message: Message::GENERIC_GRANT_ERROR)]
     public function create(Request $request): Response
     {
