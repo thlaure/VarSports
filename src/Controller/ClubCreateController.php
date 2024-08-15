@@ -77,6 +77,8 @@ class ClubCreateController extends AbstractController
                     $this->entityManager->persist($club->getCity());
                 }
 
+                $club->setSlug($this->slugger->slug((string) $club->getName())->lower());
+
                 $this->entityManager->persist($club);
                 $this->entityManager->flush();
 
