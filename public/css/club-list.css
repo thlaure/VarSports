@@ -1,3 +1,7 @@
 .club-cover-list {
     max-height: 140px;
 }
+
+.club-logo {
+    aspect-ratio: 1;
+}

@@ -5,3 +5,7 @@
         max-height: 400px;
     }
 }
+
+.club-logo {
+    aspect-ratio: 1;
+}
