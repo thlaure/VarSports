@@ -21,7 +21,7 @@
         <picture>
             <source srcset="{{ (asset('images/uploads/club/') ~ (club.logo ? club.id ~ '/' ~ club.logo : 'default_logo.webp')) | imagine_filter('logo_club_show_webp') }}" type="image/webp">
             <source srcset="{{ (asset('images/uploads/club/') ~ (club.logo ? club.id ~ '/' ~ club.logo : 'default_logo.webp')) | imagine_filter('logo_club_show_jpg') }}" type="image/webp">
-            <img src="{{ asset('images/uploads/club/') ~ (club.logo ? club.id ~ '/' ~ club.logo : 'default_logo.webp') }}" alt="Logo du club {{ club.name }}" class="img-fluid rounded-circle col-3 col-md-2 mb-3 border border-white bg-white border-5 position-absolute top-100 start-50 translate-middle object-fit-cover club-logo">
+            <img src="{{ asset('images/uploads/club/') ~ (club.logo ? club.id ~ '/' ~ club.logo : 'default_logo.webp') }}" alt="Logo du club {{ club.name }}" class="img-fluid rounded-circle col-3 col-md-2 mb-3 border border-white bg-white border-5 position-absolute top-100 start-50 translate-middle object-fit-contain club-logo">
         </picture>
     </div>
 
