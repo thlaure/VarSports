@@ -79,7 +79,7 @@ class ClubType extends AbstractType
                 'label' => 'Logo',
                 'required' => false,
                 'mapped' => false,
-                'help' => 'Taille maximum : '.Constraint::IMAGE_MAX_FILE_SIZE/1024/1024 .' Mo. Formats acceptés : '.implode(', ', Constraint::IMAGE_ALLOWED_EXTENSIONS),
+                'help' => 'Taille maximum : '.Constraint::IMAGE_MAX_FILE_SIZE / 1024 / 1024 .' Mo. Formats acceptés : '.implode(', ', Constraint::IMAGE_ALLOWED_EXTENSIONS),
                 'constraints' => [
                     new File([
                         'maxSize' => Constraint::IMAGE_MAX_FILE_SIZE,
@@ -91,7 +91,7 @@ class ClubType extends AbstractType
                 'label' => 'Couverture',
                 'required' => false,
                 'mapped' => false,
-                'help' => 'Taille maximum : '.Constraint::IMAGE_MAX_FILE_SIZE/1024/1024 .' Mo. Formats acceptés : '.implode(', ', Constraint::IMAGE_ALLOWED_EXTENSIONS),
+                'help' => 'Taille maximum : '.Constraint::IMAGE_MAX_FILE_SIZE / 1024 / 1024 .' Mo. Formats acceptés : '.implode(', ', Constraint::IMAGE_ALLOWED_EXTENSIONS),
                 'constraints' => [
                     new File([
                         'maxSize' => Constraint::IMAGE_MAX_FILE_SIZE,
