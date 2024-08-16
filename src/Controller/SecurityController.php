@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Constant\Message;
+use App\Entity\User;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -20,6 +21,12 @@ class SecurityController extends AbstractController
     public function login(AuthenticationUtils $authenticationUtils): Response
     {
         if ($this->isGranted('IS_AUTHENTICATED_FULLY')) {
+            /** @var User $user */
+            $user = $this->getUser();
+            if ($user->hasRole('ROLE_ADMIN_CLUB') && null === $user->getClub()) {
+                return $this->redirectToRoute('app_admin_club_create');
+            }
+
             return $this->redirectToRoute('app_club_list');
         }
 
