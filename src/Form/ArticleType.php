@@ -2,13 +2,16 @@
 
 namespace App\Form;
 
+use App\Constant\Constraint;
 use App\Entity\Article;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\File;
 
 class ArticleType extends AbstractType
 {
@@ -23,6 +26,18 @@ class ArticleType extends AbstractType
                 'required' => false,
                 'attr' => [
                     'class' => 'ckeditor',
+                ],
+            ])
+            ->add('image', FileType::class, [
+                'label' => 'Image',
+                'required' => false,
+                'mapped' => false,
+                'help' => 'Taille maximum : '.Constraint::IMAGE_MAX_FILE_SIZE / 1024 / 1024 .' Mo. Formats acceptés : '.implode(', ', Constraint::IMAGE_ALLOWED_EXTENSIONS),
+                'constraints' => [
+                    new File([
+                        'maxSize' => Constraint::IMAGE_MAX_FILE_SIZE,
+                        'mimeTypes' => Constraint::IMAGE_ALLOWED_MIME_TYPES,
+                    ]),
                 ],
             ])
             ->add('submit', SubmitType::class, [

@@ -34,6 +34,16 @@ class Article
     #[ORM\ManyToOne(inversedBy: 'articles')]
     private ?Club $club = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    #[Assert\Length(max: 255)]
+    #[Assert\Regex(pattern: Constraint::REGEX_COMMON)]
+    private ?string $image = null;
+
+    #[ORM\Column(length: 255)]
+    #[Assert\Length(max: 255)]
+    #[Assert\Regex(pattern: Constraint::REGEX_LINK)]
+    private ?string $slug = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -83,6 +93,30 @@ class Article
     public function setClub(?Club $club): static
     {
         $this->club = $club;
+
+        return $this;
+    }
+
+    public function getImage(): ?string
+    {
+        return $this->image;
+    }
+
+    public function setImage(?string $image): static
+    {
+        $this->image = $image;
+
+        return $this;
+    }
+
+    public function getSlug(): ?string
+    {
+        return $this->slug;
+    }
+
+    public function setSlug(string $slug): static
+    {
+        $this->slug = $slug;
 
         return $this;
     }

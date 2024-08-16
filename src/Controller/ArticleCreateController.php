@@ -7,19 +7,27 @@ use App\Entity\Article;
 use App\Entity\Club;
 use App\Entity\User;
 use App\Form\ArticleType;
+use App\Service\FileChecker;
+use App\Service\FileUploader;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
+use Symfony\Component\String\Slugger\SluggerInterface;
 
 class ArticleCreateController extends AbstractController
 {
     public function __construct(
         private LoggerInterface $logger,
-        private EntityManagerInterface $entityManager
+        private EntityManagerInterface $entityManager,
+        private SluggerInterface $slugger,
+        private FileChecker $fileChecker,
+        private FileUploader $fileUploader,
+        private string $targetDirectory
     ) {
     }
 
@@ -47,7 +55,21 @@ class ArticleCreateController extends AbstractController
                 $article->setClub($user->getClub());
                 $article->setCreationDate(new \DateTimeImmutable());
 
+                $article->setSlug($this->slugger->slug((string) $article->getTitle())->lower());
+
                 $this->entityManager->persist($article);
+                $this->entityManager->flush();
+
+                $article->setSlug($this->slugger->slug((string) $article->getTitle())->lower().'-'.$article->getId());
+
+                /** @var ?UploadedFile $image */
+                $image = $form->get('image')->getData();
+                if ($image && $this->fileChecker->checkImageIsValid($image) && null !== $article->getClub()) {
+                    $imageName = $this->fileUploader->upload($image, $this->targetDirectory.'/'.$article->getClub()->getId().'/articles');
+                    $article->setImage($imageName);
+                    $this->entityManager->persist($article);
+                }
+
                 $this->entityManager->flush();
 
                 $this->addFlash('success', Message::GENERIC_SUCCESS);

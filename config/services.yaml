@@ -32,6 +32,14 @@ services:
         arguments:
             $targetDirectory: '%club_images_directory%'
 
+    App\Controller\ArticleCreateController:
+        arguments:
+            $targetDirectory: '%club_images_directory%'
+
     App\Controller\ClubListController:
+        arguments:
+            $nbPerPage: '%nb_per_page%'
+
+    App\Controller\ArticleListController:
         arguments:
             $nbPerPage: '%nb_per_page%'
