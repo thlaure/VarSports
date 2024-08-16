@@ -79,7 +79,8 @@ class ClubType extends AbstractType
                 'label' => 'Logo',
                 'required' => false,
                 'mapped' => false,
-                'help' => 'Taille maximum : '.Constraint::IMAGE_MAX_FILE_SIZE / 1024 / 1024 .' Mo. Formats acceptés : '.implode(', ', Constraint::IMAGE_ALLOWED_EXTENSIONS),
+                'help' => 'Taille maximum : '.Constraint::IMAGE_MAX_FILE_SIZE / 1024 / 1024 .' Mo. Formats acceptés : '.implode(', ', Constraint::IMAGE_ALLOWED_EXTENSIONS).'<br>Choisisez une image carrée ou ronde pour un meilleur affichage dans le cercle du logo',
+                'help_html' => true,
                 'constraints' => [
                     new File([
                         'maxSize' => Constraint::IMAGE_MAX_FILE_SIZE,
