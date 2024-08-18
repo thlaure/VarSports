@@ -28,8 +28,8 @@ class ClubListController extends AbstractController
         $searchParams = $request->query->all();
 
         if (empty($searchParams)) {
-            $clubs = $this->clubRepository->findBy([], ['name' => 'ASC'], $this->nbPerPage, ($page - 1) * $this->nbPerPage);
-            $nbResults = $this->clubRepository->count([]);
+            $clubs = $this->clubRepository->findBy(['isValid' => true], ['name' => 'ASC'], $this->nbPerPage, ($page - 1) * $this->nbPerPage);
+            $nbResults = $this->clubRepository->count(['isValid' => true]);
         } else {
             $term = isset($searchParams['term']) && is_string($searchParams['term']) && '' !== trim($searchParams['term']) ? trim($searchParams['term']) : '';
 

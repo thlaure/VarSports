@@ -124,12 +124,16 @@ class Club
     #[ORM\OneToMany(targetEntity: Article::class, mappedBy: 'club')]
     private Collection $articles;
 
+    #[ORM\Column(options: ['default' => false])]
+    private ?bool $isValid = null;
+
     public function __construct()
     {
         $this->disciplines = new ArrayCollection();
         $this->users = new ArrayCollection();
         $this->creationDate = new \DateTime();
         $this->articles = new ArrayCollection();
+        $this->isValid = true;
     }
 
     public function getId(): ?int
@@ -426,6 +430,18 @@ class Club
                 $article->setClub(null);
             }
         }
+
+        return $this;
+    }
+
+    public function isValid(): ?bool
+    {
+        return $this->isValid;
+    }
+
+    public function setValid(bool $isValid): static
+    {
+        $this->isValid = $isValid;
 
         return $this;
     }

@@ -28,6 +28,7 @@ class ClubRepository extends ServiceEntityRepository
     {
         $qb = $this->createQueryBuilder('club')
             ->andWhere('club.name LIKE :value')
+            ->andWhere('club.isValid = true')
             ->setParameter('value', '%'.$term.'%');
 
         if (count($disciplines) > 0) {
