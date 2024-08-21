@@ -75,3 +75,15 @@ liip_imagine:
             quality: 80
             filters:
                 thumbnail: { size: [390, 140], mode: inset }
+        
+        cover_article_list_webp:
+            format: webp
+            quality: 100
+            filters:
+                thumbnail: { size: [390, 140], mode: inset }
+
+        cover_article_list_jpg:
+            format: jpeg
+            quality: 100
+            filters:
+                thumbnail: { size: [390, 140], mode: inset }

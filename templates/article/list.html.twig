@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} | Nos article{% endblock %}
+
+{% block canonical %}
+<link rel="canonical" href="{{ url('app_article_list') }}">
+{% endblock %}
+
+{% block stylesheets %}
+{{ parent() }}
+<link rel="stylesheet" href="{{ asset('css/article-list.css') }}">
+{% endblock %}
+
+{% block body %}
+<div class="container-fluid my-5">
+
+    <div class="container">
+        <h1 class="h3 mb-3 font-weight-normal">Nos articles</h1>
+
+        {% include 'partials/flash.html.twig' %}
+    </div>
+
+    <div class="row justify-content-center">
+        {% for article in articles %}
+            {% include 'article/partials/article-item.html.twig' with { article: article } %}
+        {% endfor %}
+    </div>
+
+    {% include 'partials/pagination.html.twig' with {
+        current_page: current_page,
+        nb_pages: nb_pages,
+        path: 'app_article_list',
+        query_params: {}
+    } %}
+</div>
+{% endblock %}

@@ -1,0 +1,17 @@
+<div class="card rounded-1 col-10 col-sm-8 col-md-5 col-lg-3 mb-4 m-sm-4 p-0">
+    <div class="position-relative">
+        <picture>
+            <source srcset="{{ (asset('images/uploads/club/') ~ (article.image ? article.club.id ~ '/articles/' ~ article.image : 'default_cover.webp')) | imagine_filter('cover_article_list_webp') }}" type="image/webp">
+            <source srcset="{{ (asset('images/uploads/club/') ~ (article.image ? article.club.id ~ '/articles/' ~ article.image : 'default_cover.webp')) | imagine_filter('cover_article_list_jpg') }}" type="image/jpeg">
+            <img src="{{ asset('images/uploads/club/') ~ (article.image ? article.club.id ~ '/articles/' ~ article.image : 'default_cover.webp') }}" alt="Couverture de l'article {{ article.title }}" class="img-fluid object-fit-cover w-100 rounded-top-1 article-cover-list" loading="lazy" width="390" height="140">
+        </picture>
+    </div>
+
+    <div class="card-body p-3 mt-3 mt-sm-5 mt-md-3">
+        <h3 class="h5 card-title">
+            <a href="" class="stretched-link text-decoration-none text-black">{{ article.title }}</a>
+        </h3>
+        <p class="card-text"><small class="text-body-secondary">{{ article.creationDate|date('d/m/Y') }}</small></p>
+        <p class="card-text">{{ article.text|striptags|slice(0, 100) }}...</p>
+    </div>
+</div>
