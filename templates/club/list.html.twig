@@ -42,11 +42,7 @@
         current_page: current_page,
         nb_pages: nb_pages,
         path: 'app_club_list',
-        params: {
-            term: term,
-            disciplines: selected_disciplines,
-            cities: selected_cities
-        }
+        query_params: { term: term, disciplines: selected_disciplines, cities: selected_cities }
     } %}
 </div>
 {% endblock %}
