@@ -5,6 +5,7 @@
 {% block stylesheets %}
 {{ parent() }}
 <link rel="stylesheet" href="{{ asset('css/club-show.css') }}">
+<link rel="stylesheet" href="{{ asset('css/article-list.css') }}">
 {% endblock %}
 
 {% block body %}
@@ -95,6 +96,18 @@
                 <h2>Actions</h2>
                 <a href="{{ path('app_admin_club_edit', {'id': club.id}) }}" class="btn btn-warning" rel="nofollow">Modifier</a>
                 <a href="{{ path('app_admin_club_delete', {'id': club.id}) }}" class="btn btn-danger" rel="nofollow">Supprimer</a>
+            </section>
+        {% endif %}
+
+        {% if articles|length > 0 %}
+            <section class="mt-5">
+                <h2>Articles</h2>
+
+                <div class="row justify-content-center">
+                    {% for article in articles %}
+                        {% include 'article/partials/article-item.html.twig' with { article: article } %}
+                    {% endfor %}
+                </div>
             </section>
         {% endif %}
     </div>
