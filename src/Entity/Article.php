@@ -44,6 +44,9 @@ class Article
     #[Assert\Regex(pattern: Constraint::REGEX_LINK)]
     private ?string $slug = null;
 
+    #[ORM\ManyToOne]
+    private ?User $author = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -117,6 +120,18 @@ class Article
     public function setSlug(string $slug): static
     {
         $this->slug = $slug;
+
+        return $this;
+    }
+
+    public function getAuthor(): ?User
+    {
+        return $this->author;
+    }
+
+    public function setAuthor(?User $author): static
+    {
+        $this->author = $author;
 
         return $this;
     }

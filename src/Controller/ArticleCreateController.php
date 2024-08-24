@@ -46,15 +46,16 @@ class ArticleCreateController extends AbstractController
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             try {
-                if (!$user->getClub() instanceof Club) {
+                if (!$user->hasRole('ROLE_ADMIN') && !$user->getClub() instanceof Club) {
                     $this->logger->error(Message::DATA_MUST_BE_SET, ['user' => $user]);
                     $this->addFlash('warning', Message::CLUB_NOT_FOUND);
                     throw $this->createNotFoundException();
+                } else {
+                    $article->setClub($user->getClub());
                 }
 
-                $article->setClub($user->getClub());
+                $article->setAuthor($user);
                 $article->setCreationDate(new \DateTimeImmutable());
-
                 $article->setSlug($this->slugger->slug((string) $article->getTitle())->lower());
 
                 $this->entityManager->persist($article);
@@ -64,8 +65,8 @@ class ArticleCreateController extends AbstractController
 
                 /** @var ?UploadedFile $image */
                 $image = $form->get('image')->getData();
-                if ($image && $this->fileChecker->checkImageIsValid($image) && null !== $article->getClub()) {
-                    $imageName = $this->fileUploader->upload($image, $this->targetDirectory.'/'.$article->getClub()->getId().'/articles');
+                if ($image && $this->fileChecker->checkImageIsValid($image)) {
+                    $imageName = $this->fileUploader->upload($image, $this->targetDirectory.'/'.$article->getId());
                     $article->setImage($imageName);
                     $this->entityManager->persist($article);
                 }
