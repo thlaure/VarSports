@@ -8,6 +8,7 @@
 /var/
 /vendor
 /public/images/uploads/club/*
+/public/images/uploads/article/*
 ###< symfony/framework-bundle ###
 
 ###> phpunit/phpunit ###
