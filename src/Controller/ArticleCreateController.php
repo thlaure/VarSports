@@ -31,7 +31,7 @@ class ArticleCreateController extends AbstractController
     ) {
     }
 
-    #[Route('/admin/article/create', name: 'app_article_create')]
+    #[Route('/admin/article/create', name: 'app_admin_article_create')]
     #[IsGranted('ROLE_MEMBER_CLUB', message: Message::GENERIC_GRANT_ERROR)]
     public function create(Request $request): Response
     {
@@ -47,7 +47,7 @@ class ArticleCreateController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             try {
                 if (!$user->hasRole('ROLE_ADMIN') && !$user->getClub() instanceof Club) {
-                    $this->logger->error(Message::DATA_MUST_BE_SET, ['user' => $user]);
+                    $this->logger->error(Message::DATA_MUST_BE_SET, ['club' => $user->getClub()]);
                     $this->addFlash('warning', Message::CLUB_NOT_FOUND);
                     throw $this->createNotFoundException();
                 } else {
@@ -80,8 +80,9 @@ class ArticleCreateController extends AbstractController
             }
         }
 
-        return $this->render('admin/article/create.html.twig', [
+        return $this->render('admin/article/create_edit.html.twig', [
             'form' => $form,
+            'title' => 'Écrire un article',
         ]);
     }
 }
