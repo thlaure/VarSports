@@ -128,8 +128,9 @@ class ClubCreateController extends AbstractController
             }
         }
 
-        return $this->render('admin/club/create.html.twig', [
+        return $this->render('admin/club/create_edit.html.twig', [
             'form' => $form->createView(),
+            'title' => 'Créer un club',
         ]);
     }
 }
