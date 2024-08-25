@@ -23,12 +23,12 @@
 <script type="module" src="{{ asset('js/ckeditor-config.js') }}" defer></script>
 {% endblock %}
 
-{% block title %} | Admin - Écrire un article{% endblock %}
+{% block title %} | Admin - {{ title }}{% endblock %}
 
 {% block body %}
 <div class="container my-5">
     <section>
-        <h1 class="h3 mb-3 font-weight-normal">Écrire un article</h1>
+        <h1 class="h3 mb-3 font-weight-normal">{{ title }}</h1>
 
         {% include 'partials/flash.html.twig' %}
 
