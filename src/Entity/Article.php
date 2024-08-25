@@ -47,6 +47,10 @@ class Article
     #[ORM\ManyToOne]
     private ?User $author = null;
 
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
+    #[Assert\Type(type: Types::DATETIME_MUTABLE)]
+    private ?\DateTimeInterface $lastUpdate = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -132,6 +136,18 @@ class Article
     public function setAuthor(?User $author): static
     {
         $this->author = $author;
+
+        return $this;
+    }
+
+    public function getLastUpdate(): ?\DateTimeInterface
+    {
+        return $this->lastUpdate;
+    }
+
+    public function setLastUpdate(?\DateTimeInterface $lastUpdate): static
+    {
+        $this->lastUpdate = $lastUpdate;
 
         return $this;
     }

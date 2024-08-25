@@ -124,6 +124,8 @@ class ClubEditController extends AbstractController
                         $this->entityManager->persist($club->getCity());
                     }
 
+                    $club->setLastUpdate(new \DateTime());
+
                     $this->entityManager->flush();
 
                     $this->addFlash('success', Message::GENERIC_SUCCESS);

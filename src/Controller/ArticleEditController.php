@@ -84,6 +84,8 @@ class ArticleEditController extends AbstractController
                     $this->entityManager->persist($article);
                 }
 
+                $article->setLastUpdate(new \DateTime());
+
                 $this->entityManager->flush();
 
                 $this->addFlash('success', Message::GENERIC_SUCCESS);
