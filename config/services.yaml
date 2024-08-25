@@ -41,6 +41,10 @@ services:
         arguments:
             $targetDirectory: '%article_images_directory%'
 
+    App\Controller\ArticleEditController:
+        arguments:
+            $targetDirectory: '%article_images_directory%'
+
     App\Controller\ArticleListController:
         arguments:
             $nbPerPage: '%nb_per_page%'
