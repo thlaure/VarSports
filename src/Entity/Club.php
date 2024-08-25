@@ -125,7 +125,7 @@ class Club
     private Collection $articles;
 
     #[ORM\Column(options: ['default' => false])]
-    private ?bool $isValid = null;
+    private ?bool $isValidated = null;
 
     public function __construct()
     {
@@ -133,7 +133,7 @@ class Club
         $this->users = new ArrayCollection();
         $this->creationDate = new \DateTime();
         $this->articles = new ArrayCollection();
-        $this->isValid = true;
+        $this->isValidated = true;
     }
 
     public function getId(): ?int
@@ -434,14 +434,14 @@ class Club
         return $this;
     }
 
-    public function isValid(): ?bool
+    public function isValidated(): ?bool
     {
-        return $this->isValid;
+        return $this->isValidated;
     }
 
-    public function setValid(bool $isValid): static
+    public function setValidated(bool $isValidated): static
     {
-        $this->isValid = $isValid;
+        $this->isValidated = $isValidated;
 
         return $this;
     }
