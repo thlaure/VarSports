@@ -1,0 +1,6 @@
+<div style="font-family: Arial, sans-serif;">
+    <h1 style="color: #333; font-size: 24px;">Demande de création de club</h1>
+    <p style="color: #666; font-size: 16px;">Bonjour,</p>
+    <p style="color: #666; font-size: 16px;">L'utilisateur {{ user.email }} a demandé la création de son club.</p>
+    <p style="font-size: 16px;"><a href="{{ url('app_club_show', {slug: club.slug}) }}">Voir le club</a></p>
+</div>

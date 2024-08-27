@@ -85,6 +85,7 @@ class RegistrationFormType extends AbstractType
                         ]),
                         new PasswordStrength([
                             'message' => 'Le mot de passe doit contenir au moins un chiffre, un caractère majuscule et un caractère minuscule.',
+                            'minScore' => PasswordStrength::STRENGTH_WEAK,
                         ]),
                     ],
                 ],

@@ -133,7 +133,7 @@ class Club
         $this->users = new ArrayCollection();
         $this->creationDate = new \DateTime();
         $this->articles = new ArrayCollection();
-        $this->isValidated = true;
+        $this->isValidated = false;
     }
 
     public function getId(): ?int

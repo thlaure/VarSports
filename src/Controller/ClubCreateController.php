@@ -11,10 +11,13 @@ use App\Service\FileChecker;
 use App\Service\FileUploader;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
+use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mime\Address;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Component\String\Slugger\SluggerInterface;
@@ -28,7 +31,8 @@ class ClubCreateController extends AbstractController
         private string $targetDirectory,
         private FileChecker $fileChecker,
         private FileUploader $fileUploader,
-        private SluggerInterface $slugger
+        private SluggerInterface $slugger,
+        private MailerInterface $mailer
     ) {
     }
 
@@ -119,7 +123,22 @@ class ClubCreateController extends AbstractController
 
                 $this->entityManager->flush();
 
-                $this->addFlash('success', Message::GENERIC_SUCCESS);
+                $this->addFlash('success', $user->hasRole('ROLE_ADMIN') ? Message::GENERIC_SUCCESS : Message::SUCCESS_VALIDATION);
+
+                if (!$user->hasRole('ROLE_ADMIN')) {
+                    $email = (new TemplatedEmail())
+                        ->from(new Address('no-reply@varsports.fr', 'VarSports'))
+                        ->to('contact@varsports.fr')
+                        ->subject('Demande de création de club')
+                        ->htmlTemplate('admin/club/email_validation.html.twig')
+                        ->context([
+                            'club' => $club,
+                            'user' => $user,
+                        ])
+                    ;
+
+                    $this->mailer->send($email);
+                }
 
                 return $this->redirectToRoute('app_club_list');
             } catch (\Exception $e) {
