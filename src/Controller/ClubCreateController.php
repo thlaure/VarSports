@@ -115,6 +115,8 @@ class ClubCreateController extends AbstractController
                             throw $this->createNotFoundException();
                         }
                     }
+
+                    $club->setValidated(true);
                 } else {
                     /* @var User $user */
                     $user->setClub($club);
