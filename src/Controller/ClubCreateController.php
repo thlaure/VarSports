@@ -130,7 +130,7 @@ class ClubCreateController extends AbstractController
                 if (!$user->hasRole('ROLE_ADMIN')) {
                     $email = (new TemplatedEmail())
                         ->from(new Address('no-reply@varsports.fr', 'VarSports'))
-                        ->to('contact@varsports.fr')
+                        ->to('redacvarsports@gmail.com')
                         ->subject('Demande de création de club')
                         ->htmlTemplate('admin/club/email_validation.html.twig')
                         ->context([
