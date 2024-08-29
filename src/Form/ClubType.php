@@ -22,6 +22,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\Email;
 use Symfony\Component\Validator\Constraints\File;
+use Symfony\UX\Cropperjs\Form\CropperType;
 
 class ClubType extends AbstractType
 {
@@ -86,6 +87,15 @@ class ClubType extends AbstractType
                         'maxSize' => Constraint::IMAGE_MAX_FILE_SIZE,
                         'mimeTypes' => Constraint::IMAGE_ALLOWED_MIME_TYPES,
                     ]),
+                ],
+            ])
+            ->add('logoCrop', CropperType::class, [
+                'label' => 'Crop Logo',
+                'public_url' => '',
+                'required' => false,
+                'mapped' => false,
+                'cropper_options' => [
+                    'aspectRatio' => 1,
                 ],
             ])
             ->add('coverImage', FileType::class, [
