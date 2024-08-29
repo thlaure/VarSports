@@ -7,6 +7,7 @@ parameters:
     club_images_directory: '%kernel.project_dir%/public/images/uploads/club'
     article_images_directory: '%kernel.project_dir%/public/images/uploads/article'
     nb_per_page: 12
+    contact_mail_varsports: '%env(CONTACT_MAIL_VARSPORTS)%'
 
 services:
     # default configuration for services in *this* file

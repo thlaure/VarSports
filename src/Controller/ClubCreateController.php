@@ -127,10 +127,10 @@ class ClubCreateController extends AbstractController
 
                 $this->addFlash('success', $user->hasRole('ROLE_ADMIN') ? Message::GENERIC_SUCCESS : Message::SUCCESS_VALIDATION);
 
-                if (!$user->hasRole('ROLE_ADMIN')) {
+                if (!$user->hasRole('ROLE_ADMIN') && is_string($this->getParameter('contact_mail_varsports'))) {
                     $email = (new TemplatedEmail())
                         ->from(new Address('no-reply@varsports.fr', 'VarSports'))
-                        ->to('contact@varsports.fr')
+                        ->to($this->getParameter('contact_mail_varsports'))
                         ->subject('Demande de création de club')
                         ->htmlTemplate('admin/club/email_validation.html.twig')
                         ->context([
