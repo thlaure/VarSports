@@ -21,29 +21,24 @@ class Club
     #[ORM\Column(length: 255)]
     #[Assert\NotBlank()]
     #[Assert\Length(max: 255)]
-    #[Assert\Regex(pattern: Constraint::REGEX_COMMON)]
     private ?string $name = null;
 
     #[ORM\Column(length: 255, nullable: true)]
     #[Assert\NotBlank()]
     #[Assert\Length(max: 255)]
-    #[Assert\Regex(pattern: Constraint::REGEX_COMMON)]
     private ?string $address = null;
 
     #[ORM\Column(length: 20, nullable: true)]
     #[Assert\Length(min: 10, max: 20)]
-    #[Assert\Regex(pattern: Constraint::REGEX_PHONE)]
     private ?string $phone = null;
 
     #[ORM\Column(length: 255, nullable: true)]
     #[Assert\Length(max: 255)]
     #[Assert\Url()]
-    #[Assert\Regex(pattern: Constraint::REGEX_LINK)]
     private ?string $website = null;
 
     #[ORM\Column(length: 255, nullable: true)]
     #[Assert\Length(max: 255)]
-    #[Assert\Regex(pattern: Constraint::REGEX_COMMON)]
     private ?string $logo = null;
 
     /**
@@ -93,7 +88,6 @@ class Club
 
     #[ORM\Column(length: 255, nullable: true)]
     #[Assert\Length(max: 255)]
-    #[Assert\Regex(pattern: Constraint::REGEX_COMMON)]
     private ?string $addressComplement = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
@@ -112,7 +106,6 @@ class Club
 
     #[ORM\Column(length: 255, nullable: true)]
     #[Assert\Length(max: 255)]
-    #[Assert\Regex(pattern: Constraint::REGEX_COMMON)]
     private ?string $coverImage = null;
 
     #[ORM\ManyToOne]
