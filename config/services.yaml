@@ -49,3 +49,7 @@ services:
     App\Controller\ArticleListController:
         arguments:
             $nbPerPage: '%nb_per_page%'
+
+    App\Controller\EventListController:
+        arguments:
+            $nbPerPage: '%nb_per_page%'

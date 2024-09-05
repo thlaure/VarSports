@@ -1,8 +1,8 @@
 <div class="card rounded-1 col-10 col-sm-8 col-md-5 col-lg-3 mb-4 m-sm-4 p-0">
     <div class="position-relative">
         <picture>
-            <source srcset="{{ (asset('images/uploads/article/') ~ (article.image ? article.id ~ '/' ~ article.image : 'default_cover.webp')) | imagine_filter('cover_article_list_webp') }}" type="image/webp">
-            <source srcset="{{ (asset('images/uploads/article/') ~ (article.image ? article.id ~ '/' ~ article.image : 'default_cover.webp')) | imagine_filter('cover_article_list_jpg') }}" type="image/jpeg">
+            <source srcset="{{ (asset('images/uploads/article/') ~ (article.image ? article.id ~ '/' ~ article.image : 'default_cover.webp')) | imagine_filter('cover_article_event_list_webp') }}" type="image/webp">
+            <source srcset="{{ (asset('images/uploads/article/') ~ (article.image ? article.id ~ '/' ~ article.image : 'default_cover.webp')) | imagine_filter('cover_article_event_list_jpg') }}" type="image/jpeg">
             <img src="{{ asset('images/uploads/article/') ~ (article.image ? article.id ~ '/' ~ article.image : 'default_cover.webp') }}" alt="Couverture de l'article {{ article.title }}" class="img-fluid object-fit-cover w-100 rounded-top-1 article-cover-list" loading="lazy" width="390" height="140">
         </picture>
     </div>

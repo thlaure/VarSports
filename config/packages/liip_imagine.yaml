@@ -76,13 +76,13 @@ liip_imagine:
             filters:
                 thumbnail: { size: [390, 140], mode: inset }
         
-        cover_article_list_webp:
+        cover_article_event_list_webp:
             format: webp
             quality: 100
             filters:
                 thumbnail: { size: [390, 140], mode: inset }
 
-        cover_article_list_jpg:
+        cover_article_event_list_jpg:
             format: jpeg
             quality: 100
             filters:

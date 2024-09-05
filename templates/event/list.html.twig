@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} | Nos Évènements{% endblock %}
+
+{% block canonical %}
+<link rel="canonical" href="{{ url('app_event_list') }}">
+{% endblock %}
+
+{% block stylesheets %}
+{{ parent() }}
+<link rel="stylesheet" href="{{ asset('css/event-list.css') }}">
+{% endblock %}
+
+{% block body %}
+<div class="container-fluid my-5">
+
+    <div class="container">
+        <h1 class="h3 mb-3 font-weight-normal">Nos évènements</h1>
+
+        {% include 'partials/flash.html.twig' %}
+    </div>
+
+    <div class="row justify-content-center">
+        {% for event in events %}
+            {% include 'article/partials/event-item.html.twig' with { event: event } %}
+        {% endfor %}
+    </div>
+
+    {% include 'partials/pagination.html.twig' with {
+        current_page: current_page,
+        nb_pages: nb_pages,
+        path: 'app_event_list',
+        query_params: {}
+    } %}
+</div>
+{% endblock %}
