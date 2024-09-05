@@ -14,6 +14,7 @@ class EventShowController extends AbstractController
         private EventRepository $eventRepository
     ) {
     }
+
     #[Route('/event/{slug}', name: 'app_event_show')]
     public function show(string $slug): Response
     {

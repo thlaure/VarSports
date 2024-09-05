@@ -14,6 +14,7 @@ class EventListController extends AbstractController
         private int $nbPerPage
     ) {
     }
+
     #[Route('/event/list/{page<\d+>?1}', name: 'app_event_list')]
     public function list(int $page): Response
     {
