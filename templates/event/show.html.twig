@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} | {{ event.title }}{% endblock %}
+
+{% block stylesheets %}
+{{ parent() }}
+<link rel="stylesheet" href="{{ asset('css/event-show.css') }}">
+{% endblock %}
+
+{% block body %}
+<div class="container-fluid mt-2 mb-5">
+    {% include 'partials/flash.html.twig' %}
+
+    <div class="position-relative">
+        <picture>
+            <source srcset="{{ (asset('images/uploads/event/') ~ (event.image ? event.id ~ '/' ~ event.image : 'default_cover.webp'))  | imagine_filter('cover_article_event_show_webp') }}" type="image/webp">
+            <source srcset="{{ (asset('images/uploads/event/') ~ (event.image ? event.id ~ '/' ~ event.image : 'default_cover.webp'))  | imagine_filter('cover_article_event_show_jpg') }}" type="image/webp">
+            <img src="{{ asset('images/uploads/event/') ~ (event.image ? event.id ~ '/' ~ event.image : 'default_cover.webp') }}" alt="Couverture de l'évènement {{ event.title }}" class="img-fluid object-fit-cover w-100 rounded event-cover">
+        </picture>
+    </div>
+
+    <div class="container my-5">
+        <section class="mb-5 align-items-center gap-3">
+            <h1 class="font-weight-normal mt-5">{{ event.title }}</h1>
+
+            <p>Du {{ event.startDate|date('d/m/Y H:i') }} au {{ event.endDate|date('d/m/Y H:i') }}</p>
+
+            <p>{{ event.text|raw|nl2br }}</p>
+        </section>
+
+        {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_ADMIN_CLUB') and app.user.club is not null and event.club is not null and app.user.club.id == event.club.id %}
+            <section class="mt-5">
+                <h2>Actions</h2>
+                <a href="{{ path('app_admin_event_edit', {'id': event.id}) }}" class="btn btn-warning" rel="nofollow">Modifier</a>
+                <a href="{{ path('app_admin_event_delete', {'id': event.id}) }}" class="btn btn-danger" rel="nofollow">Supprimer</a>
+            </section>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

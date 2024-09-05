@@ -6,6 +6,7 @@ use App\Constant\Constraint;
 use App\Entity\Club;
 use App\Entity\Discipline;
 use App\Entity\User;
+use App\Form\CityType;
 use App\Repository\DisciplineRepository;
 use App\Repository\UserRepository;
 use Doctrine\ORM\QueryBuilder;

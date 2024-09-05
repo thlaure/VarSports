@@ -1,0 +1,7 @@
+.event-cover {
+    max-height: 200px;
+
+    @media screen and (min-width: 768px) {
+        max-height: 400px;
+    }
+}
