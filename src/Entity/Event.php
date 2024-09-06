@@ -29,7 +29,6 @@ class Event
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     #[Assert\Type(type: Types::DATETIME_MUTABLE)]
-    #[Assert\EqualTo('today')]
     private ?\DateTimeInterface $creationDate = null;
 
     #[ORM\Column(length: 255, nullable: true)]

@@ -31,7 +31,7 @@
         {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_ADMIN_CLUB') and app.user.club is not null and event.club is not null and app.user.club.id == event.club.id %}
             <section class="mt-5">
                 <h2>Actions</h2>
-                {# <a href="{{ path('app_admin_event_edit', {'id': event.id}) }}" class="btn btn-warning" rel="nofollow">Modifier</a> #}
+                <a href="{{ path('app_admin_event_edit', {'id': event.id}) }}" class="btn btn-warning" rel="nofollow">Modifier</a>
                 <a href="{{ path('app_admin_event_delete', {'id': event.id}) }}" class="btn btn-danger" rel="nofollow">Supprimer</a>
             </section>
         {% endif %}

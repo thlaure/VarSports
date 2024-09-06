@@ -58,3 +58,7 @@ services:
     App\Controller\EventCreateController:
         arguments:
             $targetDirectory: '%event_images_directory%'
+
+    App\Controller\EventEditController:
+        arguments:
+            $targetDirectory: '%event_images_directory%'
