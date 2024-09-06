@@ -9,6 +9,7 @@
 /vendor
 /public/images/uploads/club/*
 /public/images/uploads/article/*
+/public/images/uploads/event/*
 ###< symfony/framework-bundle ###
 
 ###> phpunit/phpunit ###

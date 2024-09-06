@@ -29,6 +29,7 @@ class Event
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     #[Assert\Type(type: Types::DATETIME_MUTABLE)]
+    #[Assert\EqualTo('today')]
     private ?\DateTimeInterface $creationDate = null;
 
     #[ORM\Column(length: 255, nullable: true)]
@@ -49,9 +50,11 @@ class Event
     private ?\DateTimeInterface $lastUpdate = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    #[Assert\GreaterThanOrEqual('today')]
     private ?\DateTimeInterface $startDate = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    #[Assert\GreaterThanOrEqual('today')]
     private ?\DateTimeInterface $endDate = null;
 
     public function getId(): ?int

@@ -6,6 +6,7 @@
 parameters:
     club_images_directory: '%kernel.project_dir%/public/images/uploads/club'
     article_images_directory: '%kernel.project_dir%/public/images/uploads/article'
+    event_images_directory: '%kernel.project_dir%/public/images/uploads/event'
     nb_per_page: 12
     contact_mail_varsports: '%env(CONTACT_MAIL_VARSPORTS)%'
 
@@ -53,3 +54,7 @@ services:
     App\Controller\EventListController:
         arguments:
             $nbPerPage: '%nb_per_page%'
+    
+    App\Controller\EventCreateController:
+        arguments:
+            $targetDirectory: '%event_images_directory%'
