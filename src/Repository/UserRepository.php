@@ -41,9 +41,10 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
             ->andWhere('club = :club')
             ->setParameter('club', $club)
             ->andWhere('user.roles LIKE :role')
-            ->setParameter('role', '%"ROLE_CLUB_ADMIN"%')
+            ->setParameter('role', '%"ROLE_ADMIN_CLUB"%')
             ->getQuery()
-            ->getOneOrNullResult();
+            ->getOneOrNullResult()
+        ;
 
         if (!$result instanceof User) {
             return null;

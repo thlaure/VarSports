@@ -18,6 +18,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Component\String\Slugger\SluggerInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 class ArticleCreateController extends AbstractController
 {
@@ -27,17 +28,18 @@ class ArticleCreateController extends AbstractController
         private SluggerInterface $slugger,
         private FileChecker $fileChecker,
         private FileUploader $fileUploader,
+        private TranslatorInterface $translator,
         private string $targetDirectory
     ) {
     }
 
     #[Route('/admin/article/create', name: 'app_admin_article_create')]
-    #[IsGranted('ROLE_MEMBER_CLUB', message: Message::GENERIC_GRANT_ERROR)]
+    #[IsGranted('ROLE_MEMBER_CLUB')]
     public function create(Request $request): Response
     {
         $user = $this->getUser();
         if (!$user instanceof User) {
-            $this->logger->error(Message::DATA_NOT_FOUND, ['user' => $user]);
+            $this->logger->error($this->translator->trans(Message::DATA_NOT_FOUND), ['user' => $user]);
             throw $this->createNotFoundException();
         }
 
@@ -47,8 +49,8 @@ class ArticleCreateController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             try {
                 if (!$user->hasRole('ROLE_ADMIN') && !$user->getClub() instanceof Club) {
-                    $this->logger->error(Message::DATA_MUST_BE_SET, ['club' => $user->getClub()]);
-                    $this->addFlash('warning', Message::CLUB_NOT_FOUND);
+                    $this->logger->error($this->translator->trans(Message::DATA_MUST_BE_SET), ['club' => $user->getClub()]);
+                    $this->addFlash('warning', $this->translator->trans(Message::CLUB_NOT_FOUND));
                     throw $this->createNotFoundException();
                 } else {
                     $article->setClub($user->getClub());
@@ -73,10 +75,10 @@ class ArticleCreateController extends AbstractController
 
                 $this->entityManager->flush();
 
-                $this->addFlash('success', Message::GENERIC_SUCCESS);
+                $this->addFlash('success', $this->translator->trans(Message::GENERIC_SUCCESS));
             } catch (\Exception $e) {
                 $this->logger->error($e->getMessage());
-                $this->addFlash('error', Message::GENERIC_ERROR);
+                $this->addFlash('error', $this->translator->trans(Message::GENERIC_ERROR));
             }
         }
 

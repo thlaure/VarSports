@@ -19,6 +19,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Component\String\Slugger\SluggerInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 class ArticleEditController extends AbstractController
 {
@@ -29,29 +30,30 @@ class ArticleEditController extends AbstractController
         private SluggerInterface $slugger,
         private FileChecker $fileChecker,
         private FileUploader $fileUploader,
+        private TranslatorInterface $translator,
         private string $targetDirectory
     ) {
     }
 
     #[Route('/admin/article/{id}/edit', name: 'app_admin_article_edit')]
-    #[IsGranted('ROLE_MEMBER_CLUB', message: Message::GENERIC_GRANT_ERROR)]
+    #[IsGranted('ROLE_MEMBER_CLUB')]
     public function edit(int $id, Request $request): Response
     {
         $user = $this->getUser();
         if (!$user instanceof User) {
-            $this->logger->error(Message::DATA_NOT_FOUND, ['user' => $user]);
+            $this->logger->error($this->translator->trans(Message::DATA_NOT_FOUND), ['user' => $user]);
             throw $this->createNotFoundException();
         }
 
         $article = $this->articleRepository->findOneBy(['id' => $id]);
         if (!$article instanceof Article) {
-            $this->logger->error(Message::DATA_NOT_FOUND, ['article' => $article]);
+            $this->logger->error($this->translator->trans(Message::DATA_NOT_FOUND), ['article' => $article]);
             throw $this->createNotFoundException();
         }
 
         $isMemberAndHasClub = $user->hasRole('ROLE_MEMBER_CLUB') && (null !== $user->getClub() && null !== $article->getClub() && $user->getClub()->getId() === $article->getClub()->getId());
         if ($isMemberAndHasClub || null === $article->getClub() && !$user->hasRole('ROLE_ADMIN')) {
-            $this->logger->error(Message::GENERIC_ACCESS_DENIED, ['user' => $user]);
+            $this->logger->error($this->translator->trans(Message::GENERIC_ACCESS_DENIED), ['user' => $user]);
             throw $this->createAccessDeniedException();
         }
 
@@ -60,8 +62,8 @@ class ArticleEditController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             try {
                 if (!$user->hasRole('ROLE_ADMIN') && !$user->getClub() instanceof Club) {
-                    $this->logger->error(Message::DATA_MUST_BE_SET, ['user' => $user]);
-                    $this->addFlash('warning', Message::CLUB_NOT_FOUND);
+                    $this->logger->error($this->translator->trans(Message::DATA_MUST_BE_SET), ['user' => $user]);
+                    $this->addFlash('warning', $this->translator->trans(Message::CLUB_NOT_FOUND));
                     throw $this->createNotFoundException();
                 } else {
                     $article->setClub($user->getClub());
@@ -88,12 +90,12 @@ class ArticleEditController extends AbstractController
 
                 $this->entityManager->flush();
 
-                $this->addFlash('success', Message::GENERIC_SUCCESS);
+                $this->addFlash('success', $this->translator->trans(Message::GENERIC_SUCCESS));
 
                 return $this->redirectToRoute('app_article_show', ['slug' => $article->getSlug()]);
             } catch (\Exception $e) {
                 $this->logger->error($e->getMessage());
-                $this->addFlash('error', Message::GENERIC_ERROR);
+                $this->addFlash('error', $this->translator->trans(Message::GENERIC_ERROR));
             }
         }
 

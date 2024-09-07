@@ -12,6 +12,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 #[AsCommand(
     name: 'varsports:images:associate',
@@ -23,6 +24,7 @@ class VarsportsImagesAssociateCommand extends Command
         private ClubRepository $clubRepository,
         private EntityManagerInterface $entityManager,
         private Filesystem $filesystem,
+        private TranslatorInterface $translator,
         private string $filePath = 'docker/imports/clubs_clean.json',
         private string $oldImagesPath = 'public/images/uploads/club/old/',
         private string $newImagesPath = 'public/images/uploads/club/'
@@ -37,21 +39,21 @@ class VarsportsImagesAssociateCommand extends Command
         $io = new SymfonyStyle($input, $output);
 
         if (!file_exists($this->filePath)) {
-            $io->error(Message::FILE_NOT_FOUND);
+            $io->error($this->translator->trans(Message::FILE_NOT_FOUND));
 
             return Command::FAILURE;
         }
 
         $fileContent = file_get_contents($this->filePath);
         if (false === $fileContent) {
-            $io->error(Message::FILE_NOT_READABLE);
+            $io->error($this->translator->trans(Message::FILE_NOT_READABLE));
 
             return Command::FAILURE;
         }
 
         $data = json_decode($fileContent, true);
         if (null === $data || !is_array($data)) {
-            $io->error(Message::GENERIC_ERROR);
+            $io->error($this->translator->trans(Message::GENERIC_ERROR));
 
             return Command::FAILURE;
         }
@@ -62,7 +64,7 @@ class VarsportsImagesAssociateCommand extends Command
             if ($this->filesystem->exists($this->oldImagesPath.$dataClub['id'])) {
                 $club = $this->clubRepository->findOneBy(['email' => $dataClub['email']]);
                 if (!$club instanceof Club) {
-                    $io->error(Message::GENERIC_ERROR);
+                    $io->error($this->translator->trans(Message::GENERIC_ERROR));
                     continue;
                 }
 

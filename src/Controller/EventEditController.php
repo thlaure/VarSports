@@ -18,6 +18,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Component\String\Slugger\SluggerInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 class EventEditController extends AbstractController
 {
@@ -28,23 +29,24 @@ class EventEditController extends AbstractController
         private SluggerInterface $slugger,
         private FileChecker $fileChecker,
         private FileUploader $fileUploader,
+        private TranslatorInterface $translator,
         private string $targetDirectory
     ) {
     }
 
     #[Route('/admin/event/{id}/edit', name: 'app_admin_event_edit')]
-    #[IsGranted('ROLE_ADMIN', message: Message::GENERIC_GRANT_ERROR)]
+    #[IsGranted('ROLE_ADMIN')]
     public function edit(int $id, Request $request): Response
     {
         $user = $this->getUser();
         if (!$user instanceof User) {
-            $this->logger->error(Message::DATA_NOT_FOUND, ['user' => $user]);
+            $this->logger->error($this->translator->trans(Message::DATA_NOT_FOUND), ['user' => $user]);
             throw $this->createNotFoundException();
         }
 
         $event = $this->eventRepository->findOneBy(['id' => $id]);
         if (!$event instanceof Event) {
-            $this->logger->error(Message::DATA_NOT_FOUND, ['event' => $event]);
+            $this->logger->error($this->translator->trans(Message::DATA_NOT_FOUND), ['event' => $event]);
             throw $this->createNotFoundException();
         }
 
@@ -73,18 +75,18 @@ class EventEditController extends AbstractController
 
                 $this->entityManager->flush();
 
-                $this->addFlash('success', Message::GENERIC_SUCCESS);
+                $this->addFlash('success', $this->translator->trans(Message::GENERIC_SUCCESS));
 
                 return $this->redirectToRoute('app_event_show', ['slug' => $event->getSlug()]);
             } catch (\Exception $e) {
                 $this->logger->error($e->getMessage());
-                $this->addFlash('error', Message::GENERIC_ERROR);
+                $this->addFlash('error', $this->translator->trans(Message::GENERIC_ERROR));
             }
         }
 
         return $this->render('admin/event/create_edit.html.twig', [
             'form' => $form,
-            'title' => Message::TITLE_EDIT_EVENT,
+            'title' => $this->translator->trans(Message::TITLE_EDIT_EVENT),
         ]);
     }
 }

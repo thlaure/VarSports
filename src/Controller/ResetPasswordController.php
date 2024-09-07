@@ -30,7 +30,8 @@ class ResetPasswordController extends AbstractController
     public function __construct(
         private ResetPasswordHelperInterface $resetPasswordHelper,
         private EntityManagerInterface $entityManager,
-        private LoggerInterface $logger
+        private LoggerInterface $logger,
+        private TranslatorInterface $translator
     ) {
     }
 
@@ -138,7 +139,7 @@ class ResetPasswordController extends AbstractController
             // The session is cleaned up after the password has been changed.
             $this->cleanSessionAfterReset();
 
-            $this->addFlash('success', Message::PASSWORD_UPDATED);
+            $this->addFlash('success', $this->translator->trans(Message::PASSWORD_UPDATED));
 
             return $this->redirectToRoute('app_login');
         }
@@ -182,8 +183,8 @@ class ResetPasswordController extends AbstractController
 
         $emailTo = $user->getEmail();
         if (!is_string($emailTo) || empty($emailTo) || !filter_var($emailTo, FILTER_VALIDATE_EMAIL)) {
-            $this->addFlash('reset_password_error', Message::GENERIC_ERROR);
-            $this->logger->error(Message::DATA_NOT_FOUND);
+            $this->addFlash('reset_password_error', $this->translator->trans(Message::GENERIC_ERROR));
+            $this->logger->error($this->translator->trans(Message::DATA_NOT_FOUND));
 
             return $this->redirectToRoute('app_check_email');
         }
@@ -191,7 +192,7 @@ class ResetPasswordController extends AbstractController
         $email = (new TemplatedEmail())
             ->from(new Address('no-reply@varsports.fr', 'VarSports'))
             ->to($emailTo)
-            ->subject(Message::RESET_PASSWORD)
+            ->subject($this->translator->trans(Message::RESET_PASSWORD))
             ->htmlTemplate('reset_password/email.html.twig')
             ->context([
                 'resetToken' => $resetToken,

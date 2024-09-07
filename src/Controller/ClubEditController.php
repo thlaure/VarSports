@@ -22,6 +22,7 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Component\String\Slugger\SluggerInterface;
 use Symfony\Component\Validator\ConstraintViolation;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 #[Route('/admin/club', name: 'app_admin_club_')]
 class ClubEditController extends AbstractController
@@ -35,28 +36,29 @@ class ClubEditController extends AbstractController
         private FileUploader $fileUploader,
         private FileRemover $fileRemover,
         private SluggerInterface $slugger,
-        private ValidatorInterface $validator
+        private ValidatorInterface $validator,
+        private TranslatorInterface $translator
     ) {
     }
 
     #[Route('/{id}/edit', name: 'edit')]
-    #[IsGranted('ROLE_ADMIN_CLUB', message: Message::GENERIC_GRANT_ERROR)]
+    #[IsGranted('ROLE_ADMIN_CLUB')]
     public function edit(int $id, Request $request): Response
     {
         $user = $this->getUser();
         if (!$user instanceof User) {
-            $this->logger->error(Message::DATA_NOT_FOUND, ['user' => $user]);
+            $this->logger->error($this->translator->trans(Message::DATA_NOT_FOUND), ['user' => $user]);
             throw $this->createNotFoundException();
         }
 
         $club = $this->clubRepository->findOneBy(['id' => $id]);
         if (!$club instanceof Club) {
-            $this->logger->error(Message::DATA_NOT_FOUND, ['club' => $club]);
+            $this->logger->error($this->translator->trans(Message::DATA_NOT_FOUND), ['club' => $club]);
             throw $this->createNotFoundException();
         }
 
         if ($user->hasRole('ROLE_ADMIN_CLUB') && (null === $user->getClub() || $user->getClub()->getId() !== $club->getId())) {
-            $this->logger->error(Message::GENERIC_ACCESS_DENIED, ['user' => $user]);
+            $this->logger->error($this->translator->trans(Message::GENERIC_ACCESS_DENIED), ['user' => $user]);
             throw $this->createAccessDeniedException();
         }
 
@@ -99,8 +101,8 @@ class ClubEditController extends AbstractController
                     }
 
                     if (!is_string($club->getName()) || empty($club->getName())) {
-                        $this->logger->error(Message::DATA_MUST_BE_SET, ['club' => $club]);
-                        throw new \InvalidArgumentException(Message::DATA_MUST_BE_SET, Response::HTTP_BAD_REQUEST);
+                        $this->logger->error($this->translator->trans(Message::DATA_MUST_BE_SET), ['club' => $club]);
+                        throw new \InvalidArgumentException($this->translator->trans(Message::DATA_MUST_BE_SET), Response::HTTP_BAD_REQUEST);
                     }
 
                     $newSlug = $this->slugger->slug((string) $club->getName())->lower();
@@ -109,8 +111,8 @@ class ClubEditController extends AbstractController
                     }
 
                     if (null === $club->getCity()) {
-                        $this->logger->error(Message::DATA_MUST_BE_SET, ['club' => $club]);
-                        throw new \InvalidArgumentException(Message::DATA_MUST_BE_SET, Response::HTTP_BAD_REQUEST);
+                        $this->logger->error($this->translator->trans(Message::DATA_MUST_BE_SET), ['club' => $club]);
+                        throw new \InvalidArgumentException($this->translator->trans(Message::DATA_MUST_BE_SET), Response::HTTP_BAD_REQUEST);
                     }
 
                     $existingCity = $this->entityManager->getRepository(City::class)->findOneBy([
@@ -128,19 +130,19 @@ class ClubEditController extends AbstractController
 
                     $this->entityManager->flush();
 
-                    $this->addFlash('success', Message::GENERIC_SUCCESS);
+                    $this->addFlash('success', $this->translator->trans(Message::GENERIC_SUCCESS));
 
                     return $this->redirectToRoute('app_club_show', ['slug' => $club->getSlug()]);
                 } catch (\Exception $e) {
                     $this->logger->error($e->getMessage());
-                    $this->addFlash('error', Message::GENERIC_ERROR);
+                    $this->addFlash('error', $this->translator->trans(Message::GENERIC_ERROR));
                 }
             }
         }
 
         return $this->render('admin/club/create_edit.html.twig', [
             'form' => $form->createView(),
-            'title' => Message::TITLE_EDIT_CLUB,
+            'title' => $this->translator->trans(Message::TITLE_EDIT_CLUB),
         ]);
     }
 }

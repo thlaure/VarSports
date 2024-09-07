@@ -12,24 +12,26 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 class UserEditController extends AbstractController
 {
     public function __construct(
         private UserRepository $userRepository,
         private EntityManagerInterface $entityManager,
-        private LoggerInterface $logger
+        private LoggerInterface $logger,
+        private TranslatorInterface $translator
     ) {
     }
 
     #[Route('/admin/user/{id}/edit', name: 'app_user_edit')]
-    #[IsGranted('ROLE_ADMIN_CLUB', message: Message::GENERIC_GRANT_ERROR)]
+    #[IsGranted('ROLE_ADMIN_CLUB')]
     public function edit(int $id, Request $request): Response
     {
         $user = $this->userRepository->findOneBy(['id' => $id]);
         if (null === $user) {
-            $this->logger->error(Message::DATA_NOT_FOUND);
-            throw $this->createNotFoundException(Message::DATA_NOT_FOUND);
+            $this->logger->error($this->translator->trans(Message::DATA_NOT_FOUND));
+            throw $this->createNotFoundException($this->translator->trans(Message::DATA_NOT_FOUND));
         }
 
         $form = $this->createForm(UserEditType::class, $user);
@@ -40,12 +42,12 @@ class UserEditController extends AbstractController
                 $user->setLastUpdateDate(new \DateTimeImmutable());
 
                 $this->entityManager->flush();
-                $this->addFlash('success', Message::GENERIC_SUCCESS);
+                $this->addFlash('success', $this->translator->trans(Message::GENERIC_SUCCESS));
 
                 return $this->redirectToRoute('app_user_list');
             } catch (\Exception $e) {
                 $this->logger->error($e->getMessage());
-                $this->addFlash('error', Message::GENERIC_ERROR);
+                $this->addFlash('error', $this->translator->trans(Message::GENERIC_ERROR));
 
                 return $this->redirectToRoute('app_user_edit');
             }
