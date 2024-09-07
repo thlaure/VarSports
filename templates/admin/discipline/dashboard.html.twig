@@ -17,12 +17,12 @@
 
                 {{ form_start(form, {'attr': {'aria-labelledby': 'form-title'}}) }}
                     <fieldset>
-                        <legend id="form-title" class="visually-hidden">Add or Edit Discipline</legend>
+                        <legend id="form-title" class="visually-hidden">Ajouter ou modifier une discipline</legend>
 
                         {{ form_row(form.label, {'attr': {'aria-required': 'true'}}) }}
 
                         <div class="form-group">
-                            {{ form_row(form.submit, {'label': 'Submit', 'attr': {'aria-label': 'Soumettre le formulaire'}}) }}
+                            {{ form_row(form.submit, {'attr': {'aria-label': 'Soumettre le formulaire'}}) }}
                         </div>
                     </fieldset>
                 {{ form_end(form) }}

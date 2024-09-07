@@ -39,27 +39,27 @@
                 
                 <div class="row">
                     <div class="col-md-6">
-                        {{ form_row(form.name, {'label_attr': {'aria-label': 'Name'}}) }}
-                        {{ form_row(form.email, {'label_attr': {'aria-label': 'Email'}}) }}
-                        {{ form_row(form.phone, {'label_attr': {'aria-label': 'Phone'}}) }}
-                        {{ form_row(form.address, {'label_attr': {'aria-label': 'Address'}}) }}
-                        {{ form_row(form.addressComplement, {'label_attr': {'aria-label': 'Address Complement'}}) }}
-                        {{ form_row(form.city.postalCode, {'label_attr': {'aria-label': 'City Postal Code'}}) }}
-                        {{ form_row(form.city.name, {'label_attr': {'aria-label': 'City Name'}}) }}
+                        {{ form_row(form.name, {'label_attr': {'aria-label': 'Nom du club'}}) }}
+                        {{ form_row(form.email, {'label_attr': {'aria-label': 'E-mail du club'}}) }}
+                        {{ form_row(form.phone, {'label_attr': {'aria-label': 'Numéro de téléphone du club'}}) }}
+                        {{ form_row(form.address, {'label_attr': {'aria-label': 'Adresse du club'}}) }}
+                        {{ form_row(form.addressComplement, {'label_attr': {'aria-label': 'Complément d\'adresse'}}) }}
+                        {{ form_row(form.city.postalCode, {'label_attr': {'aria-label': 'Code postal'}}) }}
+                        {{ form_row(form.city.name, {'label_attr': {'aria-label': 'Ville'}}) }}
                         {{ form_row(form.description, {'label_attr': {'aria-label': 'Description'}}) }}
                     </div>
 
                     <div class="col-md-6">
                         {{ form_row(form.disciplines, {'attr': {'class': 'select2-autocomplete'}, 'label_attr': {'aria-label': 'Disciplines'}}) }}
                         {{ form_row(form.logo, {'label_attr': {'aria-label': 'Logo'}}) }}
-                        {{ form_row(form.coverImage, {'label_attr': {'aria-label': 'Cover Image'}}) }}
-                        {{ form_row(form.website, {'label_attr': {'aria-label': 'Website'}}) }}
+                        {{ form_row(form.coverImage, {'label_attr': {'aria-label': 'Image de couverture'}}) }}
+                        {{ form_row(form.website, {'label_attr': {'aria-label': 'Site web du club'}}) }}
                         {{ form_row(form.instagram, {'label_attr': {'aria-label': 'Instagram'}}) }}
                         {{ form_row(form.facebook, {'label_attr': {'aria-label': 'Facebook'}}) }}
                         {{ form_row(form.youtube, {'label_attr': {'aria-label': 'YouTube'}}) }}
 
                         {% if is_granted('ROLE_ADMIN') %}
-                            {{ form_row(form.admin_email, {'label_attr': {'aria-label': 'Admin Email'}, 'attr': {'required': true}}) }}
+                            {{ form_row(form.admin_email, {'label_attr': {'aria-label': 'E-mail de l\'administrateur'}, 'attr': {'required': true}}) }}
                         {% endif %}
                     </div>
                 </div>
