@@ -13,6 +13,11 @@ VarSports aims to highlight sports clubs in the Var region of France.
 - [Bootstrap 5.3](https://getbootstrap.com/docs/5.3/getting-started/introduction/) and some custom CSS
 - [Cropper.js](https://symfony.com/bundles/ux-cropperjs/current/index.html) for cropping images during uploads
 - [LiipImagine Bundle](https://symfony.com/bundles/LiipImagineBundle/current/index.html) for handling image formats
+- [select2](https://select2.org/) to handle easily select with multiple choices
+- [CKEditor 5](https://ckeditor.com/docs/ckeditor5/latest/getting-started/installation/quick-start.html) to edit texts
+- [DataTables](https://datatables.net/) to handle easily some back-office dashboard to list elements with required pagination
+- [Bootstrap Icons](https://icons.getbootstrap.com/) for icons
+- [jQuery 3.7.1](https://jquery.com/) for some libraries but not used in the custom JS and please don't use it :)
 
 ### And various quality tools:
 - [GitHub Actions](https://docs.github.com/en/actions) for CI
@@ -28,3 +33,4 @@ VarSports aims to highlight sports clubs in the Var region of France.
 - The Command classes are unnecessary for this project but have been retained as documentation.
 - You can check the *.github/workflows/ci.yml* file to see the different instructions that are run, if you want to execute them manually.
 - Each controller file contains only one route and method to adhere to the single responsibility principle.
+- The project is hosted in a classic web server.
