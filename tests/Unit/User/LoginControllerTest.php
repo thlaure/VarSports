@@ -55,7 +55,7 @@ class LoginControllerTest extends WebTestCase
         $this->client->followRedirect();
 
         // Ensure we do not reveal if the user exists or not.
-        self::assertSelectorTextContains('.alert-danger', $this->translator->trans(Message::INVALID_CREDENTIALS));
+        self::assertSelectorTextContains('.alert-danger', 'Identifiant ou mot de passe invalide');
 
         // Denied - Can't login with invalid password.
         $this->client->request('GET', '/login');
@@ -70,7 +70,7 @@ class LoginControllerTest extends WebTestCase
         $this->client->followRedirect();
 
         // Ensure we do not reveal the user exists but the password is wrong.
-        self::assertSelectorTextContains('.alert-danger', $this->translator->trans(Message::INVALID_CREDENTIALS));
+        self::assertSelectorTextContains('.alert-danger', 'Identifiant ou mot de passe invalide');
 
         // Success - Login with valid credentials is allowed.
         $this->client->submitForm('Se connecter', [
