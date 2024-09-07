@@ -2,10 +2,20 @@
     <p class="text-varsports">Trouver votre club par : Mot clé, Discipline et/ou Commune</p>
 
     <form class="d-flex flex-column flex-md-row" id="search-clubs" role="search" action="{{ path('app_club_list', { term: term }) }}">
-        <input class="form-control m-2 me-md-2 ms-md-0 col border-secondary w-auto h-fit-content" type="search" placeholder="Rechercher par mot clé" aria-label="Rechercher par mot clé" name="term" value="{{ term }}">
+        <input class="form-control m-2 me-md-2 ms-md-0 col border-secondary w-auto h-fit-content" 
+               type="search" 
+               placeholder="Rechercher par mot clé" 
+               aria-label="Rechercher par mot clé" 
+               name="term" 
+               value="{{ term }}">
 
         <div class="dropdown m-2 col">
-            <select class="form-select select2-autocomplete border border-2 border-secondary" multiple aria-label="Select discipline" name="disciplines[]" data-placeholder="Disciplines sportives">
+            <label for="disciplines" class="visually-hidden">Sélectionner les disciplines sportives</label>
+            <select id="disciplines" class="form-select select2-autocomplete border border-2 border-secondary" 
+                    multiple 
+                    aria-label="Sélectionner les disciplines sportives" 
+                    name="disciplines[]" 
+                    data-placeholder="Disciplines sportives">
                 {% for discipline in disciplines %}
                     <option value="{{ discipline.id }}" {{ discipline.id in selected_disciplines ? 'selected' : '' }}>{{ discipline.label }}</option>
                 {% endfor %}
@@ -13,7 +23,12 @@
         </div>
 
         <div class="dropdown m-2 col">
-            <select class="form-select select2-autocomplete border border-2 border-secondary" multiple aria-label="Select city" name="cities[]" data-placeholder="Villes">
+            <label for="cities" class="visually-hidden">Sélectionner les villes</label>
+            <select id="cities" class="form-select select2-autocomplete border border-2 border-secondary" 
+                    multiple 
+                    aria-label="Sélectionner les villes" 
+                    name="cities[]" 
+                    data-placeholder="Villes">
                 {% for city in cities %}
                     <option value="{{ city.id }}" {{ city.id in selected_cities ? 'selected' : '' }}>{{ city.name }} ({{ city.postalCode }})</option>
                 {% endfor %}

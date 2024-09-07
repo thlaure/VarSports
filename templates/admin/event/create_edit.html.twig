@@ -32,16 +32,20 @@
 
         {% include 'partials/flash.html.twig' %}
 
-        {{ form_start(form) }}
-            {{ form_row(form.title) }}
-            {{ form_row(form.text) }}
-            <div class="row mb-3">
-                {{ form_row(form.startDate, {'row_attr': {'class': 'col-md-6'}}) }}
-                {{ form_row(form.endDate, {'row_attr': {'class': 'col-md-6'}}) }}
-            </div>
-            {{ form_row(form.image) }}
+        {{ form_start(form, {'attr': {'aria-labelledby': 'form-title'}}) }}
+            <fieldset>
+                <legend id="form-title" class="visually-hidden">Formulaire {{ title }}</legend>
 
-            {{ form_row(form.submit) }}
+                {{ form_row(form.title, {'label_attr': {'aria-label': 'Titre'}}) }}
+                {{ form_row(form.text, {'label_attr': {'aria-label': 'Texte'}}) }}
+                <div class="row mb-3">
+                    {{ form_row(form.startDate, {'row_attr': {'class': 'col-md-6'}, 'label_attr': {'aria-label': 'Date de début'}}) }}
+                    {{ form_row(form.endDate, {'row_attr': {'class': 'col-md-6'}, 'label_attr': {'aria-label': 'Date de fin'}}) }}
+                </div>
+                {{ form_row(form.image, {'label_attr': {'aria-label': 'Image'}}) }}
+
+                {{ form_row(form.submit, {'attr': {'aria-label': 'Soumettre le formulaire'}}) }}
+            </fieldset>
         {{ form_end(form) }}
     </section>
 </div>

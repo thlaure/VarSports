@@ -1,8 +1,8 @@
 {% for label, messages in app.flashes %}
     {% for message in messages %}
-        <div class="alert alert-{{ label == 'error' ? 'danger' : label }} text-center alert-dismissible fade show" role="alert">
-            {{ message }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        <div class="alert alert-{{ label == 'error' ? 'danger' : label }} text-center alert-dismissible fade show" role="alert" aria-live="assertive">
+            <span class="visually-hidden">{{ label == 'error' ? 'Error: ' : 'Notice: ' }}</span>{{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" role="button"></button>
         </div>
     {% endfor %}
 {% endfor %}

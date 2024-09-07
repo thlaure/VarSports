@@ -28,7 +28,8 @@
     </div>
 
     <div class="table-responsive">
-        <table class="table" id="table-users">
+        <table class="table" id="table-users" aria-labelledby="table-users-title">
+            <caption id="table-users-title" class="visually-hidden">Liste des utilisateurs</caption>
             <thead>
                 <tr>
                     <th scope="col">#</th>
@@ -52,18 +53,18 @@
                         <td>{{ user.firstname }}</td>
                         <td>{{ user.email }}</td>
                         <td>{{ user.phone }}</td>
-                        <td>{{ user.club ? user.club.name : null }}</td>
+                        <td>{{ user.club ? user.club.name : 'Aucun' }}</td>
                         <td>{{ user.isVerified ? 'Oui' : 'Non' }}</td>
                         <td>{{ user.registrationDate|date('d/m/Y') }}</td>
-                        <td>{{ user.lastLoginDate|date('d/m/Y') }}</td>
+                        <td>{{ user.lastLoginDate ? user.lastLoginDate|date('d/m/Y') : 'Jamais' }}</td>
                         <td>
                             {% for role in user.roles %}
                                 <span class="badge text-bg-secondary">{{ role }}</span>
                             {% endfor %}
                         </td>
                         <td>
-                            <a href="{{ path('app_user_edit', {'id': user.id}) }}" class="btn btn-warning btn-sm">Modifier</a>
-                            <a href="{{ path('app_user_delete', {'id': user.id}) }}" class="btn btn-danger btn-sm">Supprimer</a>
+                            <a href="{{ path('app_user_edit', {'id': user.id}) }}" class="btn btn-warning btn-sm" aria-label="Modifier l'utilisateur {{ user.name }}">Modifier</a>
+                            <a href="{{ path('app_user_delete', {'id': user.id}) }}" class="btn btn-danger btn-sm" aria-label="Supprimer l'utilisateur {{ user.name }}">Supprimer</a>
                         </td>
                     </tr>
                 {% endfor %}

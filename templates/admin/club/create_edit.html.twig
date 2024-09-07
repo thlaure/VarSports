@@ -33,35 +33,39 @@
 
         {% include 'partials/flash.html.twig' %}
 
-        {{ form_start(form) }}
-            <div class="row">
-                <div class="col-md-6">
-                    {{ form_row(form.name) }}
-                    {{ form_row(form.email) }}
-                    {{ form_row(form.phone) }}
-                    {{ form_row(form.address) }}
-                    {{ form_row(form.addressComplement) }}
-                    {{ form_row(form.city.postalCode) }}
-                    {{ form_row(form.city.name) }}
-                    {{ form_row(form.description) }}
+        {{ form_start(form, {'attr': {'aria-labelledby': 'form-title'}}) }}
+            <fieldset>
+                <legend id="form-title" class="visually-hidden">Form for {{ title }}</legend>
+                
+                <div class="row">
+                    <div class="col-md-6">
+                        {{ form_row(form.name, {'label_attr': {'aria-label': 'Name'}}) }}
+                        {{ form_row(form.email, {'label_attr': {'aria-label': 'Email'}}) }}
+                        {{ form_row(form.phone, {'label_attr': {'aria-label': 'Phone'}}) }}
+                        {{ form_row(form.address, {'label_attr': {'aria-label': 'Address'}}) }}
+                        {{ form_row(form.addressComplement, {'label_attr': {'aria-label': 'Address Complement'}}) }}
+                        {{ form_row(form.city.postalCode, {'label_attr': {'aria-label': 'City Postal Code'}}) }}
+                        {{ form_row(form.city.name, {'label_attr': {'aria-label': 'City Name'}}) }}
+                        {{ form_row(form.description, {'label_attr': {'aria-label': 'Description'}}) }}
+                    </div>
+
+                    <div class="col-md-6">
+                        {{ form_row(form.disciplines, {'attr': {'class': 'select2-autocomplete'}, 'label_attr': {'aria-label': 'Disciplines'}}) }}
+                        {{ form_row(form.logo, {'label_attr': {'aria-label': 'Logo'}}) }}
+                        {{ form_row(form.coverImage, {'label_attr': {'aria-label': 'Cover Image'}}) }}
+                        {{ form_row(form.website, {'label_attr': {'aria-label': 'Website'}}) }}
+                        {{ form_row(form.instagram, {'label_attr': {'aria-label': 'Instagram'}}) }}
+                        {{ form_row(form.facebook, {'label_attr': {'aria-label': 'Facebook'}}) }}
+                        {{ form_row(form.youtube, {'label_attr': {'aria-label': 'YouTube'}}) }}
+
+                        {% if is_granted('ROLE_ADMIN') %}
+                            {{ form_row(form.admin_email, {'label_attr': {'aria-label': 'Admin Email'}, 'attr': {'required': true}}) }}
+                        {% endif %}
+                    </div>
                 </div>
 
-                <div class="col-md-6">
-                    {{ form_row(form.disciplines, {'attr': {'class': 'select2-autocomplete'}}) }}
-                    {{ form_row(form.logo) }}
-                    {{ form_row(form.coverImage) }}
-                    {{ form_row(form.website) }}
-                    {{ form_row(form.instagram) }}
-                    {{ form_row(form.facebook) }}
-                    {{ form_row(form.youtube) }}
-
-                    {% if is_granted('ROLE_ADMIN') %}
-                        {{ form_row(form.admin_email, {'attr': { 'required': true }}) }}
-                    {% endif %}
-                </div>
-            </div>
-
-            {{ form_row(form.submit) }}
+                {{ form_row(form.submit, {'attr': {'aria-label': 'Créer le club'}}) }}
+            </fieldset>
         {{ form_end(form) }}
     </section>
 </div>

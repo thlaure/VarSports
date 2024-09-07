@@ -13,9 +13,9 @@
 
     <div class="position-relative">
         <picture>
-            <source srcset="{{ (asset('images/uploads/article/') ~ (article.image ? article.id ~ '/' ~ article.image : 'default_cover.webp'))  | imagine_filter('cover_article_show_webp') }}" type="image/webp">
-            <source srcset="{{ (asset('images/uploads/article/') ~ (article.image ? article.id ~ '/' ~ article.image : 'default_cover.webp'))  | imagine_filter('cover_article_show_jpg') }}" type="image/webp">
-            <img src="{{ asset('images/uploads/article/') ~ (article.image ? article.id ~ '/' ~ article.image : 'default_cover.webp') }}" alt="Couverture de l'article {{ article.title }}" class="img-fluid object-fit-cover w-100 rounded article-cover">
+            <source srcset="{{ (asset('images/uploads/article/') ~ (article.image ? article.id ~ '/' ~ article.image : 'default_cover.webp'))  | imagine_filter('cover_article_event_show_webp') }}" type="image/webp">
+            <source srcset="{{ (asset('images/uploads/article/') ~ (article.image ? article.id ~ '/' ~ article.image : 'default_cover.webp'))  | imagine_filter('cover_article_event_show_jpg') }}" type="image/jpeg">
+            <img src="{{ asset('images/uploads/article/') ~ (article.image ? article.id ~ '/' ~ article.image : 'default_cover.webp') }}" alt="Couverture de l'article {{ article.title }}" class="img-fluid object-fit-cover w-100 rounded article-cover" loading="lazy" width="1000" height="500">
         </picture>
     </div>
 
@@ -31,8 +31,8 @@
         {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_ADMIN_CLUB') and app.user.club is not null and article.club is not null and app.user.club.id == article.club.id %}
             <section class="mt-5">
                 <h2>Actions</h2>
-                <a href="{{ path('app_admin_article_edit', {'id': article.id}) }}" class="btn btn-warning" rel="nofollow">Modifier</a>
-                <a href="{{ path('app_admin_article_delete', {'id': article.id}) }}" class="btn btn-danger" rel="nofollow">Supprimer</a>
+                <a href="{{ path('app_admin_article_edit', {'id': article.id}) }}" class="btn btn-warning" rel="nofollow" role="button" aria-label="Modifier l'article">Modifier</a>
+                <a href="{{ path('app_admin_article_delete', {'id': article.id}) }}" class="btn btn-danger" rel="nofollow" role="button" aria-label="Supprimer l'article">Supprimer</a>
             </section>
         {% endif %}
     </div>

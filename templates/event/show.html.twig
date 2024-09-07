@@ -14,8 +14,8 @@
     <div class="position-relative">
         <picture>
             <source srcset="{{ (asset('images/uploads/event/') ~ (event.image ? event.id ~ '/' ~ event.image : 'default_cover.webp'))  | imagine_filter('cover_article_event_show_webp') }}" type="image/webp">
-            <source srcset="{{ (asset('images/uploads/event/') ~ (event.image ? event.id ~ '/' ~ event.image : 'default_cover.webp'))  | imagine_filter('cover_article_event_show_jpg') }}" type="image/webp">
-            <img src="{{ asset('images/uploads/event/') ~ (event.image ? event.id ~ '/' ~ event.image : 'default_cover.webp') }}" alt="Couverture de l'évènement {{ event.title }}" class="img-fluid object-fit-cover w-100 rounded event-cover">
+            <source srcset="{{ (asset('images/uploads/event/') ~ (event.image ? event.id ~ '/' ~ event.image : 'default_cover.webp'))  | imagine_filter('cover_article_event_show_jpg') }}" type="image/jpeg">
+            <img src="{{ asset('images/uploads/event/') ~ (event.image ? event.id ~ '/' ~ event.image : 'default_cover.webp') }}" alt="Couverture de l'évènement {{ event.title }}" class="img-fluid object-fit-cover w-100 rounded event-cover" aria-describedby="event-description" loading="lazy" width="1000" height="500">
         </picture>
     </div>
 
@@ -25,14 +25,14 @@
 
             <p>Du {{ event.startDate|date('d/m/Y à H:i') }} au {{ event.endDate|date('d/m/Y à H:i') }}</p>
 
-            <p>{{ event.text|raw|nl2br }}</p>
+            <p id="event-description">{{ event.text|raw|nl2br }}</p>
         </section>
 
         {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_ADMIN_CLUB') and app.user.club is not null and event.club is not null and app.user.club.id == event.club.id %}
             <section class="mt-5">
                 <h2>Actions</h2>
-                <a href="{{ path('app_admin_event_edit', {'id': event.id}) }}" class="btn btn-warning" rel="nofollow">Modifier</a>
-                <a href="{{ path('app_admin_event_delete', {'id': event.id}) }}" class="btn btn-danger" rel="nofollow">Supprimer</a>
+                <a href="{{ path('app_admin_event_edit', {'id': event.id}) }}" class="btn btn-warning" rel="nofollow" role="button" aria-label="Modifier l'événement">Modifier</a>
+                <a href="{{ path('app_admin_event_delete', {'id': event.id}) }}" class="btn btn-danger" rel="nofollow" role="button" aria-label="Supprimer l'événement">Supprimer</a>
             </section>
         {% endif %}
     </div>

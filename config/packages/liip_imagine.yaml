@@ -20,82 +20,82 @@ liip_imagine:
             format: webp
             quality: 100
             filters:
-                thumbnail: { size: [550, 110], mode: inset }
+                thumbnail: { size: [550, 110], mode: fit }
 
         logo_varsports_header_png:
             format: png
             quality: 100
             filters:
-                thumbnail: { size: [550, 110], mode: inset }
+                thumbnail: { size: [550, 110], mode: fit }
 
         logo_club_show_webp:
             format: webp
             quality: 90
             filters:
-                thumbnail: { size: [300, 300], mode: inset }
+                thumbnail: { size: [300, 300], mode: fit }
 
         logo_club_show_jpg:
             format: jpeg
             quality: 90
             filters:
-                thumbnail: { size: [300, 300], mode: inset }
+                thumbnail: { size: [300, 300], mode: fit }
 
         cover_club_show_webp:
             format: webp
             quality: 100
             filters:
-                thumbnail: { size: [1600, 400], mode: inset }
+                thumbnail: { size: [1600, 400], mode: fit }
 
         cover_club_show_jpg:
             format: jpeg
             quality: 100
             filters:
-                thumbnail: { size: [1600, 400], mode: inset }
+                thumbnail: { size: [1600, 400], mode: fit }
         
         logo_club_list_webp:
             format: webp
             quality: 75
             filters:
-                thumbnail: { size: [100, 100], mode: inset }
+                thumbnail: { size: [100, 100], mode: fit }
 
         logo_club_list_jpg:
             format: jpeg
             quality: 75
             filters:
-                thumbnail: { size: [100, 100], mode: inset }
+                thumbnail: { size: [100, 100], mode: fit }
 
         cover_club_list_webp:
             format: webp
             quality: 80
             filters:
-                thumbnail: { size: [390, 140], mode: inset }
+                thumbnail: { size: [390, 140], mode: fit }
 
         cover_club_list_jpg:
             format: jpeg
             quality: 80
             filters:
-                thumbnail: { size: [390, 140], mode: inset }
+                thumbnail: { size: [390, 140], mode: fit }
         
         cover_article_event_list_webp:
             format: webp
             quality: 100
             filters:
-                thumbnail: { size: [390, 140], mode: inset }
+                background: { size: [390, 140], mode: fit }
 
         cover_article_event_list_jpg:
             format: jpeg
             quality: 100
             filters:
-                thumbnail: { size: [390, 140], mode: inset }
+                background: { size: [390, 140], mode: fit }
 
         cover_article_event_show_webp:
             format: webp
             quality: 100
             filters:
-                thumbnail: { size: [1600, 400], mode: inset }
+                background: { size: [1600, 400], mode: fit }
 
         cover_article_event_show_jpg:
             format: jpeg
             quality: 100
             filters:
-                thumbnail: { size: [1600, 400], mode: inset }
+                background: { size: [1600, 400], mode: fit }

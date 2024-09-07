@@ -14,15 +14,19 @@
         {% include 'partials/flash.html.twig' %}
 
         <div class="row">
-            <div class="col-md-6 m-auto">
-                {{ form_start(form) }}
-                    {{ form_row(form.name) }}
-                    {{ form_row(form.firstname) }}
-                    {{ form_row(form.email, {'attr': {'autocomplete': 'email'}}) }}
-                    {{ form_row(form.phone) }}
-                    {{ form_row(form.roles) }}
-                    {{ form_row(form.plainPassword) }}
-                    {{ form_row(form.submit) }}
+            <div class="col-md-8 col-lg-6 m-auto">
+                {{ form_start(form, {'attr': {'aria-labelledby': 'user-form-title'}}) }}
+                    <fieldset>
+                        <legend id="user-form-title" class="visually-hidden">Formulaire de création ou modification d'utilisateur</legend>
+                        
+                        {{ form_row(form.name, {'label_attr': {'aria-label': 'Nom'}}) }}
+                        {{ form_row(form.firstname, {'label_attr': {'aria-label': 'Prénom'}}) }}
+                        {{ form_row(form.email, {'attr': {'autocomplete': 'email'}, 'label_attr': {'aria-label': 'E-mail'}}) }}
+                        {{ form_row(form.phone, {'label_attr': {'aria-label': 'Téléphone'}}) }}
+                        {{ form_row(form.roles, {'label_attr': {'aria-label': 'Rôles'}}) }}
+                        {{ form_row(form.plainPassword, {'label_attr': {'aria-label': 'Mot de passe'}}) }}
+                        {{ form_row(form.submit, {'label': 'Enregistrer', 'attr': {'aria-label': 'Enregistrer les modifications'}}) }}
+                    </fieldset>
                 {{ form_end(form) }}
             </div>
         </div>

@@ -15,15 +15,22 @@
             <div class="col-md-4">
                 {% include 'partials/flash.html.twig' %}
 
-                {{ form_start(form) }}
-                    {{ form_row(form.label) }}
+                {{ form_start(form, {'attr': {'aria-labelledby': 'form-title'}}) }}
+                    <fieldset>
+                        <legend id="form-title" class="visually-hidden">Add or Edit Discipline</legend>
 
-                    {{ form_row(form.submit) }}
+                        {{ form_row(form.label, {'attr': {'aria-required': 'true'}}) }}
+
+                        <div class="form-group">
+                            {{ form_row(form.submit, {'label': 'Submit', 'attr': {'aria-label': 'Soumettre le formulaire'}}) }}
+                        </div>
+                    </fieldset>
                 {{ form_end(form) }}
             </div>
 
             <div class="col-md-6">
-                <table class="table">
+                <table class="table" role="table" aria-labelledby="disciplines-table">
+                    <caption id="disciplines-table" class="visually-hidden">Liste des disciplines</caption>
                     <thead>
                         <tr>
                             <th scope="col">#</th>
@@ -37,8 +44,8 @@
                                 <th scope="row">{{ discipline.id }}</th>
                                 <td>{{ discipline.label }}</td>
                                 <td>
-                                    <a class="btn btn-warning" href="{{ path('app_admin_discipline_edit', {'id': discipline.id}) }}">Modifier</a>
-                                    <a class="btn btn-danger" href="{{ path('app_admin_discipline_delete', {'id': discipline.id}) }}">Supprimer</a>
+                                    <a class="btn btn-warning" href="{{ path('app_admin_discipline_edit', {'id': discipline.id}) }}" aria-label="Modifier {{ discipline.label }}">Modifier</a>
+                                    <a class="btn btn-danger" href="{{ path('app_admin_discipline_delete', {'id': discipline.id}) }}" aria-label="Supprimer {{ discipline.label }}">Supprimer</a>
                                 </td>
                             </tr>
                         {% endfor %}

@@ -1,4 +1,4 @@
-<footer class="bg-dark text-white py-4 mt-auto">
+<footer class="bg-dark text-white py-4 mt-auto" role="contentinfo">
     <div class="container">
         <div class="row">
             <div class="col-md-3">
@@ -11,9 +11,8 @@
 
             <div class="col-md-3">
                 <h2 class="h5">Contact</h2>
-                <p>Email : <a href="mailto:{{ contact_mail_varsports }}" class="text-white">{{ contact_mail_varsports }}</a></p>
-                <p>Téléphone : <a href="tel:+33664765613" class="text-white">06 64 76 56 13</a></p>
-                {# <p><a href="#" class="text-white">Formulaire de contact</a></p> #}
+                <p>Email : <a href="mailto:{{ contact_mail_varsports }}" class="text-white" aria-label="Email VarSports">{{ contact_mail_varsports }}</a></p>
+                <p>Téléphone : <a href="tel:+33664765613" class="text-white" aria-label="Appeler VarSports au 06 64 76 56 13">06 64 76 56 13</a></p>
             </div>
 
             <div class="col-md-3">
@@ -27,37 +26,23 @@
 
             <div class="col-md-3">
                 <h2 class="h5">Suivez-nous</h2>
-                <a href="https://www.facebook.com/varsports.vs/" class="text-white me-2">Facebook</a><br>
-                <a href="https://www.linkedin.com/company/varsports-fr/" class="text-white me-2">LinkedIn</a><br>
-                <a href="https://www.instagram.com/varsports_officiel" class="text-white me-2">Instagram</a>
+                <a href="https://www.facebook.com/varsports.vs/" class="text-white me-2" aria-label="Suivez-nous sur Facebook">Facebook</a><br>
+                <a href="https://www.linkedin.com/company/varsports-fr/" class="text-white me-2" aria-label="Suivez-nous sur LinkedIn">LinkedIn</a><br>
+                <a href="https://www.instagram.com/varsports_officiel" class="text-white me-2" aria-label="Suivez-nous sur Instagram">Instagram</a>
             </div>
         </div>
 
         <div class="row mt-4">
             <div class="col-md-3">
                 <h2 class="h5">Accès membre</h2>
-                <p><a href="{{ path('app_login') }}" class="text-white">Espace membre</a></p>
-                {# <p><a href="#" class="text-white">Faire un don</a></p>
-                <p><a href="#" class="text-white">Newsletter</a></p> #}
+                <p><a href="{{ path('app_login') }}" class="text-white" aria-label="Espace membre VarSports">Espace membre</a></p>
             </div>
-
-            {# <div class="col-md-3">
-                <h2 class="h5">Partenaires</h2>
-                <p><a href="#" class="text-white">Nos partenaires</a></p>
-            </div> #}
 
             <div class="col-md-3">
                 <h2 class="h5">Accessibilité</h2>
-                <p><a href="#" class="text-white">Déclaration d’accessibilité</a></p>
+                <p><a href="#" class="text-white" aria-label="Déclaration d’accessibilité">Déclaration d’accessibilité</a></p>
                 <p>Conformité RGPD</p>
             </div>
-
-            {# <div class="col-md-3">
-                <h2 class="h5">Informations additionnelles</h2>
-                <p>Horaires d'ouverture : 9h - 18h</p>
-                <p><a href="#" class="text-white">Statuts de l'association</a></p>
-                <p><a href="#" class="text-white">Recrutement</a></p>
-            </div> #}
         </div>
 
         <div class="row mt-4">

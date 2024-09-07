@@ -1,4 +1,4 @@
-<div class="card rounded-1 col-10 col-sm-8 col-md-5 col-lg-3 mb-4 m-sm-4 p-0">
+<div class="card rounded-1 col-10 col-sm-8 col-md-5 col-lg-3 mb-4 m-sm-4 p-0" role="article" aria-labelledby="club-{{ club.id }}">
     <div class="position-relative">
         <picture>
             <source srcset="{{ (asset('images/uploads/club/') ~ (club.coverImage ? club.id ~ '/' ~ club.coverImage : 'default_cover.webp')) | imagine_filter('cover_club_list_webp') }}" type="image/webp">
@@ -14,7 +14,7 @@
     </div>
 
     <div class="card-body p-3 mt-3 mt-sm-5 mt-md-3">
-        <h3 class="h5 card-title text-center">
+        <h3 class="h5 card-title text-center" id="club-{{ club.id }}">
             <a href="{{ path('app_club_show', {'slug': club.slug}) }}" class="stretched-link text-decoration-none text-black">{{ club.name }}</a>
         </h3>
         {% if not club.city is null %}
@@ -22,7 +22,7 @@
         {% endif %}
         <div class="text-center">
             {% for discipline in club.disciplines %}
-                <span class="badge text-bg-secondary">{{ discipline.label }}</span>
+                <span class="badge text-bg-secondary" aria-label="Discipline: {{ discipline.label }}">{{ discipline.label }}</span>
             {% endfor %}
         </div>
     </div>

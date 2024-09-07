@@ -32,12 +32,18 @@
 
         {% include 'partials/flash.html.twig' %}
 
-        {{ form_start(form) }}
-            {{ form_row(form.title) }}
-            {{ form_row(form.text) }}
-            {{ form_row(form.image) }}
-
-            {{ form_row(form.submit) }}
+        {{ form_start(form, {'attr': {'aria-labelledby': 'form-title'}}) }}
+            <fieldset>
+                <legend id="form-title" class="visually-hidden">{{ title }}</legend>
+                
+                {{ form_row(form.title, {'attr': {'aria-required': 'true'}}) }}
+                {{ form_row(form.text, {'attr': {'aria-required': 'true'}}) }}
+                {{ form_row(form.image, {'attr': {'aria-required': 'true'}}) }}
+                
+                <div class="form-group">
+                    {{ form_row(form.submit, {'label': 'Submit', 'attr': {'aria-label': 'Submit form'}}) }}
+                </div>
+            </fieldset>
         {{ form_end(form) }}
     </section>
 </div>

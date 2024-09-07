@@ -14,15 +14,15 @@
 
     <div class="position-relative">
         <picture>
-            <source srcset="{{ (asset('images/uploads/club/') ~ (club.coverImage ? club.id ~ '/' ~ club.coverImage : 'default_cover.webp'))  | imagine_filter('cover_club_show_webp') }}" type="image/webp">
-            <source srcset="{{ (asset('images/uploads/club/') ~ (club.coverImage ? club.id ~ '/' ~ club.coverImage : 'default_cover.webp'))  | imagine_filter('cover_club_show_jpg') }}" type="image/webp">
-            <img src="{{ asset('images/uploads/club/') ~ (club.coverImage ? club.id ~ '/' ~ club.coverImage : 'default_cover.webp') }}" alt="Couverture du club {{ club.name }}" class="img-fluid object-fit-cover w-100 rounded club-cover">
+            <source srcset="{{ (asset('images/uploads/club/') ~ (club.coverImage ? club.id ~ '/' ~ club.coverImage : 'default_cover.webp')) | imagine_filter('cover_club_show_webp') }}" type="image/webp">
+            <source srcset="{{ (asset('images/uploads/club/') ~ (club.coverImage ? club.id ~ '/' ~ club.coverImage : 'default_cover.webp')) | imagine_filter('cover_club_show_jpg') }}" type="image/jpeg">
+            <img src="{{ asset('images/uploads/club/') ~ (club.coverImage ? club.id ~ '/' ~ club.coverImage : 'default_cover.webp') }}" alt="Couverture du club {{ club.name }}" class="img-fluid object-fit-cover w-100 rounded club-cover" loading="lazy" width="1000" height="400">
         </picture>
 
         <picture>
             <source srcset="{{ (asset('images/uploads/club/') ~ (club.logo ? club.id ~ '/' ~ club.logo : 'default_logo.webp')) | imagine_filter('logo_club_show_webp') }}" type="image/webp">
-            <source srcset="{{ (asset('images/uploads/club/') ~ (club.logo ? club.id ~ '/' ~ club.logo : 'default_logo.webp')) | imagine_filter('logo_club_show_jpg') }}" type="image/webp">
-            <img src="{{ asset('images/uploads/club/') ~ (club.logo ? club.id ~ '/' ~ club.logo : 'default_logo.webp') }}" alt="Logo du club {{ club.name }}" class="img-fluid rounded-circle col-3 col-md-2 mb-3 border border-white bg-white border-5 position-absolute top-100 start-50 translate-middle object-fit-cover club-logo">
+            <source srcset="{{ (asset('images/uploads/club/') ~ (club.logo ? club.id ~ '/' ~ club.logo : 'default_logo.webp')) | imagine_filter('logo_club_show_jpg') }}" type="image/jpeg">
+            <img src="{{ asset('images/uploads/club/') ~ (club.logo ? club.id ~ '/' ~ club.logo : 'default_logo.webp') }}" alt="Logo du club {{ club.name }}" class="img-fluid rounded-circle col-3 col-md-2 mb-3 border border-white bg-white border-5 position-absolute top-100 start-50 translate-middle object-fit-cover club-logo" loading="lazy" width="150" height="150">
         </picture>
     </div>
 
@@ -44,37 +44,37 @@
 
             <div class="row">
                 <article class="col-md-6">
-                    <h3>Coordonnées</h3>
-                    <p>Téléphone : <a href="tel:{{ club.phone }}">{{ club.phone }}</a></p>
-                    <p class="text-break">E-mail : <a href="mailto:{{ club.email }}">{{ club.email }}</a></p>
+                    <h2>Coordonnées</h2>
+                    <p>Téléphone : <a href="tel:{{ club.phone }}" aria-label="Appeler {{ club.phone }}">{{ club.phone }}</a></p>
+                    <p class="text-break">E-mail : <a href="mailto:{{ club.email }}" aria-label="Envoyer un e-mail à {{ club.email }}">{{ club.email }}</a></p>
                     {% if club.website %}
-                        <p class="text-break">Site web : <a href="{{ club.website }}">{{ club.website }}</a></p>
+                        <p class="text-break">Site web : <a href="{{ club.website }}" aria-label="Visiter le site web de {{ club.name }}">{{ club.website }}</a></p>
                     {% endif %}
                 </article>
 
                 <div class="col-md-6">
                     {% if club.hasSocialMedia %}
                         <article class="mb-3">
-                            <h3>Réseaux sociaux</h3>
+                            <h2>Réseaux sociaux</h2>
 
                             <div>
                                 {% if club.instagram %}
-                                    <a href="{{ club.instagram }}" aria-label="{{ club.name }} Instagram link" class="text-dark fs-2 mx-2" title="Instagram"><i class="bi bi-instagram"></i></a>
+                                    <a href="{{ club.instagram }}" aria-label="{{ club.name }} Instagram" class="text-dark fs-2 mx-2" title="Instagram"><i class="bi bi-instagram"></i></a>
                                 {% endif %}
 
                                 {% if club.facebook %}
-                                    <a href="{{ club.facebook }}" aria-label="{{ club.name }} Facebook link" class="text-dark fs-2 mx-2" title="Facebook"><i class="bi bi-facebook"></i></a>
+                                    <a href="{{ club.facebook }}" aria-label="{{ club.name }} Facebook" class="text-dark fs-2 mx-2" title="Facebook"><i class="bi bi-facebook"></i></a>
                                 {% endif %}
 
                                 {% if club.youtube %}
-                                    <a href="{{ club.youtube }}" aria-label="{{ club.name }} YouTube link" class="text-dark fs-2 mx-2" title="YouTube"><i class="bi bi-youtube"></i></a>
+                                    <a href="{{ club.youtube }}" aria-label="{{ club.name }} YouTube" class="text-dark fs-2 mx-2" title="YouTube"><i class="bi bi-youtube"></i></a>
                                 {% endif %}
                             </div>
                         </article>
                     {% endif %}
 
                     <article>
-                        <h3>Disciplines</h3>
+                        <h2>Disciplines</h2>
 
                         {% for discipline in club.disciplines %}
                             <span class="badge text-bg-secondary">{{ discipline.label }}</span>
@@ -94,10 +94,10 @@
         {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_ADMIN_CLUB') and app.user.club is not null and app.user.club.id == club.id %}
             <section class="mt-5">
                 <h2>Actions</h2>
-                <a href="{{ path('app_admin_club_edit', {'id': club.id}) }}" class="btn btn-warning" rel="nofollow">Modifier</a>
-                <a href="{{ path('app_admin_club_delete', {'id': club.id}) }}" class="btn btn-danger" rel="nofollow">Supprimer</a>
+                <a href="{{ path('app_admin_club_edit', {'id': club.id}) }}" class="btn btn-warning" rel="nofollow" role="button" aria-label="Modifier le club">Modifier</a>
+                <a href="{{ path('app_admin_club_delete', {'id': club.id}) }}" class="btn btn-danger" rel="nofollow" role="button" aria-label="Supprimer le club">Supprimer</a>
                 {% if is_granted('ROLE_ADMIN') %}
-                    <a href="{{ path('app_admin_club_validate', {'id': club.id}) }}" class="btn btn-primary" rel="nofollow">{{ club.isValidated ? 'Invalider' : 'Valider' }}</a>
+                    <a href="{{ path('app_admin_club_validate', {'id': club.id}) }}" class="btn btn-primary" rel="nofollow" role="button" aria-label="{{ club.isValidated ? 'Invalider' : 'Valider' }} le club">{{ club.isValidated ? 'Invalider' : 'Valider' }}</a>
                 {% endif %}
             </section>
         {% endif %}

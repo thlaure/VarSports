@@ -4,29 +4,30 @@
 
 {% block body %}
     <div class="container my-5">
-        <section class="row">
-            <div class="col-md-6 offset-md-3">
-                <h1 class="h3 mb-3 font-weight-normal">Créer un compte</h1>
+        <main role="main">
+            <section class="row">
+                <div class="col-md-6 offset-md-3">
+                    <h1 class="h3 mb-3 font-weight-normal">Créer un compte</h1>
 
-                {% for flash_error in app.flashes('verify_email_error') %}
-                    <div class="alert alert-danger text-center" role="alert">{{ flash_error }}</div>
-                {% endfor %}
+                    {% for flash_error in app.flashes('verify_email_error') %}
+                        <div class="alert alert-danger text-center" role="alert" aria-live="polite">{{ flash_error }}</div>
+                    {% endfor %}
 
-                {{ include('partials/flash.html.twig') }}
+                    {{ include('partials/flash.html.twig') }}
 
-                {{ form_errors(registration_form) }}
+                    {{ form_errors(registration_form) }}
 
-                {{ form_start(registration_form) }}
-                    {{ form_row(registration_form.name) }}
-                    {{ form_row(registration_form.firstname)}}
-                    {{ form_row(registration_form.email, {'attr': {'autocomplete': 'email'}}) }}
-                    {{ form_row(registration_form.phone) }}
-                    {{ form_row(registration_form.plainPassword) }}
-                    {{ form_row(registration_form.agreeTerms) }}
-
-                    {{ form_widget(registration_form.submit) }}
-                {{ form_end(registration_form) }}
-            </div>
-        </section>
+                    {{ form_start(registration_form) }}
+                        {{ form_row(registration_form.name, {'attr': {'autocomplete': 'name', 'aria-describedby': 'nameHelp'}}) }}
+                        {{ form_row(registration_form.firstname, {'attr': {'autocomplete': 'given-name', 'aria-describedby': 'firstnameHelp'}}) }}
+                        {{ form_row(registration_form.email, {'attr': {'autocomplete': 'email', 'aria-describedby': 'emailHelp'}}) }}
+                        {{ form_row(registration_form.phone, {'attr': {'autocomplete': 'tel', 'aria-describedby': 'phoneHelp'}}) }}
+                        {{ form_row(registration_form.plainPassword, {'attr': {'autocomplete': 'new-password', 'aria-describedby': 'passwordHelp'}}) }}
+                        {{ form_row(registration_form.agreeTerms, {'attr': {'aria-describedby': 'termsHelp'}}) }}
+                        {{ form_widget(registration_form.submit) }}
+                    {{ form_end(registration_form) }}
+                </div>
+            </section>
+        </main>
     </div>
 {% endblock %}
