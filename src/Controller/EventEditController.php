@@ -45,7 +45,7 @@ class EventEditController extends AbstractController
         $event = $this->eventRepository->findOneBy(['id' => $id]);
         if (!$event instanceof Event) {
             $this->logger->error(Message::DATA_NOT_FOUND, ['event' => $event]);
-            throw $this->createNotFoundException('Event not found');
+            throw $this->createNotFoundException();
         }
 
         $form = $this->createForm(EventType::class, $event);
@@ -84,7 +84,7 @@ class EventEditController extends AbstractController
 
         return $this->render('admin/event/create_edit.html.twig', [
             'form' => $form,
-            'title' => "Modifier l'évènement",
+            'title' => Message::TITLE_EDIT_EVENT,
         ]);
     }
 }

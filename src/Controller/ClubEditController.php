@@ -46,13 +46,13 @@ class ClubEditController extends AbstractController
         $user = $this->getUser();
         if (!$user instanceof User) {
             $this->logger->error(Message::DATA_NOT_FOUND, ['user' => $user]);
-            throw $this->createNotFoundException('User not found');
+            throw $this->createNotFoundException();
         }
 
         $club = $this->clubRepository->findOneBy(['id' => $id]);
         if (!$club instanceof Club) {
             $this->logger->error(Message::DATA_NOT_FOUND, ['club' => $club]);
-            throw $this->createNotFoundException('Club not found');
+            throw $this->createNotFoundException();
         }
 
         if ($user->hasRole('ROLE_ADMIN_CLUB') && (null === $user->getClub() || $user->getClub()->getId() !== $club->getId())) {
@@ -140,7 +140,7 @@ class ClubEditController extends AbstractController
 
         return $this->render('admin/club/create_edit.html.twig', [
             'form' => $form->createView(),
-            'title' => 'Modifier le club',
+            'title' => Message::TITLE_EDIT_CLUB,
         ]);
     }
 }

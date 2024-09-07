@@ -25,4 +25,11 @@ class Message
     public const FILE_NOT_WRITABLE = 'Le fichier n\'a pas pu être écrit';
     public const PASSWORD_UPDATED = 'Mot de passe mis à jour';
     public const INVALID_CREDENTIALS = 'Identifiant ou mot de passe invalide';
+    public const EMAIL_SUBJECT_CREATE_CLUB = 'Demande de création de club';
+    public const TITLE_CREATE_CLUB = 'Créer un club';
+    public const TITLE_EDIT_CLUB = 'Modifier le club';
+    public const ERROR_CLUB_HAS_NO_EMAIL = 'Le club n\'a pas d\'e-mail';
+    public const TITLE_CREATE_EVENT = 'Créer un évènement';
+    public const TITLE_EDIT_EVENT = 'Modifier l\'évènement';
+    public const RESET_PASSWORD = 'Réinitialisation du mot de passe';
 }

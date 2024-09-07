@@ -73,7 +73,7 @@ class EventCreateController extends AbstractController
 
         return $this->render('admin/event/create_edit.html.twig', [
             'form' => $form,
-            'title' => 'Créer un évènement',
+            'title' => Message::TITLE_CREATE_EVENT,
         ]);
     }
 }

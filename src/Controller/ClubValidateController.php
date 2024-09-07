@@ -43,7 +43,7 @@ class ClubValidateController extends AbstractController
                 $email = (new TemplatedEmail())
                     ->from(new Address('no-reply@varsports.fr', 'VarSports'))
                     ->to($club->getEmail())
-                    ->subject('Demande de création de club')
+                    ->subject(Message::EMAIL_SUBJECT_CREATE_CLUB)
                     ->htmlTemplate('admin/club/email_confirm_validation.html.twig')
                     ->context([
                         'club' => $club,
@@ -52,8 +52,8 @@ class ClubValidateController extends AbstractController
 
                 $this->mailer->send($email);
             } else {
-                $this->logger->warning('Club has no email: '.$club->getName());
-                $this->addFlash('warning', "Le club n'a pas d'e-mail");
+                $this->logger->warning(Message::ERROR_CLUB_HAS_NO_EMAIL.': '.$club->getName());
+                $this->addFlash('warning', Message::ERROR_CLUB_HAS_NO_EMAIL);
             }
 
             $this->addFlash('success', Message::GENERIC_SUCCESS);

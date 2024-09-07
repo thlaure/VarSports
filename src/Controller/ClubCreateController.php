@@ -131,7 +131,7 @@ class ClubCreateController extends AbstractController
                     $email = (new TemplatedEmail())
                         ->from(new Address('no-reply@varsports.fr', 'VarSports'))
                         ->to($this->getParameter('contact_mail_varsports'))
-                        ->subject('Demande de création de club')
+                        ->subject(Message::EMAIL_SUBJECT_CREATE_CLUB)
                         ->htmlTemplate('admin/club/email_validation.html.twig')
                         ->context([
                             'club' => $club,
@@ -151,7 +151,7 @@ class ClubCreateController extends AbstractController
 
         return $this->render('admin/club/create_edit.html.twig', [
             'form' => $form->createView(),
-            'title' => 'Créer un club',
+            'title' =>  Message::TITLE_CREATE_CLUB,
         ]);
     }
 }

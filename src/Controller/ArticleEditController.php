@@ -46,7 +46,7 @@ class ArticleEditController extends AbstractController
         $article = $this->articleRepository->findOneBy(['id' => $id]);
         if (!$article instanceof Article) {
             $this->logger->error(Message::DATA_NOT_FOUND, ['article' => $article]);
-            throw $this->createNotFoundException('Article not found');
+            throw $this->createNotFoundException();
         }
 
         $isMemberAndHasClub = $user->hasRole('ROLE_MEMBER_CLUB') && (null !== $user->getClub() && null !== $article->getClub() && $user->getClub()->getId() === $article->getClub()->getId());
