@@ -17,13 +17,15 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Component\Translation\Exception\NotFoundResourceException;
+use Symfony\Contracts\Translation\TranslatorInterface;
 use SymfonyCasts\Bundle\VerifyEmail\Exception\VerifyEmailExceptionInterface;
 
 class RegistrationController extends AbstractController
 {
     public function __construct(
         private EmailVerifier $emailVerifier,
-        private LoggerInterface $logger
+        private LoggerInterface $logger,
+        private TranslatorInterface $translator
     ) {
     }
 
@@ -37,8 +39,8 @@ class RegistrationController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $plainPassword = $form->get('plainPassword')->getData();
             if (!is_string($plainPassword) || empty($plainPassword)) {
-                $this->logger->error(Message::DATA_MUST_BE_SET, ['user' => $user]);
-                throw new \InvalidArgumentException(Message::DATA_MUST_BE_SET, Response::HTTP_BAD_REQUEST);
+                $this->logger->error($this->translator->trans(Message::DATA_MUST_BE_SET), ['user' => $user]);
+                throw new \InvalidArgumentException($this->translator->trans(Message::DATA_MUST_BE_SET), Response::HTTP_BAD_REQUEST);
             }
 
             $user->setPassword(
@@ -55,8 +57,8 @@ class RegistrationController extends AbstractController
 
             $emailTo = $user->getEmail();
             if (!is_string($emailTo) || empty($emailTo)) {
-                $this->logger->error(Message::DATA_MUST_BE_SET, ['user' => $user]);
-                throw new \InvalidArgumentException(Message::DATA_MUST_BE_SET, Response::HTTP_BAD_REQUEST);
+                $this->logger->error($this->translator->trans(Message::DATA_MUST_BE_SET), ['user' => $user]);
+                throw new \InvalidArgumentException($this->translator->trans(Message::DATA_MUST_BE_SET), Response::HTTP_BAD_REQUEST);
             }
 
             // generate a signed url and email it to the user
@@ -64,11 +66,11 @@ class RegistrationController extends AbstractController
                 (new TemplatedEmail())
                     ->from(new Address('no-reply@varsports.fr', 'VarSports'))
                     ->to($emailTo)
-                    ->subject(Message::CONFIRM_EMAIL)
+                    ->subject($this->translator->trans(Message::CONFIRM_EMAIL))
                     ->htmlTemplate('registration/confirmation_email.html.twig')
             );
 
-            $this->addFlash('success', Message::CONSULT_MAILBOX_TO_CONFIRM);
+            $this->addFlash('success', $this->translator->trans(Message::CONSULT_MAILBOX_TO_CONFIRM));
 
             return $this->redirectToRoute('app_register');
         }
@@ -79,26 +81,26 @@ class RegistrationController extends AbstractController
     }
 
     #[Route('/verify/email', name: 'app_verify_email')]
-    #[IsGranted('IS_AUTHENTICATED_FULLY', message: Message::GENERIC_GRANT_ERROR)]
+    #[IsGranted('IS_AUTHENTICATED_FULLY')]
     public function verifyUserEmail(Request $request): Response
     {
         try {
             $user = $this->getUser();
 
             if (!$user instanceof User) {
-                $this->logger->error(Message::ERROR_WHILE_CONFIRM_EMAIL, ['user' => $user]);
-                throw new NotFoundResourceException(Message::ERROR_WHILE_CONFIRM_EMAIL, Response::HTTP_BAD_REQUEST);
+                $this->logger->error($this->translator->trans(Message::ERROR_WHILE_CONFIRM_EMAIL), ['user' => $user]);
+                throw new NotFoundResourceException($this->translator->trans(Message::ERROR_WHILE_CONFIRM_EMAIL), Response::HTTP_BAD_REQUEST);
             }
 
             $this->emailVerifier->handleEmailConfirmation($request, $user);
         } catch (VerifyEmailExceptionInterface $exception) {
             $this->logger->error($exception->getReason());
-            $this->addFlash('verify_email_error', Message::ERROR_WHILE_CONFIRM_EMAIL);
+            $this->addFlash('verify_email_error', $this->translator->trans(Message::ERROR_WHILE_CONFIRM_EMAIL));
 
             return $this->redirectToRoute('app_register');
         }
 
-        $this->addFlash('success', Message::EMAIL_VERIFIED);
+        $this->addFlash('success', $this->translator->trans(Message::EMAIL_VERIFIED));
 
         return $this->redirectToRoute('app_login');
     }

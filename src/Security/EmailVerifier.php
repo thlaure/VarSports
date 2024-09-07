@@ -9,6 +9,7 @@ use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 use SymfonyCasts\Bundle\VerifyEmail\Exception\VerifyEmailExceptionInterface;
 use SymfonyCasts\Bundle\VerifyEmail\VerifyEmailHelperInterface;
 
@@ -17,7 +18,8 @@ class EmailVerifier
     public function __construct(
         private VerifyEmailHelperInterface $verifyEmailHelper,
         private MailerInterface $mailer,
-        private EntityManagerInterface $entityManager
+        private EntityManagerInterface $entityManager,
+        private TranslatorInterface $translator
     ) {
     }
 
@@ -25,7 +27,7 @@ class EmailVerifier
     {
         $userEmail = $user->getEmail();
         if (!is_string($userEmail) || empty($userEmail)) {
-            throw new \InvalidArgumentException(Message::DATA_MUST_BE_SET, Response::HTTP_BAD_REQUEST);
+            throw new \InvalidArgumentException($this->translator->trans(Message::DATA_MUST_BE_SET), Response::HTTP_BAD_REQUEST);
         }
 
         $signatureComponents = $this->verifyEmailHelper->generateSignature($verifyEmailRouteName, (string) $user->getId(), $userEmail);
@@ -47,7 +49,7 @@ class EmailVerifier
     {
         $userEmail = $user->getEmail();
         if (!is_string($userEmail) || empty($userEmail)) {
-            throw new \InvalidArgumentException(Message::DATA_MUST_BE_SET, Response::HTTP_BAD_REQUEST);
+            throw new \InvalidArgumentException($this->translator->trans(Message::DATA_MUST_BE_SET), Response::HTTP_BAD_REQUEST);
         }
 
         $this->verifyEmailHelper->validateEmailConfirmationFromRequest($request, (string) $user->getId(), $userEmail);

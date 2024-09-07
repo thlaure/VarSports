@@ -21,6 +21,7 @@ use Symfony\Component\Mime\Address;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Component\String\Slugger\SluggerInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 #[Route('/admin/club', name: 'app_admin_club_')]
 class ClubCreateController extends AbstractController
@@ -32,22 +33,23 @@ class ClubCreateController extends AbstractController
         private FileChecker $fileChecker,
         private FileUploader $fileUploader,
         private SluggerInterface $slugger,
-        private MailerInterface $mailer
+        private MailerInterface $mailer,
+        private TranslatorInterface $translator
     ) {
     }
 
     #[Route('/create', name: 'create')]
-    #[IsGranted('ROLE_ADMIN_CLUB', message: Message::GENERIC_GRANT_ERROR)]
+    #[IsGranted('ROLE_ADMIN_CLUB')]
     public function create(Request $request): Response
     {
         $user = $this->getUser();
         if (!$user instanceof User) {
-            $this->logger->error(Message::DATA_NOT_FOUND, ['user' => $user]);
+            $this->logger->error($this->translator->trans(Message::DATA_NOT_FOUND), ['user' => $user]);
             throw $this->createNotFoundException();
         }
 
         if (!$user->hasRole('ROLE_ADMIN') && $user->getClub() instanceof Club) {
-            $this->addFlash('warning', Message::CLUB_ALREADY_EXISTS_FOR_THIS_ACCOUNT);
+            $this->addFlash('warning', $this->translator->trans(Message::CLUB_ALREADY_EXISTS_FOR_THIS_ACCOUNT));
 
             return $this->redirectToRoute('app_admin_club_edit', ['id' => $user->getClub()->getId()]);
         }
@@ -61,13 +63,13 @@ class ClubCreateController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             try {
                 if (!is_string($club->getName())) {
-                    $this->logger->error(Message::DATA_MUST_BE_SET, ['club' => $club]);
-                    throw new \InvalidArgumentException(Message::DATA_MUST_BE_SET, Response::HTTP_BAD_REQUEST);
+                    $this->logger->error($this->translator->trans(Message::DATA_MUST_BE_SET), ['club' => $club]);
+                    throw new \InvalidArgumentException($this->translator->trans(Message::DATA_MUST_BE_SET), Response::HTTP_BAD_REQUEST);
                 }
 
                 if (null === $club->getCity()) {
-                    $this->logger->error(Message::DATA_MUST_BE_SET, ['club' => $club]);
-                    throw new \InvalidArgumentException(Message::DATA_MUST_BE_SET, Response::HTTP_BAD_REQUEST);
+                    $this->logger->error($this->translator->trans(Message::DATA_MUST_BE_SET), ['club' => $club]);
+                    throw new \InvalidArgumentException($this->translator->trans(Message::DATA_MUST_BE_SET), Response::HTTP_BAD_REQUEST);
                 }
 
                 $existingCity = $this->entityManager->getRepository(City::class)->findOneBy([
@@ -125,13 +127,13 @@ class ClubCreateController extends AbstractController
 
                 $this->entityManager->flush();
 
-                $this->addFlash('success', $user->hasRole('ROLE_ADMIN') ? Message::GENERIC_SUCCESS : Message::SUCCESS_VALIDATION);
+                $this->addFlash('success', $user->hasRole('ROLE_ADMIN') ? $this->translator->trans(Message::GENERIC_SUCCESS) : $this->translator->trans(Message::SUCCESS_VALIDATION));
 
                 if (!$user->hasRole('ROLE_ADMIN') && is_string($this->getParameter('contact_mail_varsports'))) {
                     $email = (new TemplatedEmail())
                         ->from(new Address('no-reply@varsports.fr', 'VarSports'))
                         ->to($this->getParameter('contact_mail_varsports'))
-                        ->subject(Message::EMAIL_SUBJECT_CREATE_CLUB)
+                        ->subject($this->translator->trans(Message::EMAIL_SUBJECT_CREATE_CLUB))
                         ->htmlTemplate('admin/club/email_validation.html.twig')
                         ->context([
                             'club' => $club,
@@ -151,7 +153,7 @@ class ClubCreateController extends AbstractController
 
         return $this->render('admin/club/create_edit.html.twig', [
             'form' => $form->createView(),
-            'title' =>  Message::TITLE_CREATE_CLUB,
+            'title' => $this->translator->trans(Message::TITLE_CREATE_CLUB),
         ]);
     }
 }

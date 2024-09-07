@@ -2,7 +2,6 @@
 
 namespace App\Entity;
 
-use App\Constant\Message;
 use App\Repository\ResetPasswordRequestRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -21,8 +20,8 @@ class ResetPasswordRequest implements ResetPasswordRequestInterface
 
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]
-    #[Assert\NotNull(message: Message::GENERIC_ENTITY_FIELD_ERROR)]
-    #[Assert\NotBlank(message: Message::GENERIC_ENTITY_FIELD_ERROR)]
+    #[Assert\NotNull()]
+    #[Assert\NotBlank()]
     private User $user;
 
     public function __construct(User $user, \DateTimeInterface $expiresAt, string $selector, string $hashedToken)

@@ -14,6 +14,7 @@ use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Address;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 class ClubValidateController extends AbstractController
 {
@@ -21,17 +22,18 @@ class ClubValidateController extends AbstractController
         private ClubRepository $clubRepository,
         private LoggerInterface $logger,
         private EntityManagerInterface $entityManager,
-        private MailerInterface $mailer
+        private MailerInterface $mailer,
+        private TranslatorInterface $translator
     ) {
     }
 
     #[Route('/club/{id}/validate', name: 'app_admin_club_validate')]
-    #[IsGranted('ROLE_ADMIN', message: Message::GENERIC_GRANT_ERROR)]
+    #[IsGranted('ROLE_ADMIN')]
     public function validate(int $id): Response
     {
         $club = $this->clubRepository->findOneBy(['id' => $id]);
         if (!$club instanceof Club) {
-            $this->logger->error(Message::DATA_NOT_FOUND, ['club' => $club]);
+            $this->logger->error($this->translator->trans(Message::DATA_NOT_FOUND), ['club' => $club]);
             throw $this->createNotFoundException();
         }
 
@@ -43,7 +45,7 @@ class ClubValidateController extends AbstractController
                 $email = (new TemplatedEmail())
                     ->from(new Address('no-reply@varsports.fr', 'VarSports'))
                     ->to($club->getEmail())
-                    ->subject(Message::EMAIL_SUBJECT_CREATE_CLUB)
+                    ->subject($this->translator->trans(Message::EMAIL_SUBJECT_CREATE_CLUB))
                     ->htmlTemplate('admin/club/email_confirm_validation.html.twig')
                     ->context([
                         'club' => $club,
@@ -52,14 +54,14 @@ class ClubValidateController extends AbstractController
 
                 $this->mailer->send($email);
             } else {
-                $this->logger->warning(Message::ERROR_CLUB_HAS_NO_EMAIL.': '.$club->getName());
-                $this->addFlash('warning', Message::ERROR_CLUB_HAS_NO_EMAIL);
+                $this->logger->warning($this->translator->trans(Message::ERROR_CLUB_HAS_NO_EMAIL).': '.$club->getName());
+                $this->addFlash('warning', $this->translator->trans(Message::ERROR_CLUB_HAS_NO_EMAIL));
             }
 
-            $this->addFlash('success', Message::GENERIC_SUCCESS);
+            $this->addFlash('success', $this->translator->trans(Message::GENERIC_SUCCESS));
         } catch (\Exception $exception) {
             $this->logger->error($exception->getMessage());
-            $this->addFlash('error', Message::GENERIC_ERROR);
+            $this->addFlash('error', $this->translator->trans(Message::GENERIC_ERROR));
         }
 
         return $this->redirectToRoute('app_club_show', ['slug' => $club->getSlug()]);

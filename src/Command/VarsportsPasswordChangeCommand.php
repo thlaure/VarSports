@@ -11,6 +11,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 #[AsCommand(
     name: 'varsports:password:change',
@@ -22,6 +23,7 @@ class VarsportsPasswordChangeCommand extends Command
         private UserRepository $userRepository,
         private UserPasswordHasherInterface $userPasswordHasher,
         private EntityManagerInterface $entityManager,
+        private TranslatorInterface $translator,
         private string $filePath = 'docker/imports/user_passwords.csv'
     ) {
         parent::__construct();
@@ -39,7 +41,7 @@ class VarsportsPasswordChangeCommand extends Command
 
         $file = fopen($this->filePath, 'w+');
         if (!$file) {
-            $io->error(Message::FILE_NOT_WRITABLE);
+            $io->error($this->translator->trans(Message::FILE_NOT_WRITABLE));
 
             return Command::FAILURE;
         }

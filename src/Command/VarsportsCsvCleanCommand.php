@@ -9,6 +9,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 #[AsCommand(
     name: 'varsports:csv:clean',
@@ -17,6 +18,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 class VarsportsCsvCleanCommand extends Command
 {
     public function __construct(
+        private TranslatorInterface $translator,
         private string $filePath = 'docker/imports/clubs.csv',
         private string $cleanedFilePath = 'docker/imports/clubs_clean.json'
     ) {
@@ -28,7 +30,7 @@ class VarsportsCsvCleanCommand extends Command
         $io = new SymfonyStyle($input, $output);
 
         if (!file_exists($this->filePath)) {
-            $io->error(Message::FILE_NOT_WRITABLE);
+            $io->error($this->translator->trans(Message::FILE_NOT_WRITABLE));
 
             return Command::FAILURE;
         }
@@ -52,7 +54,7 @@ class VarsportsCsvCleanCommand extends Command
 
         $file = fopen($this->filePath, 'r');
         if (false === $file) {
-            throw new NotFoundHttpException(Message::FILE_NOT_READABLE);
+            throw new NotFoundHttpException($this->translator->trans(Message::FILE_NOT_READABLE));
         }
 
         $dataAssoc = [];
@@ -148,12 +150,12 @@ class VarsportsCsvCleanCommand extends Command
     {
         $cleanedFile = fopen($this->cleanedFilePath, 'w');
         if (false === $cleanedFile) {
-            throw new NotFoundHttpException(Message::FILE_NOT_FOUND);
+            throw new NotFoundHttpException($this->translator->trans(Message::FILE_NOT_FOUND));
         }
 
         $jsonData = json_encode($cleanedClubs, JSON_PRETTY_PRINT);
         if (false === $jsonData) {
-            throw new \JsonException(Message::GENERIC_ERROR);
+            throw new \JsonException($this->translator->trans(Message::GENERIC_ERROR));
         }
 
         fwrite($cleanedFile, $jsonData);
