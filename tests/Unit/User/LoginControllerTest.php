@@ -2,7 +2,6 @@
 
 namespace App\Tests\Unit\User;
 
-use App\Constant\Message;
 use App\Entity\User;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
