@@ -2,5 +2,55 @@
 
 {% block title %} | Accueil{% endblock %}
 
+{% block stylesheets %}
+{{ parent() }}
+<link rel="stylesheet" href="{{ asset('css/home.css') }}">
+{% endblock %}
+
 {% block body %}
+<div class="container-fluid">
+    <div class="row d-flex flex-column justify-content-center background-cover">
+        <div class="offset-lg-2 col-lg-8 col-md-12 col-12 text-center">
+            <h1 class="display-4 mt-4 mb-3 fw-bold">VarSports met en avant votre club</h1>
+            <p class="lead px-lg-8 mb-6">À travers le 1er réseau sportif Varois</p>
+            <a class="btn btn-lg btn-varsports" href="{{ path('app_register') }}" aria-label="Ajouter votre club sur VarSports">Ajouter votre club</a>
+        </div>
+    </div>
+</div>
+
+<article class="my-5 container" aria-labelledby="latest-clubs-title">
+    <h2 id="latest-clubs-title">Nos derniers clubs inscrits</h2>
+    <div class="row justify-content-center">
+        {% for club in latest_clubs %}
+            {% include 'club/partials/club-item.html.twig' with { club: club } %}
+        {% endfor %}
+    </div>
+    <div class="text-center">
+        <a href="{{ path('app_club_list') }}" class="btn btn-lg btn-varsports" aria-label="Voir tous les clubs disponibles sur VarSports">Voir tous</a>
+    </div>
+</article>
+
+<article class="my-5 container" aria-labelledby="latest-articles-title">
+    <h2 id="latest-articles-title">Nos derniers articles publiés</h2>
+    <div class="row justify-content-center">
+        {% for article in latest_articles %}
+            {% include 'article/partials/article-item.html.twig' with { article: article } %}
+        {% endfor %}
+    </div>
+    <div class="text-center">
+        <a href="{{ path('app_article_list') }}" class="btn btn-lg btn-varsports" aria-label="Voir tous les articles publiés sur VarSports">Voir tous</a>
+    </div>
+</article>
+
+<article class="my-5 container" aria-labelledby="latest-events-title">
+    <h2 id="latest-events-title">Nos derniers évènements</h2>
+    <div class="row justify-content-center">
+        {% for event in latest_events %}
+            {% include 'event/partials/event-item.html.twig' with { event: event } %}
+        {% endfor %}
+    </div>
+    <div class="text-center">
+        <a href="{{ path('app_event_list') }}" class="btn btn-lg btn-varsports" aria-label="Voir tous les évènements à venir sur VarSports">Voir tous</a>
+    </div>
+</article>
 {% endblock %}
