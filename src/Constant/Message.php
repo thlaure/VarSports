@@ -32,4 +32,5 @@ class Message
     public const TITLE_CREATE_EVENT = 'create_event';
     public const TITLE_EDIT_EVENT = 'edit_event';
     public const RESET_PASSWORD = 'reset_password';
+    public const CONTACT_FORM = 'contact_form';
 }

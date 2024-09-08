@@ -39,10 +39,7 @@
                 {{ form_row(form.title, {'attr': {'aria-required': 'true'}}) }}
                 {{ form_row(form.text, {'attr': {'aria-required': 'true'}}) }}
                 {{ form_row(form.image, {'attr': {'aria-required': 'true'}}) }}
-                
-                <div class="form-group">
-                    {{ form_row(form.submit, {'label': 'Submit', 'attr': {'aria-label': 'Créer l\'article'}}) }}
-                </div>
+                {{ form_row(form.submit, {'attr': {'aria-label': 'Créer l\'article'}}) }}
             </fieldset>
         {{ form_end(form) }}
     </section>

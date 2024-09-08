@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} | Contact{% endblock %}
+
+{% block body %}
+<div class="container my-5">
+    <section>
+        <h1 class="h3 mb-3 font-weight-normal">Contactez-nous</h1>
+
+        {% include 'partials/flash.html.twig' %}
+
+        {{ form_start(form, {'attr': {'aria-labelledby': 'form-title'}}) }}
+            <fieldset>
+                <legend id="form-title" class="visually-hidden">Contactez-nous</legend>
+                
+                {{ form_row(form.name, {'attr': {'aria-required': 'false'}}) }}
+                {{ form_row(form.email, {'attr': {'aria-required': 'true'}}) }}
+                {{ form_row(form.message, {'attr': {'aria-required': 'true'}}) }}
+                {{ form_row(form.submit, {'attr': {'aria-label': 'Envoyer'}}) }}
+            </fieldset>
+        {{ form_end(form) }}
+    </section>
+</div>
+{% endblock %}
