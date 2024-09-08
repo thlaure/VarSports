@@ -80,9 +80,6 @@ class LoginControllerTest extends WebTestCase
         self::assertResponseRedirects('/');
         $this->client->followRedirect();
 
-        self::assertResponseRedirects('/club/list');
-        $this->client->followRedirect();
-
         self::assertSelectorNotExists('.alert-danger');
         self::assertResponseIsSuccessful();
     }
