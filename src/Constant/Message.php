@@ -27,6 +27,7 @@ class Message
     public const PASSWORD_UPDATED = 'password_updated';
     public const INVALID_CREDENTIALS = 'invalid_credentials';
     public const EMAIL_SUBJECT_CREATE_CLUB = 'email_subject_create_club';
+    public const EMAIL_SUBJECT_CREATE_EVENT = 'email_subject_create_event';
     public const TITLE_CREATE_CLUB = 'create_club';
     public const TITLE_EDIT_CLUB = 'edit_club';
     public const ERROR_CLUB_HAS_NO_EMAIL = 'club_has_no_email';

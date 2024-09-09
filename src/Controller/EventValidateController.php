@@ -4,7 +4,8 @@ namespace App\Controller;
 
 use App\Constant\Message;
 use App\Entity\Club;
-use App\Repository\ClubRepository;
+use App\Entity\Event;
+use App\Repository\EventRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
@@ -16,10 +17,10 @@ use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
-class ClubValidateController extends AbstractController
+class EventValidateController extends AbstractController
 {
     public function __construct(
-        private ClubRepository $clubRepository,
+        private EventRepository $eventRepository,
         private LoggerInterface $logger,
         private EntityManagerInterface $entityManager,
         private MailerInterface $mailer,
@@ -27,35 +28,36 @@ class ClubValidateController extends AbstractController
     ) {
     }
 
-    #[Route('/club/{id}/validate', name: 'app_admin_club_validate')]
+    #[Route('/event/{id}/validate', name: 'app_admin_event_validate')]
     #[IsGranted('ROLE_ADMIN')]
     public function validate(int $id): Response
     {
-        $club = $this->clubRepository->findOneBy(['id' => $id]);
-        if (!$club instanceof Club) {
-            $this->logger->error($this->translator->trans(Message::DATA_NOT_FOUND), ['club' => $club]);
+        $event = $this->eventRepository->findOneBy(['id' => $id]);
+        if (!$event instanceof Event) {
+            $this->logger->error($this->translator->trans(Message::DATA_NOT_FOUND), ['event' => $event]);
             throw $this->createNotFoundException();
         }
 
         try {
-            $club->setValidated(!$club->isValidated());
+            $event->setValidated(!$event->isValidated());
             $this->entityManager->flush();
 
-            if (is_string($club->getEmail()) && true === $club->isValidated()) {
+            $club = $event->getClub();
+            if ($club instanceof Club && is_string($club->getEmail()) && true === $event->isValidated()) {
                 $email = (new TemplatedEmail())
                     ->from(new Address('no-reply@varsports.fr', 'VarSports'))
                     ->to($club->getEmail())
                     ->subject($this->translator->trans(Message::EMAIL_SUBJECT_CREATE_CLUB))
-                    ->htmlTemplate('admin/club/email_confirm_validation.html.twig')
+                    ->htmlTemplate('admin/event/email_confirm_validation.html.twig')
                     ->context([
-                        'club' => $club,
+                        'event' => $event,
                     ])
                 ;
 
                 $this->mailer->send($email);
             } else {
-                $this->logger->warning($this->translator->trans(Message::ERROR_CLUB_HAS_NO_EMAIL).': '.$club->getName());
-                $this->addFlash('warning', $this->translator->trans(Message::ERROR_CLUB_HAS_NO_EMAIL));
+                $this->logger->warning($this->translator->trans(Message::CLUB_NOT_FOUND).': '.$event->getId());
+                $this->addFlash('warning', $this->translator->trans(Message::CLUB_NOT_FOUND));
             }
 
             $this->addFlash('success', $this->translator->trans(Message::GENERIC_SUCCESS));
@@ -64,6 +66,6 @@ class ClubValidateController extends AbstractController
             $this->addFlash('error', $this->translator->trans(Message::GENERIC_ERROR));
         }
 
-        return $this->redirectToRoute('app_club_show', ['slug' => $club->getSlug()]);
+        return $this->redirectToRoute('app_event_show', ['slug' => $event->getSlug()]);
     }
 }
