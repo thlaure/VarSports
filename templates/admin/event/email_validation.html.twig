@@ -1,0 +1,6 @@
+<div style="font-family: Arial, sans-serif;">
+    <h1 style="color: #333; font-size: 24px;">Demande de publication d'évènement</h1>
+    <p style="color: #666; font-size: 16px;">Bonjour,</p>
+    <p style="color: #666; font-size: 16px;">L'utilisateur {{ user.email }} du club <a href="{{ url('app_club_show', {slug: club.slug}) }}">{{ club.name }}</a> a demandé la publication d'un évènement.</p>
+    <p style="font-size: 16px;"><a href="{{ url('app_event_show', {slug: event.slug}) }}">Voir l'évènement</a></p>
+</div>

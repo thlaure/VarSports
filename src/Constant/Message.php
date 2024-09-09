@@ -5,7 +5,8 @@ namespace App\Constant;
 class Message
 {
     public const GENERIC_SUCCESS = 'generic_success';
-    public const SUCCESS_VALIDATION = 'success_club_validation';
+    public const SUCCESS_BEFORE_CLUB_VALIDATION = 'success_before_club_validation';
+    public const SUCCESS_BEFORE_EVENT_VALIDATION = 'success_before_event_validation';
     public const GENERIC_ERROR = 'generic_error';
     public const GENERIC_ENTITY_FIELD_ERROR = 'generic_entity_validation_error';
     public const GENERIC_FILE_FORM_ERROR = 'file_invalid';

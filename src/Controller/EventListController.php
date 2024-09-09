@@ -18,7 +18,7 @@ class EventListController extends AbstractController
     #[Route('/event/list/{page<\d+>?1}', name: 'app_event_list')]
     public function list(int $page): Response
     {
-        $events = $this->eventRepository->findBy([], ['creationDate' => 'DESC'], $this->nbPerPage, ($page - 1) * $this->nbPerPage);
+        $events = $this->eventRepository->findBy(['isValidated' => true], ['creationDate' => 'DESC'], $this->nbPerPage, ($page - 1) * $this->nbPerPage);
         $nbResults = $this->eventRepository->count([]);
 
         return $this->render('event/list.html.twig', [

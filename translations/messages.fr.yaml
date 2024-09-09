@@ -1,5 +1,6 @@
 generic_success: 'Succès'
-success_club_validation: 'Votre club est maintenant en attente de validation'
+success_before_club_validation: 'Votre club est maintenant en attente de validation'
+success_before_event_validation: 'Votre évènement est maintenant en attente de validation avant publication'
 generic_error: 'Une erreur est survenue'
 generic_entity_validation_error: 'Les données ne sont pas valides'
 file_invalid: 'Le fichier n''est pas valide'

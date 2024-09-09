@@ -56,6 +56,17 @@ class Event
     #[Assert\GreaterThanOrEqual('today')]
     private ?\DateTimeInterface $endDate = null;
 
+    #[ORM\Column(options: ['default' => false])]
+    private ?bool $isValidated = null;
+
+    #[ORM\ManyToOne(inversedBy: 'events')]
+    private ?Club $club = null;
+
+    public function __construct()
+    {
+        $this->isValidated = false;
+    }
+
     public function getId(): ?int
     {
         return $this->id;
@@ -165,6 +176,30 @@ class Event
     public function setEndDate(\DateTimeInterface $endDate): static
     {
         $this->endDate = $endDate;
+
+        return $this;
+    }
+
+    public function isValidated(): ?bool
+    {
+        return $this->isValidated;
+    }
+
+    public function setValidated(bool $isValidated): static
+    {
+        $this->isValidated = $isValidated;
+
+        return $this;
+    }
+
+    public function getClub(): ?Club
+    {
+        return $this->club;
+    }
+
+    public function setClub(?Club $club): static
+    {
+        $this->club = $club;
 
         return $this;
     }

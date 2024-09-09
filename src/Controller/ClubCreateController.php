@@ -127,7 +127,7 @@ class ClubCreateController extends AbstractController
 
                 $this->entityManager->flush();
 
-                $this->addFlash('success', $user->hasRole('ROLE_ADMIN') ? $this->translator->trans(Message::GENERIC_SUCCESS) : $this->translator->trans(Message::SUCCESS_VALIDATION));
+                $this->addFlash('success', $user->hasRole('ROLE_ADMIN') ? $this->translator->trans(Message::GENERIC_SUCCESS) : $this->translator->trans(Message::SUCCESS_BEFORE_CLUB_VALIDATION));
 
                 if (!$user->hasRole('ROLE_ADMIN') && is_string($this->getParameter('contact_mail_varsports'))) {
                     $email = (new TemplatedEmail())
