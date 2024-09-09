@@ -58,7 +58,7 @@ class EventCreateController extends AbstractController
             try {
                 $event->setAuthor($user);
                 $event->setCreationDate(new \DateTimeImmutable());
-                $event->setSlug($this->slugger->slug((string) $event->getTitle())->lower().'-'. $event->getId());
+                $event->setSlug($this->slugger->slug((string) $event->getTitle())->lower());
 
                 if ($user->hasRole('ROLE_ADMIN')) {
                     $event->setValidated(true);
@@ -69,12 +69,12 @@ class EventCreateController extends AbstractController
                 $this->entityManager->persist($event);
                 $this->entityManager->flush();
 
-                $event->setSlug($this->slugger->slug((string) $event->getTitle())->lower() . '-' . $event->getId());
+                $event->setSlug($this->slugger->slug((string) $event->getTitle())->lower().'-'.$event->getId());
 
                 /** @var ?UploadedFile $image */
                 $image = $form->get('image')->getData();
                 if ($image && $this->fileChecker->checkImageIsValid($image)) {
-                    $imageName = $this->fileUploader->upload($image, $this->targetDirectory . '/' . $event->getId());
+                    $imageName = $this->fileUploader->upload($image, $this->targetDirectory.'/'.$event->getId());
                     $event->setImage($imageName);
                     $this->entityManager->persist($event);
                 }
