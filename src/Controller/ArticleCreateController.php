@@ -29,7 +29,7 @@ class ArticleCreateController extends AbstractController
         private FileChecker $fileChecker,
         private FileUploader $fileUploader,
         private TranslatorInterface $translator,
-        private string $targetDirectory
+        private string $targetDirectory,
     ) {
     }
 

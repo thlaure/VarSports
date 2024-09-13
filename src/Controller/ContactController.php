@@ -17,7 +17,7 @@ class ContactController extends AbstractController
 {
     public function __construct(
         private MailerInterface $mailer,
-        private TranslatorInterface $translator
+        private TranslatorInterface $translator,
     ) {
     }
 

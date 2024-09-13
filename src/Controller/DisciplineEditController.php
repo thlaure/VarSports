@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Constant\Message;
+use App\Entity\Discipline;
 use App\Form\DisciplineType;
 use App\Repository\DisciplineRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -14,22 +15,20 @@ use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Contracts\Translation\TranslatorInterface as TranslationTranslatorInterface;
 
-#[Route('/admin/discipline', name: 'app_admin_discipline_')]
 class DisciplineEditController extends AbstractController
 {
     public function __construct(
         private LoggerInterface $logger,
         private EntityManagerInterface $entityManager,
         private DisciplineRepository $disciplineRepository,
-        private TranslationTranslatorInterface $translator
+        private TranslationTranslatorInterface $translator,
     ) {
     }
 
-    #[Route('/{id}/edit', name: 'edit')]
+    #[Route('/admin/discipline/{id}/edit', name: 'app_admin_discipline_edit')]
     #[IsGranted('ROLE_ADMIN')]
-    public function edit(int $id, Request $request): Response
+    public function edit(Discipline $disciplineToEdit, Request $request): Response
     {
-        $disciplineToEdit = $this->disciplineRepository->find($id);
         $form = $this->createForm(DisciplineType::class, $disciplineToEdit);
 
         $form->handleRequest($request);

@@ -34,11 +34,11 @@ class ClubCreateController extends AbstractController
         private FileUploader $fileUploader,
         private SluggerInterface $slugger,
         private MailerInterface $mailer,
-        private TranslatorInterface $translator
+        private TranslatorInterface $translator,
     ) {
     }
 
-    #[Route('/create', name: 'create')]
+    #[Route('/admin/club/create', name: 'app_admin_club_create')]
     #[IsGranted('ROLE_ADMIN_CLUB')]
     public function create(Request $request): Response
     {

@@ -24,7 +24,7 @@ class VarsportsPasswordChangeCommand extends Command
         private UserPasswordHasherInterface $userPasswordHasher,
         private EntityManagerInterface $entityManager,
         private TranslatorInterface $translator,
-        private string $filePath = 'docker/imports/user_passwords.csv'
+        private string $filePath = 'docker/imports/user_passwords.csv',
     ) {
         parent::__construct();
     }

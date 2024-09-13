@@ -4,7 +4,6 @@ namespace App\Controller;
 
 use App\Constant\Message;
 use App\Entity\Club;
-use App\Repository\ClubRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
@@ -19,24 +18,17 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 class ClubValidateController extends AbstractController
 {
     public function __construct(
-        private ClubRepository $clubRepository,
         private LoggerInterface $logger,
         private EntityManagerInterface $entityManager,
         private MailerInterface $mailer,
-        private TranslatorInterface $translator
+        private TranslatorInterface $translator,
     ) {
     }
 
     #[Route('/club/{id}/validate', name: 'app_admin_club_validate')]
     #[IsGranted('ROLE_ADMIN')]
-    public function validate(int $id): Response
+    public function validate(Club $club): Response
     {
-        $club = $this->clubRepository->findOneBy(['id' => $id]);
-        if (!$club instanceof Club) {
-            $this->logger->error($this->translator->trans(Message::DATA_NOT_FOUND), ['club' => $club]);
-            throw $this->createNotFoundException();
-        }
-
         try {
             $club->setValidated(!$club->isValidated());
             $this->entityManager->flush();

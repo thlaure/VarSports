@@ -11,18 +11,17 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
-#[Route('/club', name: 'app_club_')]
 class ClubListController extends AbstractController
 {
     public function __construct(
         private ClubRepository $clubRepository,
         private DisciplineRepository $disciplineRepository,
         private CityRepository $cityRepository,
-        private int $nbPerPage
+        private int $nbPerPage,
     ) {
     }
 
-    #[Route('/list/{page<\d+>?1}', name: 'list')]
+    #[Route('/club/list/{page<\d+>?1}', name: 'app_club_list')]
     public function list(int $page, Request $request): Response
     {
         $searchParams = $request->query->all();

@@ -11,7 +11,7 @@ class EventListController extends AbstractController
 {
     public function __construct(
         private EventRepository $eventRepository,
-        private int $nbPerPage
+        private int $nbPerPage,
     ) {
     }
 

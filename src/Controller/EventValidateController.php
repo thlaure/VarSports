@@ -5,7 +5,6 @@ namespace App\Controller;
 use App\Constant\Message;
 use App\Entity\Club;
 use App\Entity\Event;
-use App\Repository\EventRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
@@ -20,24 +19,17 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 class EventValidateController extends AbstractController
 {
     public function __construct(
-        private EventRepository $eventRepository,
         private LoggerInterface $logger,
         private EntityManagerInterface $entityManager,
         private MailerInterface $mailer,
-        private TranslatorInterface $translator
+        private TranslatorInterface $translator,
     ) {
     }
 
     #[Route('/event/{id}/validate', name: 'app_admin_event_validate')]
     #[IsGranted('ROLE_ADMIN')]
-    public function validate(int $id): Response
+    public function validate(Event $event): Response
     {
-        $event = $this->eventRepository->findOneBy(['id' => $id]);
-        if (!$event instanceof Event) {
-            $this->logger->error($this->translator->trans(Message::DATA_NOT_FOUND), ['event' => $event]);
-            throw $this->createNotFoundException();
-        }
-
         try {
             $event->setValidated(!$event->isValidated());
             $this->entityManager->flush();

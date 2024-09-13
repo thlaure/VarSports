@@ -31,7 +31,7 @@ class ResetPasswordController extends AbstractController
         private ResetPasswordHelperInterface $resetPasswordHelper,
         private EntityManagerInterface $entityManager,
         private LoggerInterface $logger,
-        private TranslatorInterface $translator
+        private TranslatorInterface $translator,
     ) {
     }
 

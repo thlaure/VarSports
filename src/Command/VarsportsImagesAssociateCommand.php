@@ -27,7 +27,7 @@ class VarsportsImagesAssociateCommand extends Command
         private TranslatorInterface $translator,
         private string $filePath = 'docker/imports/clubs_clean.json',
         private string $oldImagesPath = 'public/images/uploads/club/old/',
-        private string $newImagesPath = 'public/images/uploads/club/'
+        private string $newImagesPath = 'public/images/uploads/club/',
     ) {
         parent::__construct();
     }

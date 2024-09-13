@@ -5,7 +5,6 @@ namespace App\Controller;
 use App\Constant\Message;
 use App\Entity\Club;
 use App\Entity\User;
-use App\Repository\ClubRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -16,30 +15,22 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Component\Translation\Exception\NotFoundResourceException;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
-#[Route('/admin/club', name: 'app_admin_club_')]
 class ClubDeleteController extends AbstractController
 {
     public function __construct(
         private EntityManagerInterface $entityManager,
         private LoggerInterface $logger,
-        private ClubRepository $clubRepository,
-        private TranslatorInterface $translator
+        private TranslatorInterface $translator,
     ) {
     }
 
-    #[Route('/{id}/delete', name: 'delete')]
+    #[Route('/admin/club/{id}/delete', name: 'app_admin_club_delete')]
     #[IsGranted('ROLE_ADMIN_CLUB')]
-    public function delete(int $id): Response
+    public function delete(Club $club): Response
     {
         $user = $this->getUser();
         if (!$user instanceof User) {
             $this->logger->error($this->translator->trans(Message::DATA_NOT_FOUND), ['user' => $user]);
-            throw new NotFoundResourceException($this->translator->trans(Message::DATA_NOT_FOUND), Response::HTTP_NOT_FOUND);
-        }
-
-        $club = $this->clubRepository->findOneBy(['id' => $id]);
-        if (!$club instanceof Club) {
-            $this->logger->error($this->translator->trans(Message::DATA_NOT_FOUND), ['club' => $club]);
             throw new NotFoundResourceException($this->translator->trans(Message::DATA_NOT_FOUND), Response::HTTP_NOT_FOUND);
         }
 

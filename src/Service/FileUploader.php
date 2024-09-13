@@ -13,7 +13,7 @@ class FileUploader
     public function __construct(
         private SluggerInterface $slugger,
         private LoggerInterface $logger,
-        private Filesystem $filesystem
+        private Filesystem $filesystem,
     ) {
     }
 

@@ -5,7 +5,6 @@ namespace App\Controller;
 use App\Constant\Message;
 use App\Entity\Article;
 use App\Entity\User;
-use App\Repository\ArticleRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -21,24 +20,17 @@ class ArticleDeleteController extends AbstractController
     public function __construct(
         private EntityManagerInterface $entityManager,
         private LoggerInterface $logger,
-        private ArticleRepository $articleRepository,
-        private TranslatorInterface $translator
+        private TranslatorInterface $translator,
     ) {
     }
 
     #[Route('/admin/article/{id}/delete', name: 'app_admin_article_delete')]
     #[IsGranted('ROLE_ADMIN_CLUB')]
-    public function delete(int $id): Response
+    public function delete(Article $article): Response
     {
         $user = $this->getUser();
         if (!$user instanceof User) {
             $this->logger->error($this->translator->trans(Message::DATA_NOT_FOUND), ['user' => $user]);
-            throw new NotFoundResourceException($this->translator->trans(Message::DATA_NOT_FOUND), Response::HTTP_NOT_FOUND);
-        }
-
-        $article = $this->articleRepository->findOneBy(['id' => $id]);
-        if (!$article instanceof Article) {
-            $this->logger->error($this->translator->trans(Message::DATA_NOT_FOUND), ['article' => $article]);
             throw new NotFoundResourceException($this->translator->trans(Message::DATA_NOT_FOUND), Response::HTTP_NOT_FOUND);
         }
 

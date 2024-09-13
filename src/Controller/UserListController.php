@@ -18,7 +18,7 @@ class UserListController extends AbstractController
     public function __construct(
         private LoggerInterface $logger,
         private UserRepository $userRepository,
-        private TranslatorInterface $translator
+        private TranslatorInterface $translator,
     ) {
     }
 

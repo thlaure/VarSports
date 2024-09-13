@@ -20,7 +20,7 @@ class VarsportsCsvCleanCommand extends Command
     public function __construct(
         private TranslatorInterface $translator,
         private string $filePath = 'docker/imports/clubs.csv',
-        private string $cleanedFilePath = 'docker/imports/clubs_clean.json'
+        private string $cleanedFilePath = 'docker/imports/clubs_clean.json',
     ) {
         parent::__construct();
     }

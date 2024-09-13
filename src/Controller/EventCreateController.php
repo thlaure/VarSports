@@ -32,7 +32,7 @@ class EventCreateController extends AbstractController
         private FileUploader $fileUploader,
         private TranslatorInterface $translator,
         private MailerInterface $mailer,
-        private string $targetDirectory
+        private string $targetDirectory,
     ) {
     }
 

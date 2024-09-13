@@ -4,7 +4,6 @@ namespace App\Controller;
 
 use App\Constant\Message;
 use App\Entity\User;
-use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -18,25 +17,18 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 class UserDeleteController extends AbstractController
 {
     public function __construct(
-        private UserRepository $userRepository,
         private EntityManagerInterface $entityManager,
         private LoggerInterface $logger,
-        private TranslatorInterface $translator
+        private TranslatorInterface $translator,
     ) {
     }
 
     #[Route('/admin/user/delete/{id}', name: 'app_user_delete')]
     #[IsGranted('ROLE_ADMIN_CLUB')]
-    public function delete(int $id): Response
+    public function delete(User $userToDelete): Response
     {
         $user = $this->getUser();
         if (!$user instanceof User) {
-            $this->logger->error($this->translator->trans(Message::DATA_NOT_FOUND), ['user' => $user]);
-            throw new NotFoundResourceException($this->translator->trans(Message::DATA_NOT_FOUND), Response::HTTP_NOT_FOUND);
-        }
-
-        $userToDelete = $this->userRepository->findOneBy(['id' => $id]);
-        if (!$userToDelete instanceof User) {
             $this->logger->error($this->translator->trans(Message::DATA_NOT_FOUND), ['user' => $user]);
             throw new NotFoundResourceException($this->translator->trans(Message::DATA_NOT_FOUND), Response::HTTP_NOT_FOUND);
         }

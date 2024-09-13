@@ -21,7 +21,7 @@ class UserCreateController extends AbstractController
         private EntityManagerInterface $entityManager,
         private LoggerInterface $logger,
         private UserPasswordHasherInterface $userPasswordHasher,
-        private TranslatorInterface $translator
+        private TranslatorInterface $translator,
     ) {
     }
 

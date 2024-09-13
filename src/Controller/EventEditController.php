@@ -6,7 +6,6 @@ use App\Constant\Message;
 use App\Entity\Event;
 use App\Entity\User;
 use App\Form\EventType;
-use App\Repository\EventRepository;
 use App\Service\FileChecker;
 use App\Service\FileUploader;
 use Doctrine\ORM\EntityManagerInterface;
@@ -25,30 +24,20 @@ class EventEditController extends AbstractController
     public function __construct(
         private LoggerInterface $logger,
         private EntityManagerInterface $entityManager,
-        private EventRepository $eventRepository,
         private SluggerInterface $slugger,
         private FileChecker $fileChecker,
         private FileUploader $fileUploader,
         private TranslatorInterface $translator,
-        private string $targetDirectory
+        private string $targetDirectory,
     ) {
     }
 
     #[Route('/admin/event/{id}/edit', name: 'app_admin_event_edit')]
     #[IsGranted('ROLE_ADMIN')]
-    public function edit(int $id, Request $request): Response
+    public function edit(Event $event, Request $request): Response
     {
+        /** @var User $user */
         $user = $this->getUser();
-        if (!$user instanceof User) {
-            $this->logger->error($this->translator->trans(Message::DATA_NOT_FOUND), ['user' => $user]);
-            throw $this->createNotFoundException();
-        }
-
-        $event = $this->eventRepository->findOneBy(['id' => $id]);
-        if (!$event instanceof Event) {
-            $this->logger->error($this->translator->trans(Message::DATA_NOT_FOUND), ['event' => $event]);
-            throw $this->createNotFoundException();
-        }
 
         $form = $this->createForm(EventType::class, $event);
         $form->handleRequest($request);

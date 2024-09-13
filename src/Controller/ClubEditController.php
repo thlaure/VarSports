@@ -7,7 +7,6 @@ use App\Entity\City;
 use App\Entity\Club;
 use App\Entity\User;
 use App\Form\ClubType;
-use App\Repository\ClubRepository;
 use App\Service\FileChecker;
 use App\Service\FileRemover;
 use App\Service\FileUploader;
@@ -24,36 +23,28 @@ use Symfony\Component\Validator\ConstraintViolation;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
-#[Route('/admin/club', name: 'app_admin_club_')]
 class ClubEditController extends AbstractController
 {
     public function __construct(
         private EntityManagerInterface $entityManager,
         private LoggerInterface $logger,
-        private ClubRepository $clubRepository,
         private string $targetDirectory,
         private FileChecker $fileChecker,
         private FileUploader $fileUploader,
         private FileRemover $fileRemover,
         private SluggerInterface $slugger,
         private ValidatorInterface $validator,
-        private TranslatorInterface $translator
+        private TranslatorInterface $translator,
     ) {
     }
 
-    #[Route('/{id}/edit', name: 'edit')]
+    #[Route('/admin/club/{id}/edit', name: 'app_admin_club_edit')]
     #[IsGranted('ROLE_ADMIN_CLUB')]
-    public function edit(int $id, Request $request): Response
+    public function edit(Club $club, Request $request): Response
     {
         $user = $this->getUser();
         if (!$user instanceof User) {
             $this->logger->error($this->translator->trans(Message::DATA_NOT_FOUND), ['user' => $user]);
-            throw $this->createNotFoundException();
-        }
-
-        $club = $this->clubRepository->findOneBy(['id' => $id]);
-        if (!$club instanceof Club) {
-            $this->logger->error($this->translator->trans(Message::DATA_NOT_FOUND), ['club' => $club]);
             throw $this->createNotFoundException();
         }
 

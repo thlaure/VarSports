@@ -15,18 +15,17 @@ use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
-#[Route('/admin/discipline', name: 'app_admin_discipline_')]
 class DisciplineDashboardController extends AbstractController
 {
     public function __construct(
         private LoggerInterface $logger,
         private EntityManagerInterface $entityManager,
         private DisciplineRepository $disciplineRepository,
-        private TranslatorInterface $translator
+        private TranslatorInterface $translator,
     ) {
     }
 
-    #[Route('/dashboard', name: 'dashboard')]
+    #[Route('/admin/discipline/dashboard', name: 'app_admin_discipline_dashboard')]
     #[IsGranted('ROLE_ADMIN')]
     public function create(Request $request): Response
     {

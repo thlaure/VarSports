@@ -11,7 +11,7 @@ class ArticleListController extends AbstractController
 {
     public function __construct(
         private int $nbPerPage,
-        private ArticleRepository $articleRepository
+        private ArticleRepository $articleRepository,
     ) {
     }
 

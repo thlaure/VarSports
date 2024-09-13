@@ -3,8 +3,8 @@
 namespace App\Controller;
 
 use App\Constant\Message;
+use App\Entity\User;
 use App\Form\UserEditType;
-use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -17,23 +17,16 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 class UserEditController extends AbstractController
 {
     public function __construct(
-        private UserRepository $userRepository,
         private EntityManagerInterface $entityManager,
         private LoggerInterface $logger,
-        private TranslatorInterface $translator
+        private TranslatorInterface $translator,
     ) {
     }
 
     #[Route('/admin/user/{id}/edit', name: 'app_user_edit')]
     #[IsGranted('ROLE_ADMIN_CLUB')]
-    public function edit(int $id, Request $request): Response
+    public function edit(User $user, Request $request): Response
     {
-        $user = $this->userRepository->findOneBy(['id' => $id]);
-        if (null === $user) {
-            $this->logger->error($this->translator->trans(Message::DATA_NOT_FOUND));
-            throw $this->createNotFoundException($this->translator->trans(Message::DATA_NOT_FOUND));
-        }
-
         $form = $this->createForm(UserEditType::class, $user);
         $form->handleRequest($request);
 

@@ -10,7 +10,7 @@ class FileRemover
 {
     public function __construct(
         private LoggerInterface $logger,
-        private Filesystem $filesystem
+        private Filesystem $filesystem,
     ) {
     }
 
