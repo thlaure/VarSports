@@ -23,7 +23,6 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Component\String\Slugger\SluggerInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
-#[Route('/admin/club', name: 'app_admin_club_')]
 class ClubCreateController extends AbstractController
 {
     public function __construct(
