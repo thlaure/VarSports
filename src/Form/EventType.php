@@ -29,6 +29,10 @@ class EventType extends AbstractType
                     'class' => 'ckeditor',
                 ],
             ])
+            ->add('place', TextareaType::class, [
+                'label' => 'Lieu',
+                'required' => false,
+            ])
             ->add('image', FileType::class, [
                 'label' => 'Image',
                 'required' => false,

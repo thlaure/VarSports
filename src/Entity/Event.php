@@ -62,6 +62,11 @@ class Event
     #[ORM\ManyToOne(inversedBy: 'events')]
     private ?Club $club = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    #[Assert\Length(max: 255)]
+    #[Assert\Regex(pattern: Constraint::REGEX_COMMON)]
+    private ?string $place = null;
+
     public function __construct()
     {
         $this->isValidated = false;
@@ -200,6 +205,18 @@ class Event
     public function setClub(?Club $club): static
     {
         $this->club = $club;
+
+        return $this;
+    }
+
+    public function getPlace(): ?string
+    {
+        return $this->place;
+    }
+
+    public function setPlace(?string $place): static
+    {
+        $this->place = $place;
 
         return $this;
     }

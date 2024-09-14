@@ -33,7 +33,7 @@ class EventEditController extends AbstractController
     }
 
     #[Route('/admin/event/{id}/edit', name: 'app_admin_event_edit')]
-    #[IsGranted('ROLE_ADMIN')]
+    #[IsGranted('ROLE_MEMBER_CLUB')]
     public function edit(Event $event, Request $request): Response
     {
         /** @var User $user */
