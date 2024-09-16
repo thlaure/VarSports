@@ -22,7 +22,7 @@
     <h2 id="latest-clubs-title">Nos derniers clubs inscrits</h2>
     <div class="row justify-content-center">
         {% for club in latest_clubs %}
-            {% include 'club/partials/club-item.html.twig' with { club: club } %}
+            {% include 'club/partials/list-item.html.twig' with { club: club } %}
         {% endfor %}
     </div>
     <div class="text-center">
