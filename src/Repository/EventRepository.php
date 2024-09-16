@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\Club;
 use App\Entity\Event;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -14,6 +15,57 @@ class EventRepository extends ServiceEntityRepository
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Event::class);
+    }
+
+    /**
+     * @param Club[]        $clubs
+     * @param int[]         $cities
+     * @param string[]|null $orderBy
+     *
+     * @return Event[]
+     */
+    public function searchEvent(string $term, array $clubs = [], array $cities = [], ?array $orderBy = null, ?int $limit = null, ?int $offset = null): array
+    {
+        $qb = $this->createQueryBuilder('event')
+            ->andWhere('event.title LIKE :value')
+            ->andWhere('event.isValidated = true')
+            ->andWhere('event.startDate >= :today')
+            ->setParameter('today', new \DateTime())
+            ->setParameter('value', '%'.$term.'%');
+
+        if (count($clubs) > 0) {
+            $qb->leftJoin('event.club', 'club')
+                ->addSelect('club')
+                ->andWhere('club IN (:clubs)')
+                ->setParameter('clubs', $clubs);
+        }
+
+        if (count($cities) > 0) {
+            $qb->innerJoin('event.city', 'city');
+            $qb->andWhere('city IN (:cities)')
+                ->setParameter('cities', $cities);
+        }
+
+        if ($orderBy) {
+            foreach ($orderBy as $field => $direction) {
+                $qb->addOrderBy('event.'.$field, $direction);
+            }
+        }
+
+        if ($limit) {
+            $qb->setMaxResults($limit);
+        }
+
+        if ($offset) {
+            $qb->setFirstResult($offset);
+        }
+
+        $result = $qb->getQuery()->getResult();
+        if (!\is_array($result)) {
+            $result = [];
+        }
+
+        return $result;
     }
 
     //    /**

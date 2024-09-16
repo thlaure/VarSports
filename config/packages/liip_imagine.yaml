@@ -79,23 +79,15 @@ liip_imagine:
         cover_article_event_list_webp:
             format: webp
             quality: 100
-            filters:
-                background: { size: [390, 140], mode: fit }
 
         cover_article_event_list_jpg:
             format: jpeg
             quality: 100
-            filters:
-                background: { size: [390, 140], mode: fit }
 
         cover_article_event_show_webp:
             format: webp
             quality: 100
-            filters:
-                background: { size: [1600, 400], mode: fit }
 
         cover_article_event_show_jpg:
             format: jpeg
             quality: 100
-            filters:
-                background: { size: [1600, 400], mode: fit }

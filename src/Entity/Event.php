@@ -67,6 +67,9 @@ class Event
     #[Assert\Regex(pattern: Constraint::REGEX_COMMON)]
     private ?string $place = null;
 
+    #[ORM\ManyToOne]
+    private ?City $city = null;
+
     public function __construct()
     {
         $this->isValidated = false;
@@ -217,6 +220,18 @@ class Event
     public function setPlace(?string $place): static
     {
         $this->place = $place;
+
+        return $this;
+    }
+
+    public function getCity(): ?City
+    {
+        return $this->city;
+    }
+
+    public function setCity(?City $city): static
+    {
+        $this->city = $city;
 
         return $this;
     }

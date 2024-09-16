@@ -1,0 +1,25 @@
+<div class="card card-event rounded-1 mb-4 p-0" role="region" aria-labelledby="event-{{ event.id }}-title">
+    <div class="row g-0">
+        <div class="position-relative col-md-3">
+            <picture>
+                <source srcset="{{ (asset('images/uploads/event/') ~ (event.image ? event.id ~ '/' ~ event.image : 'default_cover.webp')) | imagine_filter('cover_article_event_list_webp') }}" type="image/webp">
+                <source srcset="{{ (asset('images/uploads/event/') ~ (event.image ? event.id ~ '/' ~ event.image : 'default_cover.webp')) | imagine_filter('cover_article_event_list_jpg') }}" type="image/jpeg">
+                <img src="{{ asset('images/uploads/event/') ~ (event.image ? event.id ~ '/' ~ event.image : 'default_cover.webp') }}" alt="Couverture de l'événement {{ event.title }}" class="img-fluid object-fit-cover w-100 rounded-start event-cover-list" loading="lazy" width="450" height="230">
+            </picture>
+        </div>
+
+        <div class="card-body p-3 mt-3 mt-sm-5 mt-md-3 col-md-8">
+            <h3 id="event-{{ event.id }}-title" class="h5 card-title">
+                <a href="{{ path('app_event_show', {'slug': event.slug}) }}" class="stretched-link text-decoration-none text-black">{{ event.title }}</a>
+            </h3>
+            <p class="card-text mb-0 text-body-secondary">{{ event.startDate|date('d/m/Y à H:i') }} - {{ event.endDate|date('d/m/Y à H:i') }}</p>
+            <p class="card-text mb-0 text-body-secondary">Lieu : {{ event.place ? event.place : 'Non précisé' }}</p>
+            <p class="card-text mb-0 text-body-secondary">Ville : {{ event.city and event.city.name ? event.city.name : 'Non précisée' }} {{ event.city and event.city.postalCode ? '(' ~ event.postalCode ~ ')' : '' }}</p>
+            <p class="card-text mb-3 text-body-secondary">Club : {{ event.club ? event.club.name : 'Non précisé' }}</p>
+            <p class="card-text mt-0">{{ event.text|striptags|slice(0, 100) }}...</p>
+            <div class="d-md-flex justify-content-md-end">
+                <a href="{{ path('app_event_show', {'slug': event.slug}) }}" class="btn btn-varsports stretched-link">Voir plus</a>
+            </div>
+        </div>
+    </div>
+</div>

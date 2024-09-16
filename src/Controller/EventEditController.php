@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Constant\Message;
+use App\Entity\City;
 use App\Entity\Event;
 use App\Entity\User;
 use App\Form\EventType;
@@ -46,6 +47,19 @@ class EventEditController extends AbstractController
                 $event->setAuthor($user);
                 $event->setCreationDate(new \DateTimeImmutable());
                 $event->setSlug($this->slugger->slug((string) $event->getTitle())->lower());
+
+                if (null !== $event->getCity()) {
+                    $existingCity = $this->entityManager->getRepository(City::class)->findOneBy([
+                        'name' => $event->getCity()->getName(),
+                        'postalCode' => $event->getCity()->getPostalCode(),
+                    ]);
+
+                    if (null !== $existingCity) {
+                        $event->setCity($existingCity);
+                    } else {
+                        $this->entityManager->persist($event->getCity());
+                    }
+                }
 
                 $this->entityManager->persist($event);
                 $this->entityManager->flush();

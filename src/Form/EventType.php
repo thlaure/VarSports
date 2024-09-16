@@ -18,6 +18,15 @@ class EventType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
+        $event = $builder->getData();
+        if ($event instanceof Event && null !== $event->getCity()) {
+            $postalCode = $event->getCity()->getPostalCode();
+            $cityName = $event->getCity()->getName();
+        } else {
+            $postalCode = null;
+            $cityName = null;
+        }
+
         $builder
             ->add('title', TextType::class, [
                 'label' => 'Titre',
@@ -29,7 +38,7 @@ class EventType extends AbstractType
                     'class' => 'ckeditor',
                 ],
             ])
-            ->add('place', TextareaType::class, [
+            ->add('place', TextType::class, [
                 'label' => 'Lieu',
                 'required' => false,
             ])
@@ -52,6 +61,11 @@ class EventType extends AbstractType
             ->add('endDate', DateTimeType::class, [
                 'label' => 'Date de fin',
                 'widget' => 'single_text',
+            ])
+            ->add('city', CityType::class, [
+                'city_name' => $cityName,
+                'city_postal_code' => $postalCode,
+                'required' => false,
             ])
             ->add('submit', SubmitType::class, [
                 'label' => 'Enregistrer',

@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Constant\Message;
+use App\Entity\City;
 use App\Entity\Event;
 use App\Entity\User;
 use App\Form\EventType;
@@ -64,6 +65,19 @@ class EventCreateController extends AbstractController
                     $event->setValidated(true);
                 } else {
                     $event->setClub($user->getClub());
+                }
+
+                if (null !== $event->getCity()) {
+                    $existingCity = $this->entityManager->getRepository(City::class)->findOneBy([
+                        'name' => $event->getCity()->getName(),
+                        'postalCode' => $event->getCity()->getPostalCode(),
+                    ]);
+
+                    if (null !== $existingCity) {
+                        $event->setCity($existingCity);
+                    } else {
+                        $this->entityManager->persist($event->getCity());
+                    }
                 }
 
                 $this->entityManager->persist($event);

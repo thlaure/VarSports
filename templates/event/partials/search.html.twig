@@ -1,0 +1,40 @@
+<div>
+    <form class="d-flex flex-column flex-md-row" id="search-events" role="search" action="{{ path('app_event_list', { term: term }) }}">
+        <input class="form-control m-2 me-md-2 ms-md-0 col border-secondary w-auto h-fit-content" 
+               type="search" 
+               placeholder="Rechercher par mot clé" 
+               aria-label="Rechercher par mot clé" 
+               name="term" 
+               value="{{ term }}">
+
+        <div class="dropdown m-2 col">
+            <label for="clubs" class="visually-hidden">Sélectionner les clubs</label>
+            <select id="clubs" class="form-select select2-autocomplete border border-2 border-secondary" 
+                    multiple 
+                    aria-label="Sélectionner les clubs" 
+                    name="clubs[]" 
+                    data-placeholder="Clubs">
+                {% for club in clubs %}
+                    <option value="{{ club.id }}" {{ club.id in selected_clubs ? 'selected' : '' }}>{{ club.name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="dropdown m-2 col">
+            <label for="cities" class="visually-hidden">Sélectionner les villes</label>
+            <select id="cities" class="form-select select2-autocomplete border border-2 border-secondary" 
+                    multiple 
+                    aria-label="Sélectionner les villes" 
+                    name="cities[]" 
+                    data-placeholder="Villes">
+                {% for city in cities %}
+                    <option value="{{ city.id }}" {{ city.id in selected_cities ? 'selected' : '' }}>{{ city.name }} ({{ city.postalCode }})</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <button class="btn btn-varsports m-2 h-fit-content" type="submit">Rechercher</button>
+    </form>
+
+    <h2 class="h5 pt-5 pb-4">{{ nb_results }} évènement{{ nb_results > 1 ? 's' : '' }} trouvé{{ nb_results > 1 ? 's' : '' }} selon vos critères</h2>
+</div>

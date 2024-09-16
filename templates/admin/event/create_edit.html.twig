@@ -40,6 +40,10 @@
                 {{ form_row(form.text, {'label_attr': {'aria-label': 'Texte'}}) }}
                 {{ form_row(form.place, {'label_attr': {'aria-label': 'Lieu'}}) }}
                 <div class="row mb-3">
+                    {{ form_row(form.city.postalCode, {'row_attr': {'class': 'col-md-6'}, 'label_attr': {'aria-label': 'Code postal'}}) }}
+                    {{ form_row(form.city.name, {'row_attr': {'class': 'col-md-6'}, 'label_attr': {'aria-label': 'Ville'}}) }}
+                </div>
+                <div class="row mb-3">
                     {{ form_row(form.startDate, {'row_attr': {'class': 'col-md-6'}, 'label_attr': {'aria-label': 'Date de début'}}) }}
                     {{ form_row(form.endDate, {'row_attr': {'class': 'col-md-6'}, 'label_attr': {'aria-label': 'Date de fin'}}) }}
                 </div>
