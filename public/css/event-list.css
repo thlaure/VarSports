@@ -1,5 +1,6 @@
 .event-cover-list {
-    max-height: 270px;
+    max-height: 268px;
+    height: 100%;
 }
 
 .card-event {

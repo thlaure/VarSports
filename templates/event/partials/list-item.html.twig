@@ -2,9 +2,16 @@
     <div class="row g-0">
         <div class="position-relative col-md-3">
             <picture>
-                <source srcset="{{ (asset('images/uploads/event/') ~ (event.image ? event.id ~ '/' ~ event.image : 'default_cover.webp')) | imagine_filter('cover_article_event_list_webp') }}" type="image/webp">
-                <source srcset="{{ (asset('images/uploads/event/') ~ (event.image ? event.id ~ '/' ~ event.image : 'default_cover.webp')) | imagine_filter('cover_article_event_list_jpg') }}" type="image/jpeg">
-                <img src="{{ asset('images/uploads/event/') ~ (event.image ? event.id ~ '/' ~ event.image : 'default_cover.webp') }}" alt="Couverture de l'événement {{ event.title }}" class="img-fluid object-fit-cover w-100 rounded-start event-cover-list" loading="lazy" width="450" height="230">
+                {% if event.image %}
+                    {% set image = (asset('images/uploads/event/') ~ event.id ~ '/' ~ event.image) %}
+                {% elseif event.club and event.club.logo %}
+                    {% set image = (asset('images/uploads/club/') ~ event.club.id ~ '/' ~ event.club.logo) %}
+                {% else %}
+                    {% set image = (asset('images/uploads/event/default_cover.webp')) %}
+                {% endif %}
+                <source srcset="{{ image | imagine_filter('cover_article_event_list_webp') }}" type="image/webp">
+                <source srcset="{{ image | imagine_filter('cover_article_event_list_jpg') }}" type="image/jpeg">
+                <img src="{{ image }}" alt="Couverture de l'événement {{ event.title }}" class="img-fluid object-fit-cover w-100 rounded-start event-cover-list" loading="lazy" width="270" height="270">
             </picture>
         </div>
 
