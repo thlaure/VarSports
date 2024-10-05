@@ -14,6 +14,7 @@
             <select id="disciplines" class="form-select select2-autocomplete border border-2 border-secondary" 
                     multiple 
                     aria-label="Sélectionner les disciplines sportives" 
+                    aria-labelledby="disciplines"
                     name="disciplines[]" 
                     data-placeholder="Disciplines sportives">
                 {% for discipline in disciplines %}
@@ -27,6 +28,7 @@
             <select id="cities" class="form-select select2-autocomplete border border-2 border-secondary" 
                     multiple 
                     aria-label="Sélectionner les villes" 
+                    aria-labelledby="cities"
                     name="cities[]" 
                     data-placeholder="Villes">
                 {% for city in cities %}

@@ -12,6 +12,7 @@
             <select id="clubs" class="form-select select2-autocomplete border border-2 border-secondary" 
                     multiple 
                     aria-label="Sélectionner les clubs" 
+                    aria-labelledby="clubs"
                     name="clubs[]" 
                     data-placeholder="Clubs">
                 {% for club in clubs %}
@@ -25,6 +26,7 @@
             <select id="cities" class="form-select select2-autocomplete border border-2 border-secondary" 
                     multiple 
                     aria-label="Sélectionner les villes" 
+                    aria-labelledby="cities"
                     name="cities[]" 
                     data-placeholder="Villes">
                 {% for city in cities %}
