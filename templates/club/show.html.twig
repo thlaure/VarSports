@@ -95,9 +95,17 @@
             <section class="mt-5">
                 <h2>Actions</h2>
                 <a href="{{ path('app_admin_club_edit', {'id': club.id}) }}" class="btn btn-warning" rel="nofollow" role="button" aria-label="Modifier le club">Modifier</a>
-                <a href="{{ path('app_admin_club_delete', {'id': club.id}) }}" class="btn btn-danger" rel="nofollow" role="button" aria-label="Supprimer le club">Supprimer</a>
+
+                {% if is_granted('ROLE_ADMIN_CLUB') and not is_granted('ROLE_ADMIN') %}
+                    <a href="{{ path('app_admin_club_delete', {'id': club.id}) }}" class="btn btn-danger" rel="nofollow" role="button" aria-label="Supprimer le club">Supprimer</a>
+                {% endif %}
+
                 {% if is_granted('ROLE_ADMIN') %}
                     <a href="{{ path('app_admin_club_validate', {'id': club.id}) }}" class="btn btn-primary" rel="nofollow" role="button" aria-label="{{ club.isValidated ? 'Invalider' : 'Valider' }} le club">{{ club.isValidated ? 'Invalider' : 'Valider' }}</a>
+
+                    {% if not club.isValidated %}
+                        <a href="{{ path('app_admin_club_delete', {'id': club.id}) }}" class="btn btn-danger" rel="nofollow" role="button" aria-label="Supprimer le club">Supprimer</a>
+                    {% endif %}
                 {% endif %}
             </section>
         {% endif %}
