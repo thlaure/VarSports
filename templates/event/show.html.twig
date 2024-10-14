@@ -11,17 +11,17 @@
 <div class="container-fluid mt-2 mb-5">
     {% include 'partials/flash.html.twig' %}
 
-    <div class="position-relative">
-        <picture>
-            <source srcset="{{ (asset('images/uploads/event/') ~ (event.image ? event.id ~ '/' ~ event.image : 'default_cover.webp'))  | imagine_filter('cover_article_event_show_webp') }}" type="image/webp">
-            <source srcset="{{ (asset('images/uploads/event/') ~ (event.image ? event.id ~ '/' ~ event.image : 'default_cover.webp'))  | imagine_filter('cover_article_event_show_jpg') }}" type="image/jpeg">
-            <img src="{{ asset('images/uploads/event/') ~ (event.image ? event.id ~ '/' ~ event.image : 'default_cover.webp') }}" alt="Couverture de l'évènement {{ event.title }}" class="img-fluid object-fit-cover w-100 rounded event-cover" aria-describedby="event-description" loading="lazy" width="1000" height="500">
-        </picture>
-    </div>
+    <div class="container my-5 row m-auto">
+        <div class="col-md-3">
+            <picture>
+                <source srcset="{{ (asset('images/uploads/event/') ~ (event.image ? event.id ~ '/' ~ event.image : 'default_cover.webp'))  | imagine_filter('cover_article_event_show_webp') }}" type="image/webp">
+                <source srcset="{{ (asset('images/uploads/event/') ~ (event.image ? event.id ~ '/' ~ event.image : 'default_cover.webp'))  | imagine_filter('cover_article_event_show_jpg') }}" type="image/jpeg">
+                <img src="{{ asset('images/uploads/event/') ~ (event.image ? event.id ~ '/' ~ event.image : 'default_cover.webp') }}" alt="Couverture de l'évènement {{ event.title }}" class="img-fluid object-fit-cover w-100 rounded event-cover" aria-describedby="event-description" loading="lazy" width="1000" height="500">
+            </picture>
+        </div>
 
-    <div class="container my-5">
-        <section class="mb-5 align-items-center gap-3">
-            <h1 class="font-weight-normal mt-5">{{ event.title }}</h1>
+        <section class="mb-5 mt-2 align-items-center gap-3 col-md-9">
+            <h1 class="font-weight-normal">{{ event.title }}</h1>
 
             <p>Du {{ event.startDate|date('d/m/Y à H:i') }} au {{ event.endDate|date('d/m/Y à H:i') }}</p>
 
