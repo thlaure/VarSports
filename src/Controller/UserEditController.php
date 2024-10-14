@@ -27,11 +27,26 @@ class UserEditController extends AbstractController
     #[IsGranted('ROLE_ADMIN_CLUB')]
     public function edit(User $user, Request $request): Response
     {
-        $form = $this->createForm(UserEditType::class, $user);
+        $currentUser = $this->getUser();
+        if (!$currentUser instanceof User) {
+            $this->logger->error($this->translator->trans(Message::DATA_NOT_FOUND), ['user' => $currentUser]);
+            throw $this->createNotFoundException();
+        }
+
+        $form = $this->createForm(UserEditType::class, $user, [
+            'roles' => $currentUser->getRoles(),
+        ]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             try {
+                $userVarSportsAndNotAdmin = $user->isVarsportsMember() && (!$user->hasRole('ROLE_ADMIN') && !$user->hasRole('ROLE_MEMBER_VARSPORTS'));
+                $userNotVarSportsAndAdmin = !$user->isVarsportsMember() && ($user->hasRole('ROLE_ADMIN') || $user->hasRole('ROLE_MEMBER_VARSPORTS'));
+                if ($userVarSportsAndNotAdmin || $userNotVarSportsAndAdmin) {
+                    $user->setIsVarsportsMember(false);
+                    $user->setRoles(['ROLE_USER']);
+                }
+
                 $user->setLastUpdateDate(new \DateTimeImmutable());
 
                 $this->entityManager->flush();

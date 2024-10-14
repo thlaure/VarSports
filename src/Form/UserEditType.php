@@ -5,6 +5,7 @@ namespace App\Form;
 use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\CallbackTransformer;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
@@ -22,6 +23,18 @@ class UserEditType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
+        $choicesRoles = [
+            'Membre club' => 'ROLE_MEMBER_CLUB',
+            'Admin club' => 'ROLE_ADMIN_CLUB',
+        ];
+
+        if (is_array($options['roles']) && in_array('ROLE_ADMIN', $options['roles'])) {
+            $choicesRoles = array_merge($choicesRoles, [
+                'Membre VarSports' => 'ROLE_MEMBER_VARSPORTS',
+                'Admin VarSports' => 'ROLE_ADMIN',
+            ]);
+        }
+
         $builder
             ->add('name', TextType::class, [
                 'label' => 'Nom',
@@ -62,10 +75,7 @@ class UserEditType extends AbstractType
                 'multiple' => false,
                 'expanded' => false,
                 'required' => false,
-                'choices' => [
-                    'Membre' => 'ROLE_MEMBER_CLUB',
-                    'Admin' => 'ROLE_ADMIN_CLUB',
-                ],
+                'choices' => $choicesRoles,
             ])
             ->add('plainPassword', RepeatedType::class, [
                 'type' => PasswordType::class,
@@ -83,14 +93,14 @@ class UserEditType extends AbstractType
                             'max' => 4096,
                         ]),
                         new PasswordStrength([
-                            'message' => 'Le mot de passe doit contenir au moins un chiffre, un caractère majuscule et un caractère minuscule.',
+                            'message' => 'Le mot de passe doit contenir au moins un chiffre, une majuscule et une minuscule, et un caractère spécial.',
                         ]),
                     ],
                 ],
                 'second_options' => [
                     'label' => 'Confirmer le mot de passe',
                     'attr' => ['autocomplete' => 'new-password'],
-                    'help' => 'Pour des raison de sécurité, le mot de passe doit contenir au moins 12 caractères, une majuscule, une minuscule, un chiffre et un caractère special.',
+                    'help' => 'Pour des raison de sécurité, le mot de passe doit contenir au moins 12 caractères, une majuscule, une minuscule, un chiffre et un caractère spécial.',
                 ],
                 'constraints' => [
                     new Length([
@@ -115,12 +125,21 @@ class UserEditType extends AbstractType
                 return [$rolesString];
             }
         ));
+
+        if (is_array($options['roles']) && in_array('ROLE_ADMIN', $options['roles'])) {
+            $builder->add('isVarsportsMember', CheckboxType::class, [
+                'label' => 'Membre VarSports ?',
+                'required' => false,
+                'help' => 'Cocher cette case si le compte est un membre de VarSports',
+            ]);
+        }
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
             'data_class' => User::class,
+            'roles' => [],
         ]);
     }
 }

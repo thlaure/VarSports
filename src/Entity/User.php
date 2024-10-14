@@ -86,6 +86,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\ManyToMany(targetEntity: Event::class, mappedBy: 'varsportsMembers')]
     private Collection $events;
 
+    #[ORM\Column(options: ['default' => false])]
+    private ?bool $isVarsportsMember = null;
+
     public function __construct()
     {
         $this->registrationDate = new \DateTime();
@@ -290,6 +293,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         if ($this->events->removeElement($event)) {
             $event->removeVarsportsMember($this);
         }
+
+        return $this;
+    }
+
+    public function isVarsportsMember(): ?bool
+    {
+        return $this->isVarsportsMember;
+    }
+
+    public function setIsVarsportsMember(bool $isVarsportsMember): static
+    {
+        $this->isVarsportsMember = $isVarsportsMember;
 
         return $this;
     }
