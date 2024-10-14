@@ -32,7 +32,7 @@ security:
             # switch_user: true
     role_hierarchy:
         ROLE_ADMIN_CLUB:    [ROLE_MEMBER_CLUB]
-        ROLE_ADMIN:         [ROLE_ADMIN_CLUB]
+        ROLE_ADMIN:         [ROLE_ADMIN_CLUB, ROLE_MEMBER_VARSPORTS]
 
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used

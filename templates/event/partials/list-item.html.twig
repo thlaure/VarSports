@@ -19,11 +19,28 @@
             <h3 id="event-{{ event.id }}-title" class="h5 card-title">
                 <a href="{{ path('app_event_show', {'slug': event.slug}) }}" class="stretched-link text-decoration-none text-black">{{ event.title }}</a>
             </h3>
-            <p class="card-text mb-0 text-body-secondary">{{ event.startDate|date('d/m/Y à H:i') }} - {{ event.endDate|date('d/m/Y à H:i') }}</p>
-            <p class="card-text mb-0 text-body-secondary">Lieu : {{ event.place ? event.place : 'Non précisé' }}</p>
-            <p class="card-text mb-0 text-body-secondary">Ville : {{ event.city and event.city.name ? event.city.name : 'Non précisée' }} {{ event.city and event.city.postalCode ? '(' ~ event.postalCode ~ ')' : '' }}</p>
-            <p class="card-text mb-3 text-body-secondary">Club : {{ event.club ? event.club.name : 'Non précisé' }}</p>
+            <div class="row">
+                <div class="col-md-6 mb-4">
+                    <p class="card-text mb-0 text-body-secondary">{{ event.startDate|date('d/m/Y à H:i') }} - {{ event.endDate|date('d/m/Y à H:i') }}</p>
+                    <p class="card-text mb-0 text-body-secondary">Lieu : {{ event.place ? event.place : 'Non précisé' }}</p>
+                    <p class="card-text mb-0 text-body-secondary">Ville : {{ event.city and event.city.name ? event.city.name : 'Non précisée' }} {{ event.city and event.city.postalCode ? '(' ~ event.postalCode ~ ')' : '' }}</p>
+                    <p class="card-text mb-3 text-body-secondary">Club : {{ event.club ? event.club.name : 'Non précisé' }}</p>
+                </div>
+
+                {% if is_granted('ROLE_MEMBER_VARSPORTS') %}
+                    <div class="col-md-6">
+                        <p class="card-text mb-0 text-body-secondary">Personnes présentes :</p>
+                        <ul class="list-unstyled text-body-secondary">
+                            {% for varsportsMember in event.varsportsMembers %}
+                                <li>{{ varsportsMember.name }} {{ varsportsMember.firstname }}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                {% endif %}
+            </div>
+
             <p class="card-text mt-0">{{ event.text|striptags|slice(0, 100) }}...</p>
+            
             <div class="d-md-flex justify-content-md-end">
                 <a href="{{ path('app_event_show', {'slug': event.slug}) }}" class="btn btn-varsports stretched-link">Voir plus</a>
             </div>

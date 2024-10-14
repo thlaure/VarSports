@@ -65,8 +65,8 @@ class UserCreateType extends AbstractType
                 'multiple' => false,
                 'expanded' => false,
                 'choices' => [
-                    'Membre' => 'ROLE_MEMBER_CLUB',
-                    'Admin' => 'ROLE_ADMIN_CLUB',
+                    'Membre du club' => 'ROLE_MEMBER_CLUB',
+                    'Admin du club' => 'ROLE_ADMIN_CLUB',
                 ],
             ])
             ->add('plainPassword', RepeatedType::class, [

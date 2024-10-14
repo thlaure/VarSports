@@ -4,6 +4,8 @@ namespace App\Entity;
 
 use App\Constant\Constraint;
 use App\Repository\EventRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -70,9 +72,16 @@ class Event
     #[ORM\ManyToOne]
     private ?City $city = null;
 
+    /**
+     * @var Collection<int, User>
+     */
+    #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'events')]
+    private Collection $varsportsMembers;
+
     public function __construct()
     {
         $this->isValidated = false;
+        $this->varsportsMembers = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -232,6 +241,30 @@ class Event
     public function setCity(?City $city): static
     {
         $this->city = $city;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, User>
+     */
+    public function getVarsportsMembers(): Collection
+    {
+        return $this->varsportsMembers;
+    }
+
+    public function addVarsportsMember(User $varsportsMember): static
+    {
+        if (!$this->varsportsMembers->contains($varsportsMember)) {
+            $this->varsportsMembers->add($varsportsMember);
+        }
+
+        return $this;
+    }
+
+    public function removeVarsportsMember(User $varsportsMember): static
+    {
+        $this->varsportsMembers->removeElement($varsportsMember);
 
         return $this;
     }

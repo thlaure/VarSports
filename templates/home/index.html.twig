@@ -5,6 +5,7 @@
 {% block stylesheets %}
 {{ parent() }}
 <link rel="stylesheet" href="{{ asset('css/home.css') }}">
+<link rel="stylesheet" href="{{ asset('css/event-list.css') }}">
 {% endblock %}
 
 {% block body %}
@@ -30,6 +31,19 @@
     </div>
 </article>
 
+<article class="my-5 container" aria-labelledby="latest-events-title">
+    <h2 id="latest-events-title">Nos derniers évènements</h2>
+    <div class="row justify-content-center">
+        {% for event in latest_events %}
+            {% include 'event/partials/list-item.html.twig' with { event: event } %}
+        {% endfor %}
+    </div>
+    <div class="text-center">
+        <a href="{{ path('app_event_list') }}" class="btn btn-lg btn-varsports" aria-label="Voir tous les évènements à venir sur VarSports">Voir tous</a>
+    </div>
+</article>
+
+{% if latest_articles|length %}
 <article class="my-5 container" aria-labelledby="latest-articles-title">
     <h2 id="latest-articles-title">Nos derniers articles publiés</h2>
     <div class="row justify-content-center">
@@ -41,16 +55,5 @@
         <a href="{{ path('app_article_list') }}" class="btn btn-lg btn-varsports" aria-label="Voir tous les articles publiés sur VarSports">Voir tous</a>
     </div>
 </article>
-
-<article class="my-5 container" aria-labelledby="latest-events-title">
-    <h2 id="latest-events-title">Nos derniers évènements</h2>
-    <div class="row justify-content-center">
-        {% for event in latest_events %}
-            {% include 'event/partials/event-item.html.twig' with { event: event } %}
-        {% endfor %}
-    </div>
-    <div class="text-center">
-        <a href="{{ path('app_event_list') }}" class="btn btn-lg btn-varsports" aria-label="Voir tous les évènements à venir sur VarSports">Voir tous</a>
-    </div>
-</article>
+{% endif %}
 {% endblock %}
