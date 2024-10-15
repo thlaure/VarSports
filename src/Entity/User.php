@@ -93,6 +93,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         $this->registrationDate = new \DateTime();
         $this->events = new ArrayCollection();
+        $this->isVarsportsMember = false;
     }
 
     public function getId(): ?int
