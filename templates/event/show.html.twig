@@ -7,6 +7,11 @@
 <link rel="stylesheet" href="{{ asset('css/event-show.css') }}">
 {% endblock %}
 
+{% block javascripts %}
+{{ parent() }}
+<script src="{{ asset('js/select2.js') }}" defer></script>
+{% endblock %}
+
 {% block body %}
 <div class="container-fluid mt-2 mb-5">
     {% include 'partials/flash.html.twig' %}
@@ -31,6 +36,23 @@
 
             <p id="event-description">{{ event.text|raw|nl2br }}</p>
         </section>
+
+        {% if is_granted('ROLE_MEMBER_VARSPORTS') %}
+        <section class="mt-4">
+            <h2>Membres VarSports</h2>
+            <ul class="text-body-secondary">
+                {% for varsportsMember in event.varsportsMembers %}
+                    <li>{{ varsportsMember.name }} {{ varsportsMember.firstname }}</li>
+                {% endfor %}
+            </ul>
+            <div>
+                {{ form_start(form, {'attr': {'aria-label': 'Ajouter/Supprimer des membres VarSports'}}) }}
+                    {{ form_row(form.varsportsMembers, {'attr': {'aria-label': 'Ajouter/Supprimer des membres VarSports', 'class': 'select2-autocomplete'}}) }}
+                    {{ form_row(form.submit, {'attr': {'aria-label': 'Soumettre', 'class': 'btn btn-primary'}}) }}
+                {{ form_end(form) }}
+            </div>
+        </section>
+        {% endif %}
 
         {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_ADMIN_CLUB') and app.user.club is not null and event.club is not null and app.user.club.id == event.club.id %}
             <section class="mt-5">
