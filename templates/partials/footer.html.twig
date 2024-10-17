@@ -18,10 +18,10 @@
 
             <div class="col-md-3">
                 <h2 class="h5">Liens utiles</h2>
-                <p><a href="{{ path('app_legals_mentions') }}" class="text-white">Mentions légales</a></p>
-                <p><a href="{{ path('app_legals_privacy_policy') }}" class="text-white">Politique de confidentialité</a></p>
-                <p><a href="{{ path('app_legals_conditions_use') }}" class="text-white">CGU</a></p>
-                <p><a href="{{ path('app_legals_conditions_sales') }}" class="text-white">CGV</a></p>
+                <p><a href="{{ path('app_legals_show', {'slug': 'mentions-legales'}) }}" class="text-white">Mentions légales</a></p>
+                <p><a href="{{ path('app_legals_show', {'slug': 'confidentialite'}) }}" class="text-white">Politique de confidentialité</a></p>
+                <p><a href="{{ path('app_legals_show', {'slug': 'cgu'}) }}" class="text-white">CGU</a></p>
+                <p><a href="{{ path('app_legals_show', {'slug': 'cgv'}) }}" class="text-white">CGV</a></p>
             </div>
 
             <div class="col-md-3">
