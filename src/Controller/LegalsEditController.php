@@ -11,6 +11,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 class LegalsEditController extends AbstractController
@@ -23,6 +24,7 @@ class LegalsEditController extends AbstractController
     }
 
     #[Route('/legals/{id}/edit', name: 'app_legals_edit')]
+    #[IsGranted('ROLE_ADMIN')]
     public function edit(Legals $legals, Request $request): Response
     {
         $form = $this->createForm(LegalsType::class, $legals);
