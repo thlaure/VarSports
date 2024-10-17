@@ -11,16 +11,7 @@
 
 {% block javascripts %}
 {{ parent() }}
-<script type="importmap">
-    {
-        "imports": {
-            "ckeditor5": "https://cdn.ckeditor.com/ckeditor5/42.0.2/ckeditor5.js",
-            "ckeditor5/": "https://cdn.ckeditor.com/ckeditor5/42.0.2/"
-        }
-    }
-</script>
-
-<script type="module" src="{{ asset('js/ckeditor-config.js') }}" defer></script>
+{% include 'partials/js-ckeditor.html.twig' %}
 {% endblock %}
 
 {% block title %} | Admin - {{ title }}{% endblock %}
