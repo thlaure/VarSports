@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block robots %}
+<meta name="robots" content="noindex, nofollow">
+{% endblock %}
+
+{% block stylesheets %}
+{{ parent() }}
+<link rel="stylesheet" href="https://cdn.ckeditor.com/ckeditor5/42.0.2/ckeditor5.css">
+{% endblock %}
+
+{% block javascripts %}
+{{ parent() }}
+{% include 'partials/js-ckeditor.html.twig' %}
+{% endblock %}
+
+{% block title %} | Admin - {{ title }}{% endblock %}
+
+{% block body %}
+<div class="container my-5">
+    <section>
+        <h1 class="h3 mb-3 font-weight-normal">{{ title }}</h1>
+
+        {% include 'partials/flash.html.twig' %}
+
+        {{ form_start(form, {'attr': {'aria-labelledby': 'form-title'}}) }}
+            <fieldset>
+                <legend id="form-title" class="visually-hidden">Form for {{ title }}</legend>
+                
+                {{ form_row(form.title, {'label_attr': {'aria-label': 'Titre'}}) }}
+                {{ form_row(form.text, {'label_attr': {'aria-label': 'Texte'}}) }}
+                {{ form_row(form.slug, {'label_attr': {'aria-label': 'Slug'}}) }}
+
+                {{ form_row(form.submit, {'attr': {'aria-label': 'Soumettre'}}) }}
+            </fieldset>
+        {{ form_end(form) }}
+    </section>
+</div>
+{% endblock %}

@@ -9,5 +9,10 @@
     <article>
         {{ legals.text|raw }}
     </article>
+
+    
+    {% if is_granted('ROLE_ADMIN') %}
+        <a class="btn btn-primary" href="{{ path('app_legals_edit', {'id': legals.id}) }}" rel="nofollow" role="button" aria-label="Modifier {{ legals.title }}">Modifier</a>
+    {% endif %}
 </section>
 {% endblock %}
