@@ -2,9 +2,9 @@ COMPOSE=docker compose
 CONTAINER_NAME=php
 PHP_CONT=$(COMPOSE) exec $(CONTAINER_NAME)
 
-PHP = $(PHP_CONT) php
-COMPOSER = $(PHP_CONT) composer
-SYMFONY = $(PHP) bin/console
+PHP=$(PHP_CONT) php
+COMPOSER=$(PHP_CONT) composer
+SYMFONY=$(PHP) bin/console
 
 build:
 	$(COMPOSE) build
@@ -25,6 +25,9 @@ csfixer:
 	$(PHP_CONT) vendor/bin/php-cs-fixer fix
 
 unit:
+	$(SYMFONY) doctrine:database:drop --env=test --force
+	$(SYMFONY) doctrine:database:create --env=test
+	$(SYMFONY) d:m:m --no-interaction --env=test
 	$(PHP_CONT) vendor/bin/phpunit
 
 sf:
