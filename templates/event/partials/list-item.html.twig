@@ -1,4 +1,4 @@
-<div class="card card-event rounded-1 mb-4 p-0" role="region" aria-labelledby="event-{{ event.id }}-title">
+<div class="card card-event d-flex flex-column justify-content-between rounded-1 mb-4 p-0 {{ event.endDate > 'now'|date('Y-m-d H:i') ? 'opacity-50' : '' }}" role="region" aria-labelledby="event-{{ event.id }}-title">
     <div class="row g-0">
         <div class="position-relative col-md-3">
             <picture>
@@ -39,10 +39,14 @@
                 {% endif %}
             </div>
 
-            <p class="card-text mt-0">{{ event.text|striptags|slice(0, 100) }}...</p>
-            
-            <div class="d-md-flex justify-content-md-end">
-                <a href="{{ path('app_event_show', {'slug': event.slug}) }}" class="btn btn-varsports stretched-link">Voir plus</a>
+            <div class="row">
+                <div class="col-md-9">
+                    <p class="card-text mt-0">{{ event.text|striptags|slice(0, 100) }}...</p>
+                </div>
+
+                <div class="col-md-3 d-flex justify-content-end mt-lg-3">
+                    <a href="{{ path('app_event_show', {'slug': event.slug}) }}" class="btn btn-varsports stretched-link">Voir plus</a>
+                </div>
             </div>
         </div>
     </div>

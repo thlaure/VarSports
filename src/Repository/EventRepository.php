@@ -29,8 +29,6 @@ class EventRepository extends ServiceEntityRepository
         $qb = $this->createQueryBuilder('event')
             ->andWhere('event.title LIKE :value')
             ->andWhere('event.isValidated = true')
-            ->andWhere('event.startDate >= :today')
-            ->setParameter('today', new \DateTime())
             ->setParameter('value', '%'.$term.'%');
 
         if (count($clubs) > 0) {
