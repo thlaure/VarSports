@@ -37,3 +37,13 @@ sf:
 composer: ## Run composer, pass the parameter "c=" to run a given command, example: make composer c='req symfony/orm-pack'
 	@$(eval c ?=)
 	@$(COMPOSER) $(c)
+
+entity:
+	@$(eval c ?=)
+	@$(SYMFONY) make:entity $(c)
+
+migration:
+	$(SYMFONY) make:migration
+
+dmm:
+	$(SYMFONY) d:m:m --no-interaction
