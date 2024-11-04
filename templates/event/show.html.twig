@@ -32,7 +32,30 @@
 
             <p class="card-text mb-0 text-body-secondary">Adresse : {{ event.place ? event.place : 'Non précisée' }}</p>
             <p class="card-text mb-0 text-body-secondary">Ville : {{ event.city and event.city.name ? event.city.name : 'Non précisée' }} {{ event.city and event.city.postalCode ? '(' ~ event.postalCode ~ ')' : '' }}</p>
-            <p class="card-text mb-3 text-body-secondary">Club : {{ event.club ? event.club.name : 'Non précisé' }}</p>
+            <p class="card-text mb-0 text-body-secondary">Club : {{ event.club ? event.club.name : 'Non précisé' }}</p>
+            <p class="card-text mb-0 text-body-secondary">E-mail du contact : {{ event.email ? event.email : 'Non précisé' }}</p>
+            <p class="card-text mb-0 text-body-secondary">Téléphone du contact : {{ event.phone ? event.phone : 'Non précisé' }}</p>
+            <p class="card-text mb-0 text-body-secondary">Site : 
+                {% if event.website is not empty %}
+                    <a href="{{ event.website }}">{{ event.website }}</a>
+                {% else %}
+                    Non précisé
+                {% endif %}
+            </p>
+            <p class="card-text mb-0 text-body-secondary">Lien Facebook :
+                {% if event.facebookLink is not empty %}
+                    <a href="{{ event.facebookLink }}">{{ event.facebookLink }}</a>
+                {% else %}
+                    Non précisé
+                {% endif %}
+            </p>
+            <p class="card-text mb-3 text-body-secondary">Lien Instagram :
+                {% if event.instagramLink is not empty %}
+                    <a href="{{ event.instagramLink }}">{{ event.instagramLink }}</a>
+                {% else %}
+                    Non précisé
+                {% endif %}
+            </p>
 
             <p id="event-description">{{ event.text|raw|nl2br }}</p>
         </section>

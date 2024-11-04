@@ -6,10 +6,13 @@ use App\Constant\Constraint;
 use App\Entity\Event;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TelType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\UrlType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\File;
@@ -65,6 +68,26 @@ class EventType extends AbstractType
             ->add('city', CityType::class, [
                 'city_name' => $cityName,
                 'city_postal_code' => $postalCode,
+                'required' => false,
+            ])
+            ->add('email', EmailType::class, [
+                'label' => 'E-mail du contact',
+                'required' => false,
+            ])
+            ->add('phone', TelType::class, [
+                'label' => 'Téléphone du contact',
+                'required' => false,
+            ])
+            ->add('website', UrlType::class, [
+                'label' => 'Site de l\'évènement',
+                'required' => false,
+            ])
+            ->add('facebookLink', UrlType::class, [
+                'label' => 'Lien Facebook',
+                'required' => false,
+            ])
+            ->add('instagramLink', UrlType::class, [
+                'label' => 'Lien Instagram',
                 'required' => false,
             ])
             ->add('submit', SubmitType::class, [

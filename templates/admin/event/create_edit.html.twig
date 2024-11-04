@@ -40,6 +40,27 @@
                 </div>
                 {{ form_row(form.image, {'label_attr': {'aria-label': 'Image'}}) }}
 
+                <div class="row">
+                    <div class="col-md-4">
+                        {{ form_row(form.email, {'label_attr': {'aria-label': 'E-mail du contact'}}) }}
+                    </div>
+                    <div class="col-md-4">
+                        {{ form_row(form.phone, {'label_attr': {'aria-label': 'Téléphone du contact'}}) }}
+                    </div>
+                    <div class="col-md-4">
+                        {{ form_row(form.website, {'label_attr': {'aria-label': 'Site de l\évènement'}}) }}
+                    </div>
+                </div>
+                
+                <div class="row">
+                    <div class="col-md-6">
+                        {{ form_row(form.facebookLink, {'label_attr': {'aria-label': 'Lien Facebook'}}) }}
+                    </div>
+                    <div class="col-md-6">
+                        {{ form_row(form.instagramLink, {'label_attr': {'aria-label': 'Lien Instagram'}}) }}
+                    </div>
+                </div>
+
                 {{ form_row(form.submit, {'attr': {'aria-label': 'Soumettre le formulaire'}}) }}
             </fieldset>
         {{ form_end(form) }}

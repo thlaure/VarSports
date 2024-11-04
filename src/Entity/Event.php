@@ -78,6 +78,30 @@ class Event
     #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'events')]
     private Collection $varsportsMembers;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $website = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    #[Assert\Length(max: 180)]
+    #[Assert\Email()]
+    private ?string $email = null;
+
+    #[ORM\Column(length: 20, nullable: true)]
+    #[Assert\Length(min: 10, max: 20)]
+    private ?string $phone = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    #[Assert\Length(max: 255)]
+    #[Assert\Regex(pattern: Constraint::REGEX_LINK)]
+    #[Assert\Url()]
+    private ?string $facebookLink = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    #[Assert\Length(max: 255)]
+    #[Assert\Regex(pattern: Constraint::REGEX_LINK)]
+    #[Assert\Url()]
+    private ?string $instagramLink = null;
+
     public function __construct()
     {
         $this->isValidated = false;
@@ -265,6 +289,66 @@ class Event
     public function removeVarsportsMember(User $varsportsMember): static
     {
         $this->varsportsMembers->removeElement($varsportsMember);
+
+        return $this;
+    }
+
+    public function getWebsite(): ?string
+    {
+        return $this->website;
+    }
+
+    public function setWebsite(?string $website): static
+    {
+        $this->website = $website;
+
+        return $this;
+    }
+
+    public function getEmail(): ?string
+    {
+        return $this->email;
+    }
+
+    public function setEmail(?string $email): static
+    {
+        $this->email = $email;
+
+        return $this;
+    }
+
+    public function getPhone(): ?string
+    {
+        return $this->phone;
+    }
+
+    public function setPhone(?string $phone): static
+    {
+        $this->phone = $phone;
+
+        return $this;
+    }
+
+    public function getFacebookLink(): ?string
+    {
+        return $this->facebookLink;
+    }
+
+    public function setFacebookLink(?string $facebookLink): static
+    {
+        $this->facebookLink = $facebookLink;
+
+        return $this;
+    }
+
+    public function getInstagramLink(): ?string
+    {
+        return $this->instagramLink;
+    }
+
+    public function setInstagramLink(?string $instagramLink): static
+    {
+        $this->instagramLink = $instagramLink;
 
         return $this;
     }
