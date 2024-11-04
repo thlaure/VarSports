@@ -42,7 +42,7 @@ class EventType extends AbstractType
                 ],
             ])
             ->add('place', TextType::class, [
-                'label' => 'Lieu',
+                'label' => 'Adresse',
                 'required' => false,
             ])
             ->add('image', FileType::class, [
