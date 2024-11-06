@@ -3,7 +3,6 @@
 namespace App\Controller;
 
 use App\Repository\ArticleRepository;
-use App\Repository\ClubRepository;
 use App\Repository\EventRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -14,7 +13,6 @@ class HomeController extends AbstractController
     public function __construct(
         private ArticleRepository $articleRepository,
         private EventRepository $eventRepository,
-        private ClubRepository $clubRepository,
     ) {
     }
 
@@ -22,7 +20,6 @@ class HomeController extends AbstractController
     public function index(): Response
     {
         return $this->render('home/index.html.twig', [
-            'latest_clubs' => $this->clubRepository->findBy(['isValidated' => true], ['creationDate' => 'DESC'], 6),
             'latest_articles' => $this->articleRepository->findBy([], ['creationDate' => 'DESC'], 6),
             'latest_events' => $this->eventRepository->findBy(['isValidated' => true], ['startDate' => 'DESC'], 6),
         ]);

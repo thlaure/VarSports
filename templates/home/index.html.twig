@@ -19,18 +19,6 @@
     </div>
 </div>
 
-<article class="my-5 container" aria-labelledby="latest-clubs-title">
-    <h2 id="latest-clubs-title">Nos derniers clubs inscrits</h2>
-    <div class="row justify-content-center">
-        {% for club in latest_clubs %}
-            {% include 'club/partials/list-item.html.twig' with { club: club } %}
-        {% endfor %}
-    </div>
-    <div class="text-center">
-        <a href="{{ path('app_club_list') }}" class="btn btn-lg btn-varsports" aria-label="Voir tous les clubs disponibles sur VarSports">Voir tous</a>
-    </div>
-</article>
-
 <article class="my-5 container" aria-labelledby="latest-events-title">
     <h2 id="latest-events-title">Nos évènements</h2>
     <div class="row justify-content-center">
