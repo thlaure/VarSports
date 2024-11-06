@@ -1,4 +1,4 @@
-<div class="card card-event d-flex flex-column justify-content-between rounded-1 mb-4 p-0 {{ event.endDate > 'now'|date('Y-m-d H:i') ? 'opacity-50' : '' }}" role="region" aria-labelledby="event-{{ event.id }}-title">
+<div class="card card-event d-flex flex-column justify-content-between rounded-1 mb-4 p-0 {{ event.endDate < date() ? 'opacity-50' : '' }}" role="region" aria-labelledby="event-{{ event.id }}-title">
     <div class="row g-0">
         <div class="position-relative col-md-3">
             <picture>

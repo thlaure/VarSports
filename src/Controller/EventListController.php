@@ -30,7 +30,7 @@ class EventListController extends AbstractController
         $searchParams = $request->query->all();
 
         if (empty($searchParams)) {
-            $events = $this->eventRepository->findBy(['isValidated' => true], ['title' => 'ASC', 'startDate' => 'DESC'], $this->nbPerPage, ($page - 1) * $this->nbPerPage);
+            $events = $this->eventRepository->findBy(['isValidated' => true], ['startDate' => 'DESC', 'endDate' => 'DESC'], $this->nbPerPage, ($page - 1) * $this->nbPerPage);
             $nbResults = $this->eventRepository->count(['isValidated' => true]);
         } else {
             $term = isset($searchParams['term']) && is_string($searchParams['term']) && '' !== trim($searchParams['term']) ? trim($searchParams['term']) : '';
@@ -50,7 +50,7 @@ class EventListController extends AbstractController
                 $selectedCities[] = $city;
             }
 
-            $allFilteredEvents = $this->eventRepository->searchEvent($term, $selectedClubs, $selectedCities, ['title' => 'ASC', 'startDate' => 'DESC']);
+            $allFilteredEvents = $this->eventRepository->searchEvent($term, $selectedClubs, $selectedCities, ['startDate' => 'ASC', 'endDate' => 'ASC']);
             $events = array_slice($allFilteredEvents, ($page - 1) * $this->nbPerPage, $this->nbPerPage);
             $nbResults = count($allFilteredEvents);
         }
