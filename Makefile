@@ -42,6 +42,10 @@ entity:
 	@$(eval c ?=)
 	@$(SYMFONY) make:entity $(c)
 
+controller:
+	@$(eval c ?=)
+	@$(SYMFONY) make:controller $(c)
+
 migration:
 	$(SYMFONY) make:migration
 
