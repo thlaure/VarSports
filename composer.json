@@ -41,7 +41,7 @@
         "symfony/string": "6.4.*",
         "symfony/translation": "6.4.*",
         "symfony/twig-bundle": "6.4.*",
-        "symfony/ux-turbo": "^2.18",
+        "symfony/ux-turbo": "^2.21",
         "symfony/validator": "6.4.*",
         "symfony/web-link": "6.4.*",
         "symfony/yaml": "6.4.*",
@@ -51,7 +51,7 @@
         "twig/extra-bundle": "^2.12|^3.0",
         "twig/inky-extra": "^3.10",
         "twig/markdown-extra": "^3.10",
-        "twig/twig": "^2.12|^3.0"
+        "twig/twig": "^3.14"
     },
     "config": {
         "allow-plugins": {
