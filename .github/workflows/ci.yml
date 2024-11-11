@@ -76,7 +76,7 @@ jobs:
         run: docker compose exec -T php vendor/bin/phpstan analyse src --level=9 --memory-limit=256M
       -
         name: Twig linter
-        run: docker compose exec -T php bin/console lint:twig
+        run: docker compose exec -T php bin/console lint:twig templates/
       -
         name: YAML linter
         run: docker compose exec -T php bin/console lint:yaml . --exclude=./vendor/phpro/grumphp/resources/config/runner.yml
