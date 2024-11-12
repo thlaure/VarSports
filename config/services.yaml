@@ -67,3 +67,8 @@ services:
         arguments:
             $appId: '%env(FACEBOOK_APP_ID)%'
             $appSecret: '%env(FACEBOOK_APP_SECRET)%'
+
+    App\Service\FacebookPostsRetriever:
+        arguments:
+            $pageId: '%env(FACEBOOK_PAGE_ID)%'
+            $accessToken: '%env(FACEBOOK_ACCESS_TOKEN)%'
