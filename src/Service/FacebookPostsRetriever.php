@@ -25,6 +25,7 @@ class FacebookPostsRetriever
             $response = $this->httpClient->request(Request::METHOD_GET, "https://graph.facebook.com/v21.0/$this->pageId/feed", [
                 'query' => [
                     'access_token' => $this->accessToken,
+                    'fields' => 'full_picture,message,created_time,id,permalink_url',
                 ],
             ]);
 
