@@ -51,6 +51,9 @@ class Article
     #[Assert\Type(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $lastUpdate = null;
 
+    #[ORM\ManyToOne(inversedBy: 'articles')]
+    private ?HomeCategory $homeCategory = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -148,6 +151,18 @@ class Article
     public function setLastUpdate(?\DateTimeInterface $lastUpdate): static
     {
         $this->lastUpdate = $lastUpdate;
+
+        return $this;
+    }
+
+    public function getHomeCategory(): ?HomeCategory
+    {
+        return $this->homeCategory;
+    }
+
+    public function setHomeCategory(?HomeCategory $homeCategory): static
+    {
+        $this->homeCategory = $homeCategory;
 
         return $this;
     }
