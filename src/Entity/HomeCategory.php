@@ -2,10 +2,13 @@
 
 namespace App\Entity;
 
+use App\Constant\Constraint;
+use App\Entity\Article;
 use App\Repository\HomeCategoryRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: HomeCategoryRepository::class)]
 class HomeCategory
@@ -16,6 +19,9 @@ class HomeCategory
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank()]
+    #[Assert\Length(max: 255)]
+    #[Assert\Regex(pattern: Constraint::REGEX_COMMON)]
     private ?string $label = null;
 
     /**
