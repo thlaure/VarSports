@@ -9,7 +9,7 @@ grumphp:
             configuration: ~
             level: 9
             force_patterns: []
-            ignore_patterns: ['tests', 'vendor']
+            ignore_patterns: ['tests', 'vendor', 'deploy.php']
             triggered_by: ['php']
             memory_limit: "256M"
             use_grumphp_paths: true
