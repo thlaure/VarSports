@@ -22,6 +22,24 @@
 </article>
 {% endif %}
 
+{% if articles_to_note|length %}
+<article class="my-5 container" aria-labelledby="articles-to-note">
+    <h2 class="text-varsports h3" id="articles-to-note">À noter</h2>
+</article>
+{% endif %}
+
+{% if articles_social|length %}
+<article class="my-5 container" aria-labelledby="articles-social">
+    <h2 class="text-varsports h3" id="articles-social">L'info des réseaux</h2>
+</article>
+{% endif %}
+
+{% if articles_spotlight|length %}
+<article class="my-5 container" aria-labelledby="articles-spotlight">
+    <h2 class="text-varsports h3" id="articles-spotlight">À la une</h2>
+</article>
+{% endif %}
+
 {% if profile %}
 <article class="my-5 container" aria-labelledby="profile">
     <h2 class="text-varsports h3" id="profile">Le portrait</h2>
