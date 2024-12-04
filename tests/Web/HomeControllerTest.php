@@ -12,6 +12,6 @@ class HomeControllerTest extends WebTestCase
         $crawler = $client->request('GET', '/');
 
         $this->assertResponseIsSuccessful();
-        $this->assertSelectorTextContains('h1', 'VarSports met en avant votre club');
+        $this->assertSelectorTextContains('h2', 'À propos de VarSports');
     }
 }

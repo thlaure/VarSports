@@ -5,22 +5,9 @@
 {% block stylesheets %}
 {{ parent() }}
 <link rel="stylesheet" href="{{ asset('css/home.css') }}">
-<link rel="stylesheet" href="{{ asset('css/event-list.css') }}">
 {% endblock %}
 
 {% block body %}
-<article class="my-5 container" aria-labelledby="latest-events-title">
-    <h2 id="latest-events-title">Nos évènements</h2>
-    <div class="row justify-content-center">
-        {% for event in latest_events %}
-            {% include 'event/partials/list-item.html.twig' with { event: event } %}
-        {% endfor %}
-    </div>
-    <div class="text-center">
-        <a href="{{ path('app_event_list') }}" class="btn btn-lg btn-varsports" aria-label="Voir tous les évènements à venir sur VarSports">Voir tous</a>
-    </div>
-</article>
-
 {% if latest_articles|length %}
 <article class="my-5 container" aria-labelledby="latest-articles-title">
     <h2 id="latest-articles-title">Nos derniers articles publiés</h2>
@@ -31,6 +18,26 @@
     </div>
     <div class="text-center">
         <a href="{{ path('app_article_list') }}" class="btn btn-lg btn-varsports" aria-label="Voir tous les articles publiés sur VarSports">Voir tous</a>
+    </div>
+</article>
+{% endif %}
+
+{% if profile %}
+<article class="my-5 container" aria-labelledby="profile">
+    <h2 class="text-varsports h3" id="profile">Le portrait</h2>
+    <div class="row">
+        <div class="col-md-6 mb-3">
+            <picture>
+                <source srcset="{{ (asset('images/uploads/article/') ~ (profile.image ? profile.id ~ '/' ~ profile.image : 'default_cover.webp'))  | imagine_filter('cover_article_event_show_webp') }}" type="image/webp">
+                <source srcset="{{ (asset('images/uploads/article/') ~ (profile.image ? profile.id ~ '/' ~ profile.image : 'default_cover.webp'))  | imagine_filter('cover_article_event_show_jpg') }}" type="image/jpeg">
+                <img src="{{ asset('images/uploads/article/') ~ (profile.image ? profile.id ~ '/' ~ profile.image : 'default_cover.webp') }}" alt="Couverture de l'article {{ profile.title }}" class="img-fluid object-fit-cover w-100 rounded article-cover" loading="lazy" width="1000" height="500">
+            </picture>
+        </div>
+        <div class="col-md-6">
+            <h3 class="h4 text-varsports" id="article-{{ profile.id }}-title">{{ profile.title }}</h3>
+            <p>{{ profile.text|raw|nl2br }}</p>
+            <a href="{{ path('app_article_show', {'slug': profile.slug}) }}" class="btn btn-varsports" aria-label="Lire l'article">Lire l'article</a>
+        </div>
     </div>
 </article>
 {% endif %}
