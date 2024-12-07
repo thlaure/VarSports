@@ -25,6 +25,9 @@
 {% if articles_to_note|length %}
 <article class="my-5 container" aria-labelledby="articles-to-note">
     <h2 class="text-varsports h3" id="articles-to-note">À noter</h2>
+    {% for article in articles_to_note %}
+        {% include 'home/partials/list-item-article-to-note.html.twig' with { article: article } %}
+    {% endfor %}
 </article>
 {% endif %}
 
@@ -43,20 +46,7 @@
 {% if profile %}
 <article class="my-5 container" aria-labelledby="profile">
     <h2 class="text-varsports h3" id="profile">Le portrait</h2>
-    <div class="row">
-        <div class="col-md-6 mb-3">
-            <picture>
-                <source srcset="{{ (asset('images/uploads/article/') ~ (profile.image ? profile.id ~ '/' ~ profile.image : 'default_cover.webp'))  | imagine_filter('cover_article_event_show_webp') }}" type="image/webp">
-                <source srcset="{{ (asset('images/uploads/article/') ~ (profile.image ? profile.id ~ '/' ~ profile.image : 'default_cover.webp'))  | imagine_filter('cover_article_event_show_jpg') }}" type="image/jpeg">
-                <img src="{{ asset('images/uploads/article/') ~ (profile.image ? profile.id ~ '/' ~ profile.image : 'default_cover.webp') }}" alt="Couverture de l'article {{ profile.title }}" class="img-fluid object-fit-cover w-100 rounded article-cover" loading="lazy" width="1000" height="500">
-            </picture>
-        </div>
-        <div class="col-md-6">
-            <h3 class="h4 text-varsports" id="article-{{ profile.id }}-title">{{ profile.title }}</h3>
-            <p>{{ profile.text|raw|nl2br }}</p>
-            <a href="{{ path('app_article_show', {'slug': profile.slug}) }}" class="btn btn-varsports" aria-label="Lire l'article">Lire l'article</a>
-        </div>
-    </div>
+    {% include 'home/partials/list-item-profile.html.twig' with { article: profile } %}
 </article>
 {% endif %}
 
