@@ -25,9 +25,25 @@
 {% if articles_to_note|length %}
 <article class="my-5 container" aria-labelledby="articles-to-note">
     <h2 class="text-varsports h3" id="articles-to-note">À noter</h2>
-    {% for article in articles_to_note %}
-        {% include 'home/partials/list-item-article-to-note.html.twig' with { article: article } %}
-    {% endfor %}
+
+    <div id="carouselArticlesToNote" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-inner d-flex align-items-center">
+            {% for article in articles_to_note %}
+                <div class="carousel-item {% if loop.first %}active{% endif %}">
+                    {% include 'home/partials/list-item-article-to-note.html.twig' with { article: article } %}
+                </div>
+            {% endfor %}
+        </div>
+
+        <button class="carousel-control-prev position-absolute w-auto top-50" type="button" data-bs-target="#carouselArticlesToNote" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon bg-varsports" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next position-absolute w-auto top-50" type="button" data-bs-target="#carouselArticlesToNote" data-bs-slide="next">
+            <span class="carousel-control-next-icon bg-varsports" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
+    </div>
 </article>
 {% endif %}
 
