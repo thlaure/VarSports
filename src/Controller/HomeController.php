@@ -25,7 +25,6 @@ class HomeController extends AbstractController
         $socialCategory = $this->homeCategoryRepository->findOneBy(['label' => 'social']);
 
         return $this->render('home/index.html.twig', [
-            'latest_articles' => $this->articleRepository->findBy([], ['creationDate' => 'DESC'], 6),
             'profile' => $this->articleRepository->findOneBy(['homeCategory' => $profileCategory], ['creationDate' => 'DESC']),
             'articles_to_note' => $this->articleRepository->findBy(['homeCategory' => $toNoteCategory], ['creationDate' => 'DESC'], 5),
             'articles_spotlight' => $this->articleRepository->findBy(['homeCategory' => $spotlightCategory], ['creationDate' => 'DESC'], 10),

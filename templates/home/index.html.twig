@@ -8,20 +8,6 @@
 {% endblock %}
 
 {% block body %}
-{% if latest_articles|length %}
-<article class="my-5 container" aria-labelledby="latest-articles-title">
-    <h2 id="latest-articles-title">Nos derniers articles publiés</h2>
-    <div class="row justify-content-center">
-        {% for article in latest_articles %}
-            {% include 'article/partials/list-item.html.twig' with { article: article } %}
-        {% endfor %}
-    </div>
-    <div class="text-center">
-        <a href="{{ path('app_article_list') }}" class="btn btn-lg btn-varsports" aria-label="Voir tous les articles publiés sur VarSports">Voir tous</a>
-    </div>
-</article>
-{% endif %}
-
 {% if articles_to_note|length %}
 <article class="my-5 container" aria-labelledby="articles-to-note">
     <h2 class="text-varsports h3" id="articles-to-note">À noter</h2>
