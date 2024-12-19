@@ -42,6 +42,9 @@
 {% if articles_spotlight|length %}
 <article class="my-5 container" aria-labelledby="articles-spotlight">
     <h2 class="text-varsports h3" id="articles-spotlight">À la une</h2>
+    {% for article in articles_spotlight %}
+        {% include 'home/partials/list-item-article-spotlight.html.twig' with { article: article } %}
+    {% endfor %}
 </article>
 {% endif %}
 
