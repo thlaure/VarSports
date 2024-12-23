@@ -7,7 +7,7 @@ parameters:
     club_images_directory: '%kernel.project_dir%/public/images/uploads/club'
     article_images_directory: '%kernel.project_dir%/public/images/uploads/article'
     event_images_directory: '%kernel.project_dir%/public/images/uploads/event'
-    nb_per_page: 12
+    nb_per_page: '%env(NB_PER_PAGE)%'
     contact_mail_varsports: '%env(CONTACT_MAIL_VARSPORTS)%'
 
 services:

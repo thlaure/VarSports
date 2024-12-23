@@ -4,44 +4,91 @@
 
 {% block stylesheets %}
 {{ parent() }}
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
 <link rel="stylesheet" href="{{ asset('css/home.css') }}">
-<link rel="stylesheet" href="{{ asset('css/event-list.css') }}">
+{% endblock %}
+
+{% block javascripts %}
+{{ parent() }}
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+<script src="{{ asset('js/home.js') }}"></script>
 {% endblock %}
 
 {% block body %}
-<div class="container-fluid">
-    <div class="row d-flex flex-column justify-content-center background-cover">
-        <div class="offset-lg-2 col-lg-8 col-md-12 col-12 text-center">
-            <h1 class="display-4 mt-4 mb-3 fw-bold">VarSports met en avant votre club</h1>
-            <p class="lead px-lg-8 mb-6">À travers le 1er réseau sportif Varois</p>
-            <a class="btn btn-lg btn-varsports" href="{{ path('app_register') }}" aria-label="Ajouter votre club sur VarSports">Ajouter votre club</a>
+{% if articles_to_note|length %}
+<article class="my-5 container" aria-labelledby="articles-to-note">
+    <h2 class="text-varsports h3" id="articles-to-note">À noter</h2>
+
+    <div id="carouselArticlesToNote" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-inner d-flex align-items-center">
+            {% for article in articles_to_note %}
+                <div class="carousel-item {% if loop.first %}active{% endif %}">
+                    {% include 'home/partials/list-item-article-to-note.html.twig' with { article: article } %}
+                </div>
+            {% endfor %}
         </div>
-    </div>
-</div>
 
-<article class="my-5 container" aria-labelledby="latest-events-title">
-    <h2 id="latest-events-title">Nos évènements</h2>
-    <div class="row justify-content-center">
-        {% for event in latest_events %}
-            {% include 'event/partials/list-item.html.twig' with { event: event } %}
-        {% endfor %}
-    </div>
-    <div class="text-center">
-        <a href="{{ path('app_event_list') }}" class="btn btn-lg btn-varsports" aria-label="Voir tous les évènements à venir sur VarSports">Voir tous</a>
-    </div>
-</article>
-
-{% if latest_articles|length %}
-<article class="my-5 container" aria-labelledby="latest-articles-title">
-    <h2 id="latest-articles-title">Nos derniers articles publiés</h2>
-    <div class="row justify-content-center">
-        {% for article in latest_articles %}
-            {% include 'article/partials/list-item.html.twig' with { article: article } %}
-        {% endfor %}
-    </div>
-    <div class="text-center">
-        <a href="{{ path('app_article_list') }}" class="btn btn-lg btn-varsports" aria-label="Voir tous les articles publiés sur VarSports">Voir tous</a>
+        <button class="carousel-control-prev position-absolute w-auto top-50" type="button" data-bs-target="#carouselArticlesToNote" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon bg-varsports" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next position-absolute w-auto top-50" type="button" data-bs-target="#carouselArticlesToNote" data-bs-slide="next">
+            <span class="carousel-control-next-icon bg-varsports" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
     </div>
 </article>
 {% endif %}
+
+{% if articles_social|length %}
+<article class="my-5 container articles-social" aria-labelledby="articles-social">
+    <h2 class="text-varsports h3" id="articles-social">L'info des réseaux</h2>
+
+    <div class="swiper">
+        <div class="swiper-wrapper">
+            {% for article in articles_social %}
+                <div class="swiper-slide">
+                    {% include 'home/partials/list-item-article-social.html.twig' with { article: article } %}
+                </div>
+            {% endfor %}
+        </div>
+        <div class="swiper-pagination"></div>
+
+        <div class="swiper-button-prev"></div>
+        <div class="swiper-button-next"></div>
+
+        <div class="swiper-scrollbar"></div>
+    </div>
+</article>
+{% endif %}
+
+{% if articles_spotlight|length %}
+<article class="my-5 container" aria-labelledby="articles-spotlight">
+    <h2 class="text-varsports h3" id="articles-spotlight">À la une</h2>
+
+    {% for article in articles_spotlight %}
+        {% include 'home/partials/list-item-article-spotlight.html.twig' with { article: article } %}
+    {% endfor %}
+
+    <div class="text-center">
+        <a href="{{ path('app_article_list') }}" class="btn btn-lg btn-varsports mt-3">Voir tous les articles</a>
+    </div>
+</article>
+{% endif %}
+
+{% if profile %}
+<article class="my-5 container" aria-labelledby="profile">
+    <h2 class="text-varsports h3" id="profile">Le portrait</h2>
+    {% include 'home/partials/list-item-profile.html.twig' with { article: profile } %}
+</article>
+{% endif %}
+
+<article class="my-5 container" aria-labelledby="about">
+    <h2 class="text-varsports h3" id="about">À propos de VarSports</h2>
+    <p><span class="text-varsports">VarSports</span> est le Premier journal du Sport Varois : Informations, Agenda, Portraits, Collectivités, Résultats, Jeux, Classements, etc. Un journal qui permet à l'ensemble des acteurs sportifs, de disposer gratuitement d'un réel réseau sur lequel chacun peut exprimer ses performances, ses compétences, ses mouvements, ses besoins ainsi que ses différentes manifestations et rdv… Bien plus que de l'activité physique, l'entraînement ou la compétition; le sport est un outil de construction de soi permettant de se s'épanouir en tant qu'individu et s'approprier de nobles valeurs telles que : Respect, Fair-play & Tolérance. De son audience sur le web et les réseaux sociaux, VarSports fédère et encourage à explorer, jouer, discuter, partager dont découlent des liens solides entre : clubs, licenciés, dirigeants, collectivités territoriales, sponsors, familles et le public.</p>
+
+    <p>Vous aussi, faites connaître votre Club ! ” Envoyez-nous vos infos & photos, nous les publions illico !” - Écrire à : <a href="mailto:info@varsports.fr" class="text-varsports">info@varsports.fr</a></p>
+
+    <p class="text-body-tertiary">#running #football #rugby #volleyball #athlétisme #handball #basketball #futsal #boxe #fitness #golf #handisport #combat #fight #défense #natation #musculation #judo #randonnée #vol #volavoile #canicross #bmx #tir #athlétisme #vtt #plongée #aviron #padel #surf #tennis #paddle #triathlon #kitefoil #kite surf #voile #crossfit #danse #cyclisme #trail #run #balles #ballon #raquettes #courts #course #info #informations #var #sports #varsports</p>
+</article>
 {% endblock %}

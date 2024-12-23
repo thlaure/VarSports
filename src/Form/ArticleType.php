@@ -4,6 +4,9 @@ namespace App\Form;
 
 use App\Constant\Constraint;
 use App\Entity\Article;
+use App\Entity\HomeCategory;
+use App\Repository\HomeCategoryRepository;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -39,6 +42,13 @@ class ArticleType extends AbstractType
                         'mimeTypes' => Constraint::IMAGE_ALLOWED_MIME_TYPES,
                     ]),
                 ],
+            ])
+            ->add('homeCategory', EntityType::class, [
+                'label' => 'Catégorie',
+                'class' => HomeCategory::class,
+                'choice_label' => 'label',
+                'required' => false,
+                'query_builder' => fn (HomeCategoryRepository $homeCategoryRepository) => $homeCategoryRepository->createQueryBuilder('c')->orderBy('c.label', 'ASC'),
             ])
             ->add('submit', SubmitType::class, [
                 'label' => 'Enregistrer',
