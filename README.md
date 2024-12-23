@@ -18,6 +18,7 @@ VarSports aims to highlight sports clubs in the Var region of France.
 - [DataTables](https://datatables.net/) to handle easily some back-office dashboard to list elements with required pagination
 - [Bootstrap Icons](https://icons.getbootstrap.com/) for icons
 - [jQuery 3.7.1](https://jquery.com/) for some libraries but not used in the custom JS and please don't use it :)
+- [Swiper.js](https://swiperjs.com/) for the carousel
 
 ### And various quality tools:
 - [GitHub Actions](https://docs.github.com/en/actions) for CI
