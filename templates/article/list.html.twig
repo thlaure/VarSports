@@ -12,15 +12,13 @@
 {% endblock %}
 
 {% block body %}
-<div class="container-fluid my-5">
+<div class="container my-5">
 
-    <div class="container">
-        <h1 class="h3 mb-3 font-weight-normal">Nos articles</h1>
+    <h1 class="h3 mb-3 font-weight-normal">Nos articles</h1>
 
-        {% include 'partials/flash.html.twig' %}
-    </div>
+    {% include 'partials/flash.html.twig' %}
 
-    <div class="row justify-content-center">
+    <div class="justify-content-center">
         {% for article in articles %}
             {% include 'article/partials/list-item.html.twig' with { article: article } %}
         {% endfor %}
