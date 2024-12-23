@@ -41,34 +41,9 @@
 {% endif %}
 
 {% if articles_social|length %}
-<article class="my-5 container" aria-labelledby="articles-social">
+<article class="my-5 container articles-social" aria-labelledby="articles-social">
     <h2 class="text-varsports h3" id="articles-social">L'info des réseaux</h2>
-    {# <div id="carouselArticlesSocial" class="carousel slide" data-bs-ride="carousel">
-        <div class="carousel-inner">
-            <div class="carousel-item active">
-                <div class="row justify-content-center">
-                    {% for article in articles_social %}
-                        {% include 'home/partials/list-item-article-social.html.twig' with { article: article } %}
-                        {% if loop.index is divisible by(4) and not loop.last %}
-                            </div>
-                        </div>
-                        <div class="carousel-item">
-                            <div class="row justify-content-center">
-                        {% endif %}
-                    {% endfor %}
-                </div>
-            </div>
-        </div>
 
-        <button class="carousel-control-prev position-absolute w-auto top-50" type="button" data-bs-target="#carouselArticlesSocial" data-bs-slide="prev">
-            <span class="carousel-control-prev-icon bg-varsports" aria-hidden="true"></span>
-            <span class="visually-hidden">Previous</span>
-        </button>
-        <button class="carousel-control-next position-absolute w-auto top-50" type="button" data-bs-target="#carouselArticlesSocial" data-bs-slide="next">
-            <span class="carousel-control-next-icon bg-varsports" aria-hidden="true"></span>
-            <span class="visually-hidden">Next</span>
-        </button>
-    </div> #}
     <div class="swiper">
         <div class="swiper-wrapper">
             {% for article in articles_social %}

@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', function() {
-    const swiper = new Swiper('.swiper', {
+    const swiperArticlesSocial = new Swiper('.articles-social .swiper', {
         direction: 'horizontal',
         loop: true,
       
