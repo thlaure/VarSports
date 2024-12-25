@@ -46,9 +46,13 @@ class ArticleType extends AbstractType
             ->add('homeCategory', EntityType::class, [
                 'label' => 'Catégorie',
                 'class' => HomeCategory::class,
-                'choice_label' => 'label',
+                'choice_label' => 'categoryName',
                 'required' => false,
                 'query_builder' => fn (HomeCategoryRepository $homeCategoryRepository) => $homeCategoryRepository->createQueryBuilder('c')->orderBy('c.label', 'ASC'),
+            ])
+            ->add('externalLink', TextType::class, [
+                'label' => 'Lien externe',
+                'required' => false,
             ])
             ->add('submit', SubmitType::class, [
                 'label' => 'Enregistrer',

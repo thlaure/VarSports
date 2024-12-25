@@ -30,7 +30,14 @@
                 {{ form_row(form.title, {'attr': {'aria-required': 'true'}}) }}
                 {{ form_row(form.text, {'attr': {'aria-required': 'true'}}) }}
                 {{ form_row(form.image, {'attr': {'aria-required': 'true'}}) }}
-                {{ form_row(form.homeCategory, {'attr': {'aria-required': 'false'}}) }}
+                <div class="row">
+                    <div class="col-md-6">
+                        {{ form_row(form.homeCategory, {'attr': {'aria-required': 'false'}}) }}
+                    </div>
+                    <div class="col-md-6">
+                        {{ form_row(form.externalLink, {'attr': {'aria-required': 'false'}}) }}
+                    </div>
+                </div>
                 {{ form_row(form.submit, {'attr': {'aria-label': 'Créer l\'article'}}) }}
             </fieldset>
         {{ form_end(form) }}
