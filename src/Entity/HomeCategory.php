@@ -29,6 +29,12 @@ class HomeCategory
     #[ORM\OneToMany(targetEntity: Article::class, mappedBy: 'homeCategory')]
     private Collection $articles;
 
+    #[ORM\Column(length: 100)]
+    #[Assert\NotBlank()]
+    #[Assert\Length(max: 100)]
+    #[Assert\Regex(pattern: Constraint::REGEX_COMMON)]
+    private ?string $categoryName = null;
+
     public function __construct()
     {
         $this->articles = new ArrayCollection();
@@ -77,6 +83,18 @@ class HomeCategory
                 $article->setHomeCategory(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getCategoryName(): ?string
+    {
+        return $this->categoryName;
+    }
+
+    public function setCategoryName(string $categoryName): static
+    {
+        $this->categoryName = $categoryName;
 
         return $this;
     }

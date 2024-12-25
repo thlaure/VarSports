@@ -54,6 +54,11 @@ class Article
     #[ORM\ManyToOne(inversedBy: 'articles')]
     private ?HomeCategory $homeCategory = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    #[Assert\Length(max: 255)]
+    #[Assert\Regex(pattern: Constraint::REGEX_LINK)]
+    private ?string $externalLink = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -163,6 +168,18 @@ class Article
     public function setHomeCategory(?HomeCategory $homeCategory): static
     {
         $this->homeCategory = $homeCategory;
+
+        return $this;
+    }
+
+    public function getExternalLink(): ?string
+    {
+        return $this->externalLink;
+    }
+
+    public function setExternalLink(?string $externalLink): static
+    {
+        $this->externalLink = $externalLink;
 
         return $this;
     }
