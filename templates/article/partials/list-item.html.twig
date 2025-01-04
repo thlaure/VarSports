@@ -11,7 +11,11 @@
             <div class="card-body">
                 <h5 class="card-title text-varsports">{{ article.title }}</h5>
                 <p class="card-text">{{ article.text|striptags|slice(0, 100) }}...</p>
-                <a href="{{ path('app_article_show', { slug: article.slug }) }}" class="btn btn-varsports stretched-link" aria-label="Lire l'article '{{ article.title }}'">Lire l'article</a>
+                {% if article.slug %}
+                    <a href="{{ path('app_article_show', { slug: article.slug }) }}" class="btn btn-varsports stretched-link" aria-label="Lire l'article '{{ article.title }}'">Lire l'article</a>
+                {% elseif article.externalLink %}
+                    <a href="{{ article.externalLink }}" class="btn btn-varsports stretched-link" aria-label="Lire l'article '{{ article.title }}'">Lire l'article</a>
+                {% endif %}
             </div>
         </div>
     </div>

@@ -7,6 +7,7 @@ use App\Entity\Article;
 use App\Entity\Club;
 use App\Entity\User;
 use App\Form\ArticleType;
+use App\Repository\HomeCategoryRepository;
 use App\Service\FileChecker;
 use App\Service\FileUploader;
 use Doctrine\ORM\EntityManagerInterface;
@@ -29,6 +30,7 @@ class ArticleCreateController extends AbstractController
         private FileChecker $fileChecker,
         private FileUploader $fileUploader,
         private TranslatorInterface $translator,
+        private HomeCategoryRepository $homeCategoryRepository,
         private string $targetDirectory,
     ) {
     }
@@ -58,12 +60,17 @@ class ArticleCreateController extends AbstractController
 
                 $article->setAuthor($user);
                 $article->setCreationDate(new \DateTimeImmutable());
-                $article->setSlug($this->slugger->slug((string) $article->getTitle())->lower());
+
+                if ($article->getHomeCategory() !== $this->homeCategoryRepository->findOneBy(['label' => 'social'])) {
+                    $article->setSlug($this->slugger->slug((string) $article->getTitle())->lower());
+                }
 
                 $this->entityManager->persist($article);
                 $this->entityManager->flush();
 
-                $article->setSlug($this->slugger->slug((string) $article->getTitle())->lower().'-'.$article->getId());
+                if ($article->getHomeCategory() !== $this->homeCategoryRepository->findOneBy(['label' => 'social'])) {
+                    $article->setSlug($this->slugger->slug((string) $article->getTitle())->lower().'-'.$article->getId());
+                }
 
                 /** @var ?UploadedFile $image */
                 $image = $form->get('image')->getData();
