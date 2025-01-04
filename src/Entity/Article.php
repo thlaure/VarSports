@@ -39,7 +39,7 @@ class Article
     #[Assert\Regex(pattern: Constraint::REGEX_COMMON)]
     private ?string $image = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, nullable: true)]
     #[Assert\Length(max: 255)]
     #[Assert\Regex(pattern: Constraint::REGEX_LINK)]
     private ?string $slug = null;
