@@ -1,4 +1,4 @@
-<div class="card rounded-1 mb-4 m-sm-4 p-0" role="article" aria-labelledby="article-{{ article.id }}-title">
+<div class="card rounded-1 mb-4 p-0" role="article" aria-labelledby="article-{{ article.id }}-title">
     <div class="position-relative">
         <picture>
             <source srcset="{{ (asset('images/uploads/article/') ~ (article.image ? article.id ~ '/' ~ article.image : 'default_cover.webp')) | imagine_filter('cover_article_event_list_webp') }}" type="image/webp">
