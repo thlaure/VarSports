@@ -4,6 +4,7 @@ import {
     Bold,
     Italic,
     Font,
+    Link,
     Paragraph,
     Heading,
     Image,
@@ -23,6 +24,7 @@ document.querySelectorAll('.ckeditor').forEach(element => {
                 Bold,
                 Italic,
                 Font,
+                Link,
                 Paragraph,
                 Image,
                 ImageToolbar,
@@ -33,7 +35,7 @@ document.querySelectorAll('.ckeditor').forEach(element => {
             ],
             toolbar: {
                 items: [
-                    'heading', '|', 'undo', 'redo', '|', 'bold', 'italic', '|',
+                    'heading', '|', 'undo', 'redo', '|', 'bold', 'italic', '|', 'link', '|',
                     'fontSize', 'fontFamily', 'fontColor', '|', 'insertImage'
                 ]
             },
