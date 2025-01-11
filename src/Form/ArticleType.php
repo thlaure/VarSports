@@ -47,6 +47,7 @@ class ArticleType extends AbstractType
                 'label' => 'Catégorie',
                 'class' => HomeCategory::class,
                 'choice_label' => 'categoryName',
+                'choice_value' => 'label',
                 'required' => false,
                 'query_builder' => fn (HomeCategoryRepository $homeCategoryRepository) => $homeCategoryRepository->createQueryBuilder('c')->orderBy('c.label', 'ASC'),
             ])

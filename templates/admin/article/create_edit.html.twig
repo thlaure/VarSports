@@ -12,6 +12,7 @@
 {% block javascripts %}
 {{ parent() }}
 {% include 'partials/js-ckeditor.html.twig' %}
+<script src="{{ asset('js/article-create-edit.js') }}" defer></script>
 {% endblock %}
 
 {% block title %} | Admin - {{ title }}{% endblock %}
@@ -34,7 +35,7 @@
                     <div class="col-md-6">
                         {{ form_row(form.homeCategory, {'attr': {'aria-required': 'false'}}) }}
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-6" id="external-link">
                         {{ form_row(form.externalLink, {'attr': {'aria-required': 'false'}}) }}
                     </div>
                 </div>
