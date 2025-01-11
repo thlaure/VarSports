@@ -23,7 +23,7 @@
                 <div class="col-md-6 mb-4">
                     <p class="card-text mb-0 text-body-secondary">{{ event.startDate|date('d/m/Y à H:i') }} - {{ event.endDate|date('d/m/Y à H:i') }}</p>
                     <p class="card-text mb-0 text-body-secondary">Adresse : {{ event.place ? event.place : 'Non précisée' }}</p>
-                    <p class="card-text mb-0 text-body-secondary">Ville : {{ event.city and event.city.name ? event.city.name : 'Non précisée' }} {{ event.city and event.city.postalCode ? '(' ~ event.postalCode ~ ')' : '' }}</p>
+                    <p class="card-text mb-0 text-body-secondary">Ville : {{ event.city and event.city.name ? event.city.name : 'Non précisée' }} {{ event.city and event.city.postalCode ? '(' ~ event.city.postalCode ~ ')' : '' }}</p>
                     <p class="card-text mb-3 text-body-secondary">Club : {{ event.club ? event.club.name : 'Non précisé' }}</p>
                 </div>
 
