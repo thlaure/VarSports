@@ -11,7 +11,7 @@
         <h3 id="article-{{ article.id }}-title" class="h5 card-title">{{ article.title }}</h3>
         <p class="card-text"><small class="text-body-secondary">{{ article.creationDate|date('d/m/Y') }}</small></p>
         <p class="text-start">
-            {{ article.text|striptags|slice(0, 100) }}...
+            {{ article.text|striptags|slice(0, 100)|raw|nl2br }}...
             {% if article.externalLink %}
                 <br>Voir + <a class="stretched-link text-decoration-none text-varsports" href="{{ article.externalLink }}">{{ article.externalLink }}</a>
             {% endif %}
