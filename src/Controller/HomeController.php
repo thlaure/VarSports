@@ -27,7 +27,7 @@ class HomeController extends AbstractController
         return $this->render('home/index.html.twig', [
             'profile' => $this->articleRepository->findOneBy(['homeCategory' => $profileCategory], ['creationDate' => 'DESC']),
             'articles_to_note' => $this->articleRepository->findBy(['homeCategory' => $toNoteCategory], ['creationDate' => 'DESC'], 5),
-            'articles_spotlight' => $this->articleRepository->findBy(['homeCategory' => $spotlightCategory], ['creationDate' => 'DESC'], 10),
+            'articles_spotlight' => $this->articleRepository->findBy(['homeCategory' => $spotlightCategory], ['creationDate' => 'DESC'], 5),
             'articles_social' => $this->articleRepository->findBy(['homeCategory' => $socialCategory], ['creationDate' => 'DESC'], 10),
         ]);
     }
