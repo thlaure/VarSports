@@ -23,7 +23,18 @@
     }
 }
 
+.articles-to-note {
+    .article-cover-list {
+        max-height: 180px;
+    }
+}
+
 .articles-social {
+    
+    .article-cover-list {
+        max-height: 200px;
+    }
+
     .swiper {
         width: 100%;
         height: 100%;

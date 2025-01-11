@@ -16,7 +16,7 @@
 
 {% block body %}
 {% if articles_to_note|length %}
-<article class="my-5 container" aria-labelledby="articles-to-note">
+<article class="my-5 container articles-to-note" aria-labelledby="articles-to-note">
     <h2 class="text-varsports h3" id="articles-to-note">À noter</h2>
 
     <div id="carouselArticlesToNote" class="carousel slide" data-bs-ride="carousel">
@@ -63,7 +63,7 @@
 {% endif %}
 
 {% if articles_spotlight|length %}
-<article class="my-5 container" aria-labelledby="articles-spotlight">
+<article class="my-5 container articles-spotlight" aria-labelledby="articles-spotlight">
     <h2 class="text-varsports h3" id="articles-spotlight">À la une</h2>
 
     {% for article in articles_spotlight %}
@@ -77,7 +77,7 @@
 {% endif %}
 
 {% if profile %}
-<article class="my-5 container" aria-labelledby="profile">
+<article class="my-5 container article-profile" aria-labelledby="profile">
     <h2 class="text-varsports h3" id="profile">Le portrait</h2>
     {% include 'home/partials/list-item-profile.html.twig' with { article: profile } %}
 </article>
