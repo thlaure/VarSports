@@ -1,10 +1,10 @@
-<div class="card my-0 mx-auto mb-3 border" role="article" aria-labelledby="article-{{ article.id }}-title">
+<div class="card my-0 mx-auto mb-3 border rounded-0" role="article" aria-labelledby="article-{{ article.id }}-title">
     <div class="row g-0">
         <div class="col-md-4 order-md-2">
             <picture>
                 <source srcset="{{ (asset('images/uploads/article/') ~ (article.image ? article.id ~ '/' ~ article.image : 'default_cover.webp')) | imagine_filter('cover_article_event_list_webp') }}" type="image/webp">
                 <source srcset="{{ (asset('images/uploads/article/') ~ (article.image ? article.id ~ '/' ~ article.image : 'default_cover.webp')) | imagine_filter('cover_article_event_list_jpg') }}" type="image/jpeg">
-                <img src="{{ asset('images/uploads/article/') ~ (article.image ? article.id ~ '/' ~ article.image : 'default_cover.webp') }}" alt="Couverture de l'article {{ article.title }}" class="img-fluid object-fit-cover w-100 rounded-top-1 article-cover-list" loading="lazy" width="390" height="140">
+                <img src="{{ asset('images/uploads/article/') ~ (article.image ? article.id ~ '/' ~ article.image : 'default_cover.webp') }}" alt="Couverture de l'article {{ article.title }}" class="img-fluid object-fit-cover w-100 article-cover-list" loading="lazy" width="390" height="140">
             </picture>
         </div>
         <div class="col-md-8 order-md-1">
