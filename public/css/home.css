@@ -1,20 +1,3 @@
-.carousel-control-prev,
-.carousel-control-next {
-    transform: translateY(-50%);
-}
-
-.carousel-control-prev-icon,
-.carousel-control-next-icon {
-    border-radius: 50%;
-    width: 2.5rem;
-    height: 2.5rem;
-}
-
-.carousel-item .card {
-    max-width: 1000px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
-
 .article-spotlight {
     min-height: 250px;
 
@@ -24,8 +7,29 @@
 }
 
 .articles-to-note {
+    .card {
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        min-width: 96%;
+        max-width: 96%;
+    }
+
     .article-cover-list {
         max-height: 180px;
+    }
+
+    .swiper {
+        width: 100%;
+        height: 100%;
+        padding: 20px;
+    
+        .swiper-button-next,
+        .swiper-button-prev {
+            color: var(--varsports-color);
+        }
+        
+        .swiper-pagination-bullet-active {
+            background: var(--varsports-color);
+        }
     }
 }
 
