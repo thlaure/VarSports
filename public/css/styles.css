@@ -2,7 +2,6 @@
     --varsports-color: #c30101;
 }
 
-
 .bg-varsports {
     background-color: var(--varsports-color) !important;
 }
