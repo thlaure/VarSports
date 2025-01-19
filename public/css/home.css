@@ -1,5 +1,9 @@
 .article-spotlight {
     min-height: 250px;
+    
+    .article-cover-list {
+        max-height: 400px;
+    }
 
     @media screen and (min-width: 768px) {
         max-height: 250px;
@@ -23,14 +27,26 @@
     .card {
         box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         min-width: 100%;
+        min-height: 320px;
+        max-height: 320px;
+
+        @media screen and (min-width: 768px) {
+            min-height: 120px;
+            max-height: 120px;
+        }
     }
 
     .article-cover-list {
-        max-height: 100px;
+        max-height: 120px;
     }
 }
 
 .articles-social {
+
+    .card {
+        min-height: 400px;
+        max-height: 400px;
+    }
 
     .article-cover-list {
         max-height: 200px;
@@ -43,8 +59,7 @@
         max-height: 500px;
     }
 
-    .card-text > p {
+    .card-text {
         max-height: 500px;
-        overflow: hidden;
     }
 }

@@ -1,4 +1,4 @@
-<div class="card my-0 mx-auto border rounded-0" role="article" aria-labelledby="article-{{ article.id }}-title">
+<div class="card my-0 mx-auto border rounded-0 overflow-hidden" role="article" aria-labelledby="article-{{ article.id }}-title">
     <div class="row g-0">
         <div class="col-md-4 order-md-2">
             <picture>
@@ -9,14 +9,14 @@
         </div>
         <div class="col-md-8 order-md-1">
             <div class="card-body">
-                <h5 class="card-title" id="article-{{ article.id }}-title">{{ article.title }}</h5>
-                <p class="card-text">{{ article.text|striptags|slice(0, 100)|raw|nl2br }}...
+                <h3 class="card-title h6" id="article-{{ article.id }}-title">{{ article.title }}</h3>
+                <small class="card-text">{{ article.text|striptags|slice(0, 100)|raw|nl2br }}...
                 {% if article.slug %}
-                    <i>Lire + :</i> <a class="text-varsports stretched-link" href="{{ path('app_article_show', {'slug': article.slug}) }}">{{ article.slug }}</a>
+                    <i>Lire + :</i> <a class="text-varsports stretched-link" href="{{ path('app_article_show', {'slug': article.slug}) }}">Lien</a>
                 {% elseif article.externalLink %}
-                    <i>Lire + :</i> <a class="text-varsports stretched-link" href="{{ article.externalLink }}">{{ article.externalLink }}</a>
+                    <i>Lire + :</i> <a class="text-varsports stretched-link" href="{{ article.externalLink }}">Lien</a>
                 {% endif %}
-                </p>
+                </small>
             </div>
         </div>
     </div>
