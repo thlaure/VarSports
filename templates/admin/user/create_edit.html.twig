@@ -23,7 +23,7 @@
                         {{ form_row(form.firstname, {'label_attr': {'aria-label': 'Prénom'}}) }}
                         {{ form_row(form.email, {'attr': {'autocomplete': 'email'}, 'label_attr': {'aria-label': 'E-mail'}}) }}
                         {{ form_row(form.phone, {'label_attr': {'aria-label': 'Téléphone'}}) }}
-                        {% if is_granted('ROLE_ADMIN') %}
+                        {% if is_granted('ROLE_ADMIN') and edit == true %}
                             {{ form_row(form.isVarsportsMember, {'label_attr': {'aria-label': 'Membre VarSports ?'}}) }}
                         {% endif %}
                         {{ form_row(form.roles, {'label_attr': {'aria-label': 'Rôles'}}) }}

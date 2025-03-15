@@ -63,6 +63,7 @@ class UserEditController extends AbstractController
 
         return $this->render('admin/user/create_edit.html.twig', [
             'form' => $form,
+            'edit' => true,
         ]);
     }
 }
